@@ -24,11 +24,11 @@ interface NotifierInterface
     /**
      * Triggers notifications for a specific notification event.
      *
-     * @param string $key
+     * @param string $notificationKey
      * @param mixed $subject
      * @param string $verb
      * @param \Symfony\Component\Security\Core\User\UserInterface $actor
      * @param \DateTime $createdAt
      */
-    public function trigger($key, $subject, $verb, UserInterface $actor = null, DateTime $createdAt = null);
+    public function trigger($notificationKey, $subject, $verb, UserInterface $actor = null, DateTime $createdAt = null);
 }

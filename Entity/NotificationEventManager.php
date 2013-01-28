@@ -22,16 +22,31 @@ use merk\NotificationBundle\Model\NotificationEventManager as BaseNotificationEv
  */
 class NotificationEventManager extends BaseNotificationEventManager
 {
+
+    /**
+     * Entity Manager.
+     */
     protected $em;
+
+    /**
+     * Entity Repository of the NotificationEvent class.
+     */
     protected $repository;
+
+    /**
+     * NotificationEvent class.
+     */
     protected $class;
+
 
     public function __construct(EntityManager $em, $class)
     {
         $this->em = $em;
+
         $this->repository = $em->getRepository($class);
 
         $metadata = $em->getClassMetadata($class);
+
         $this->class = $metadata->name;
     }
 

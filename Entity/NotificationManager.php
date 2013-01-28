@@ -96,6 +96,7 @@ class NotificationManager extends BaseNotificationManager
     public function createForEvent(NotificationEventInterface $event, array $filters)
     {
         $notifications = array();
+
         foreach ($filters AS $filter) {
             $notifications[] = $this->create($event, $filter);
         }

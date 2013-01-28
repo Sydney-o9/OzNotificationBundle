@@ -20,6 +20,8 @@ abstract class Notification implements NotificationInterface
      */
     protected $user;
 
+
+
     protected $event;
 
     /**
@@ -36,6 +38,11 @@ abstract class Notification implements NotificationInterface
      */
     protected $createdAt;
 
+    /**
+     * When the notification was sent.
+     *
+     * @var \DateTime
+     */
     protected $sentAt;
 
     /**
@@ -45,9 +52,19 @@ abstract class Notification implements NotificationInterface
      */
     protected $message;
 
+
+    /**
+     * TODO: What is this?????
+     *
+     * @var string
+     */
     protected $subject;
 
+
+
     protected $recipientName;
+
+
     protected $recipientData;
 
 
@@ -141,7 +158,6 @@ abstract class Notification implements NotificationInterface
     {
         return $this->recipientName;
     }
-
 
     public function getSentAt()
     {

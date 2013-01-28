@@ -19,9 +19,9 @@ abstract class NotificationEventManager implements NotificationEventManagerInter
     protected $class;
 
     /**
-     * Creates a new Event.
+     * Creates a new Notification Event.
      *
-     * @param string $key
+     * @param string $notificationKey
      * @param mixed $subject
      * @param string $verb
      * @param \Symfony\Component\Security\Core\User\UserInterface $actor
@@ -29,10 +29,12 @@ abstract class NotificationEventManager implements NotificationEventManagerInter
      *
      * @return NotificationEventInterface
      */
-    public function create($key, $subject, $verb, UserInterface $actor = null, DateTime $createdAt = null)
+    public function create($notificationKey, $subject, $verb, UserInterface $actor = null, DateTime $createdAt = null)
     {
+        //The NotificationEvent class: ..\Entity\NotificationEvent
         $class = $this->class;
 
-        return new $class($key, $subject, $verb, $actor);
+        //TODO: actor can't be null
+        return new $class($notificationKey, $subject, $verb, $actor);
     }
 }

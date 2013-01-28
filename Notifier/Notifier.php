@@ -62,21 +62,27 @@ class Notifier implements NotifierInterface
     /**
      * Triggers notifications for a specific notification event.
      *
-     * @param string $key
+     * @param string $notificationKey
      * @param mixed $subject
      * @param string $verb
      * @param \Symfony\Component\Security\Core\User\UserInterface $actor
      * @param \DateTime $createdAt
      */
-    public function trigger($key, $subject, $verb, UserInterface $actor = null, DateTime $createdAt = null)
+    public function trigger($notificationKey, $subject, $verb, UserInterface $actor = null, DateTime $createdAt = null)
     {
-        $event = $this->notificationEventManager->create($key, $subject, $verb, $actor, $createdAt);
+        //Creates event
+        $event = $this->notificationEventManager->create($notificationKey, $subject, $verb, $actor, $createdAt);
+
+        //Returns all the filters for that event
         $filters = $this->filterManager->getFiltersForEvent($event);
 
         $notifications = $this->notificationManager->createForEvent($event, $filters);
+
         $this->sender->send($notifications);
 
         $this->notificationEventManager->update($event, false);
+
         $this->notificationManager->updateBulk($notifications);
+
     }
 }
