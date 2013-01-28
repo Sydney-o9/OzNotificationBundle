@@ -39,6 +39,27 @@ class Configuration implements ConfigurationInterface
                 ->end()
             ->end();
 
+
+
+        $rootNode
+            ->children()
+                ->arrayNode('filters')
+                    ->children()
+                        ->arrayNode('filter')
+                        ->children()
+                            ->scalarNode('name')->isRequired()->cannotBeEmpty()->end()
+                            ->scalarNode('notification_key')->isRequired()->cannotBeEmpty()->end()
+                            ->arrayNode('default_methods')
+                                ->prototype('scalar')->end()
+                                ->defaultValue(array('email'))
+                            ->end()
+                            ->scalarNode('user_class')->isRequired()->cannotBeEmpty()->end()
+                        ->end()
+                    ->end()
+                ->end()
+            ->end();
+
+
         return $treeBuilder;
     }
 }
