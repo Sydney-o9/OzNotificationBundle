@@ -153,4 +153,30 @@ class UserPreferencesController extends ContainerAware
             'preferences' => $preferences,
         ));
     }
+
+
+    /**
+     * Just for tests
+     *
+     * @param Request $request
+     * @return Response
+     */
+    public function testAction()
+    {
+        $PreferencesManager = $this->getUserPreferencesManager();
+
+//        $filters = $this->container->getParameter('merk_config_filters');
+
+
+        $preferences = $this->getUserPreferencesManager()->create();
+
+        $user = $this->container->get('security.context')->getToken()->getUser();
+
+        $preferences->setUser($user);
+
+
+        return $this->container->get('templating')->renderResponse('merkNotificationBundle:UserPreferences:test.html.twig', array(
+            'preferences' => $preferences,
+        ));
+    }
 }

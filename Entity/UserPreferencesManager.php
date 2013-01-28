@@ -28,13 +28,15 @@ class UserPreferencesManager extends BaseUserPreferencesManager
     protected $repository;
     protected $class;
 
-    public function __construct(EntityManager $em, $class)
+    public function __construct(EntityManager $em, $class, array $parameters)
     {
         $this->em = $em;
         $this->repository = $em->getRepository($class);
 
         $metadata = $em->getClassMetadata($class);
         $this->class = $metadata->name;
+
+        $this->buildConfig($parameters);
     }
 
     public function findByUser(UserInterface $user)
@@ -60,4 +62,37 @@ class UserPreferencesManager extends BaseUserPreferencesManager
             $this->em->flush();
         }
     }
+
+    /**
+     * Retrieve filters defined in config file.
+     * (name, notification_key, default_methods, user_class)
+     *
+     */
+    public function buildConfig(array $filters){
+
+        foreach ($filters as $filter) {
+
+            $notification_key = $filter['notification_key'];
+            $default_methods = $filter['default_methods'];
+            $user_class = $filter['user_class'];
+            $description = $filter['description'];
+
+            ladybug_dump($notification_key, $default_methods, $user_class, $description);
+
+            //TODO: store the filters in the object
+
+        }
+
+    }
+
+    /**
+     * Create form with the filters loaded from the config file
+     *
+     */
+    public function createDefaultForm(){
+        //TODO: create default form with all the filters loaded with buildConfig
+
+    }
+
+
 }

@@ -12,7 +12,6 @@
 namespace merk\NotificationBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
-use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 class Configuration implements ConfigurationInterface
@@ -40,25 +39,21 @@ class Configuration implements ConfigurationInterface
             ->end();
 
 
-
         $rootNode
             ->children()
-                ->arrayNode('filters')
+                ->arrayNode('filters')->prototype('array')
                     ->children()
-                        ->arrayNode('filter')
-                        ->children()
-                            ->scalarNode('name')->isRequired()->cannotBeEmpty()->end()
-                            ->scalarNode('notification_key')->isRequired()->cannotBeEmpty()->end()
-                            ->arrayNode('default_methods')
-                                ->prototype('scalar')->end()
-                                ->defaultValue(array('email'))
-                            ->end()
-                            ->scalarNode('user_class')->isRequired()->cannotBeEmpty()->end()
+                        ->scalarNode('notification_key')->isRequired()->cannotBeEmpty()->end()
+                        ->arrayNode('default_methods')
+                        ->prototype('scalar')->end()
+                        ->defaultValue(array('email'))
                         ->end()
+                        ->scalarNode('user_class')->isRequired()->cannotBeEmpty()->end()
+                        ->scalarNode('description')->isRequired()->cannotBeEmpty()->end()
                     ->end()
-                ->end()
-            ->end();
-
+                ->end()->end()
+            ->end()
+        ;
 
         return $treeBuilder;
     }
