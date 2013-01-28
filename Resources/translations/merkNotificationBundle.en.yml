@@ -1,0 +1,6 @@
+user_preferences:
+   edit:
+       submit: Edit Preferences
+
+   new:
+       submit: Submit Preferences
