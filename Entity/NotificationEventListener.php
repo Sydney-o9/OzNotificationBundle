@@ -16,7 +16,7 @@ use Doctrine\ORM\Events;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use merk\NotificationBundle\Model\NotificationEventInterface;
-use merk\NotificationBundle\Model\NotificationEventManager;
+//use merk\NotificationBundle\Model\NotificationEventManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -45,6 +45,7 @@ class NotificationEventListener implements EventSubscriber
     {
 
         $this->container = $container;
+
     }
 
     public function getSubscribedEvents()

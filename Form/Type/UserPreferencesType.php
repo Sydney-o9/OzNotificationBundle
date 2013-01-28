@@ -13,7 +13,9 @@ namespace merk\NotificationBundle\Form\Type;
 
 use merk\NotificationBundle\Sender\SenderInterface;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilder;
+use Symfony\Component\Form\FormBuilderInterface;
+
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class UserPreferencesType extends AbstractType
 {
@@ -30,7 +32,7 @@ class UserPreferencesType extends AbstractType
         $this->sender = $sender;
     }
 
-    public function buildForm(FormBuilder $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('defaultMethod', 'choice', array(
             'choices' => $this->getMethodChoices(),
@@ -52,9 +54,11 @@ class UserPreferencesType extends AbstractType
         return array_combine($choices, $choices);
     }
 
-    public function getDefaultOptions(array $options)
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        return array('data_class' => $this->class);
+        $resolver->setDefaults(array(
+            'data_class' => $this->class,
+        ));
     }
 
     public function getName()
