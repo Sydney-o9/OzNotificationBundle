@@ -42,7 +42,6 @@ class EmailAgent implements AgentInterface
     {
         /** @var \Swift_Message $message  */
         $message = $this->mailer->createMessage();
-
         $message->setSubject($notification->getSubject());
         $message->addPart($notification->getMessage(), 'text/plain', 'UTF8');
 

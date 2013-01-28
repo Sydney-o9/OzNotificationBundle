@@ -50,6 +50,12 @@ class UserPreferencesManager extends BaseUserPreferencesManager
     {
         $this->em->persist($preferences);
 
+        //Persist new filters when they exist
+        foreach($preferences->getFilters() as $filter)
+        {
+            $this->em->persist($filter);
+        }
+
         if ($flush) {
             $this->em->flush();
         }

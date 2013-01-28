@@ -54,7 +54,6 @@ abstract class Notification implements NotificationInterface
 
 
     /**
-     * TODO: What is this?????
      *
      * @var string
      */

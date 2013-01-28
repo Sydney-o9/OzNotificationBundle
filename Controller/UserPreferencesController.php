@@ -19,6 +19,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+
 /**
  * Preference Controller
  *
@@ -55,7 +56,9 @@ class UserPreferencesController extends ContainerAware
             $user = $token->getUser();
         }
 
-        return $this->getUserPreferencesManager()->findByUser($user);
+        $userPreferences = $this->getUserPreferencesManager()->findByUser($user);
+
+        return $userPreferences;
     }
 
     /**
@@ -69,6 +72,17 @@ class UserPreferencesController extends ContainerAware
     {
         $preferences = $this->getUserPreferences();
 
+        if (!$preferences){
+            //The user never set his preferences and is redirect to new page
+            $preferencesUrl = $this->container->get('router')->generate('merk_notification_user_preferences_new');
+            return new RedirectResponse($preferencesUrl);
+        }
+
+//        $filters = $preferences->getFilters();
+//        foreach ($filters as $filter){
+//            ladybug_dump($filter);
+//        }
+
         /** @var \Symfony\Component\Form\FormFactory $formBuilder  */
         $formBuilder = $this->container->get('form.factory');
         $form = $formBuilder->createNamed('merk_notification_user_preferences', 'merk_notification_user_preferences', $preferences);
@@ -77,16 +91,64 @@ class UserPreferencesController extends ContainerAware
             $form->bind($request);
 
             if ($form->isValid()) {
+
                 $this->getUserPreferencesManager()->update($preferences);
 
                 $this->container->get('session')->setFlash('merk_notification_success', 'user_preferences.flash.updated');
-                $preferencesUrl = $this->container->get('router')->generate('merk_notification_user_preferences');
+                $redirectUrl = $this->container->get('router')->generate('merk_notification_user_preferences_edit');
+
+                return new RedirectResponse($redirectUrl);
+            }
+        }
+
+        return $this->container->get('templating')->renderResponse('merkNotificationBundle:UserPreferences:edit.html.twig', array(
+            'form' => $form->createView(),
+            'preferences' => $preferences,
+        ));
+    }
+
+    /**
+     * Provides capability for users to create their notifications for the first time
+     *
+     * @param Request $request
+     * @return Response
+     */
+    public function newAction(Request $request)
+    {
+
+        //Redirect if user has already set preferences
+        if ($this->getUserPreferences()){
+            $redirectUrl = $this->container->get('router')->generate('merk_notification_user_preferences_edit');
+            return new RedirectResponse($redirectUrl);
+        }
+
+        $preferences = $this->getUserPreferencesManager()->create();
+
+        $user = $this->container->get('security.context')->getToken()->getUser();
+
+        $preferences->setUser($user);
+
+
+        /** @var \Symfony\Component\Form\FormFactory $formBuilder  */
+        $formBuilder = $this->container->get('form.factory');
+        $form = $formBuilder->createNamed('merk_notification_user_preferences', 'merk_notification_user_preferences', $preferences);
+
+        if ('POST' === $request->getMethod()) {
+
+            $form->bind($request);
+
+            if ($form->isValid()) {
+
+                $this->getUserPreferencesManager()->update($preferences);
+
+                $this->container->get('session')->setFlash('merk_notification_success', 'user_preferences.flash.updated');
+                $preferencesUrl = $this->container->get('router')->generate('merk_notification_user_preferences_edit');
 
                 return new RedirectResponse($preferencesUrl);
             }
         }
 
-        return $this->container->get('templating')->renderResponse('merkNotificationBundle:UserPreferences:edit.html.twig', array(
+        return $this->container->get('templating')->renderResponse('merkNotificationBundle:UserPreferences:new.html.twig', array(
             'form' => $form->createView(),
             'preferences' => $preferences,
         ));

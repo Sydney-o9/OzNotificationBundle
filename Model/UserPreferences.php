@@ -24,7 +24,9 @@ abstract class UserPreferences implements UserPreferencesInterface
     protected $updatedAt;
 
     protected $filters;
+
     protected $user;
+
     protected $defaultMethod;
 
     /**

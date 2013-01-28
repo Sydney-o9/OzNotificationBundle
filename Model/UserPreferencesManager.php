@@ -39,9 +39,10 @@ abstract class UserPreferencesManager implements UserPreferencesManagerInterface
      */
     public function create()
     {
+
         $class = $this->class;
         $userPreferences = new $class;
-        $userPreferences->setMethod($this->defaultMethod);
+        $userPreferences->setDefaultMethod($this->defaultMethod);
 
         return $userPreferences;
     }
