@@ -79,6 +79,18 @@ class UserPreferencesManager extends BaseUserPreferencesManager
         if ($flush) {
             $this->em->flush();
         }
+
+    }
+
+    /**
+     * Get User Preferences in 3 steps:
+     *  - get config filters
+     *  - get filters already saved in db
+     *  - compare them, sort them
+     */
+    public function getUserPreferences($user){
+        //TODO: create default form with all the filters loaded with buildConfig
+
     }
 
 

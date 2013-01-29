@@ -70,7 +70,7 @@ abstract class UserPreferences implements UserPreferencesInterface
     /**
      * Returns a collection of filters for the user.
      *
-     * @return array|\Doctrine\Common\Collection\Collection
+     * @return array|\Doctrine\Common\Collections\Collection
      */
     public function getFilters()
     {

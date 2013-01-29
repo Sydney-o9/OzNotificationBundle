@@ -60,7 +60,7 @@ class UserPreferencesController extends ContainerAware
 
 //        ladybug_dump($userPreferences);
         echo "There is/are".count($userPreferences->getFilters())." filter(s) loaded from the database. <br /> <br />";
-
+        ladybug_dump($userPreferences->getFilters());
         return $userPreferences;
     }
 

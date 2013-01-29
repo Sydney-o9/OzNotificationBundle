@@ -15,6 +15,7 @@ use Doctrine\ORM\EntityManager;
 use merk\NotificationBundle\Model\FilterInterface;
 use merk\NotificationBundle\Model\FilterManager as BaseFilterManager;
 use merk\NotificationBundle\Model\NotificationEventInterface;
+use Doctrine\Common\Collections\ArrayCollection;
 
 
 /**
@@ -42,12 +43,12 @@ class FilterManager extends BaseFilterManager
     /**
      * Filters loaded from config file
      *
-     * @var FilterInterface[]
+     * @var array|\Doctrine\Common\Collections\Collection FilterInterface[]
      */
     protected $configFilters;
 
 
-    public function __construct(EntityManager $em, $class, array $filtersParams)
+    public function __construct(EntityManager $em, $class, array $filterParameters)
     {
         $this->em = $em;
         $this->repository = $em->getRepository($class);
@@ -55,7 +56,9 @@ class FilterManager extends BaseFilterManager
         $metadata = $em->getClassMetadata($class);
         $this->class = $metadata->name;
 
-        $this->buildConfigFilters($filtersParams);
+        $this->buildConfigFilters($filterParameters);
+
+        ladybug_dump($this->configFilters);
     }
 
     public function create()
@@ -79,19 +82,18 @@ class FilterManager extends BaseFilterManager
     }
 
 
-
     /**
      * Build the filters from the following parameters
      * defined in config file
      *
      * @param Array $filtersParams
-     * @return FilterInterface[]
+     * @return array|\Doctrine\Common\Collections\Collection FilterInterface[]
      */
-    public function buildConfigFilters(array $filtersParams){
+    public function buildConfigFilters(array $filterParameters){
 
-        $configFilters = array();
+        $configFilters = new ArrayCollection();
 
-        foreach ($filtersParams as $filterParam) {
+        foreach ($filterParameters as $filterParam) {
 
             $filter = $this->create();
             $filter->setNotificationKey($filterParam['notification_key']);
@@ -107,6 +109,27 @@ class FilterManager extends BaseFilterManager
 
         }
 
+        $this->setConfigFilters($configFilters);
+    }
+
+
+
+    /**
+     * @param array|\Doctrine\Common\Collections\Collection $configFilters
+     */
+    public function setConfigFilters($configFilters)
+    {
         $this->configFilters = $configFilters;
     }
+
+    /**
+     * @return array|\Doctrine\Common\Collections\Collection
+     */
+    public function getConfigFilters()
+    {
+        return $this->configFilters;
+    }
+
+
+
 }

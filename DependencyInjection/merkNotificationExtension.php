@@ -58,7 +58,7 @@ class merkNotificationExtension extends Extension
         $container->setParameter('merk_notification.user_preferences.class', $config['class']['user_preferences']);
 
         //Load the filters
-        $filtersParams = $config['filters'];
-        $container->setParameter('merk_filters_parameters', $filtersParams);
+        $filterParameters = $config['filters'];
+        $container->setParameter('merk_filter_parameters', $filterParameters);
     }
 }
