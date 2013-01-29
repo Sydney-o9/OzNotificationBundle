@@ -58,7 +58,6 @@ class FilterManager extends BaseFilterManager
 
         $this->buildConfigFilters($filterParameters);
 
-        ladybug_dump($this->configFilters);
     }
 
     public function create()

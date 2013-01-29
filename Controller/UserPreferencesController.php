@@ -56,11 +56,9 @@ class UserPreferencesController extends ContainerAware
             $user = $token->getUser();
         }
 
-        $userPreferences = $this->getUserPreferencesManager()->findByUser($user);
+        $userPreferences = $this->getUserPreferencesManager()->getUserPreferences($user);
 
-//        ladybug_dump($userPreferences);
-        echo "There is/are".count($userPreferences->getFilters())." filter(s) loaded from the database. <br /> <br />";
-        ladybug_dump($userPreferences->getFilters());
+
         return $userPreferences;
     }
 
@@ -75,16 +73,13 @@ class UserPreferencesController extends ContainerAware
     {
         $preferences = $this->getUserPreferences();
 
+
         if (!$preferences){
             //The user never set his preferences and is redirect to new page
             $preferencesUrl = $this->container->get('router')->generate('merk_notification_user_preferences_new');
             return new RedirectResponse($preferencesUrl);
         }
 
-//        $filters = $preferences->getFilters();
-//        foreach ($filters as $filter){
-//            ladybug_dump($filter);
-//        }
 
         /** @var \Symfony\Component\Form\FormFactory $formBuilder  */
         $formBuilder = $this->container->get('form.factory');
@@ -166,7 +161,11 @@ class UserPreferencesController extends ContainerAware
      */
     public function testAction()
     {
-        $PreferencesManager = $this->getUserPreferencesManager();
+
+        $user = $this->container->get('security.context')->getToken()->getUser();
+
+
+        $PreferencesManager = $this->getUserPreferencesManager()->getUserPreferences($user);
 
 //        $filters = $this->container->getParameter('merk_config_filters');
 

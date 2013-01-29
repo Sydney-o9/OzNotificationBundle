@@ -78,6 +78,14 @@ abstract class UserPreferences implements UserPreferencesInterface
     }
 
     /**
+     * @param \Doctrine\Common\Collections\Collection
+     */
+    public function setFilters($filters)
+    {
+        $this->filters = $filters;
+    }
+
+    /**
      * Sets the default method used to notify the user if the
      * filters do not specify a custom notification type.
      *
@@ -98,4 +106,7 @@ abstract class UserPreferences implements UserPreferencesInterface
     {
         return $this->defaultMethod;
     }
+
+
+
 }
