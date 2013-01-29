@@ -24,17 +24,17 @@ class NotificationEventManager extends BaseNotificationEventManager
 {
 
     /**
-     * Entity Manager.
+     * @var EntityManager.
      */
     protected $em;
 
     /**
-     * Entity Repository of the NotificationEvent class.
+     * @var EntityRepository of the NotificationEvent class.
      */
     protected $repository;
 
     /**
-     * NotificationEvent class.
+     * @var string NotificationEvent entity name.
      */
     protected $class;
 

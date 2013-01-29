@@ -4,3 +4,6 @@ user_preferences:
 
    new:
        submit: Submit Preferences
+
+   flash:
+       updated: Notification preferences updated.

@@ -16,25 +16,20 @@ use DateTime;
 
 abstract class NotificationEventManager implements NotificationEventManagerInterface
 {
+
+    /**
+     * @var string NotificationEvent entity name
+     */
     protected $class;
 
     /**
-     * Creates a new Notification Event.
-     *
-     * @param string $notificationKey
-     * @param mixed $subject
-     * @param string $verb
-     * @param \Symfony\Component\Security\Core\User\UserInterface $actor
-     * @param \DateTime $createdAt
-     *
-     * @return NotificationEventInterface
+     * {@inheritDoc}
      */
     public function create($notificationKey, $subject, $verb, UserInterface $actor = null, DateTime $createdAt = null)
     {
-        //The NotificationEvent class: ..\Entity\NotificationEvent
+
         $class = $this->class;
 
-        //TODO: actor can't be null
         return new $class($notificationKey, $subject, $verb, $actor);
     }
 }

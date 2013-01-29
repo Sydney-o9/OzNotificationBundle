@@ -24,21 +24,21 @@ abstract class NotificationEvent extends BaseNotificationEvent
      * A temporary subject object variable. Used by Doctrine ORM listener
      * to convert it into a FullyQualifiedClassName/identifiers.
      *
-     * @var mixed
+     * @var mixed $subject
      */
     protected $subject;
 
     /**
      * The fully qualified class of the subject object.
      *
-     * @var string
+     * @var string $subjectClass
      */
     protected $subjectClass;
 
     /**
      * An array of identifiers used to identify the subject object.
      *
-     * @var array
+     * @var array $subjectIdentifiers
      */
     protected $subjectIdentifiers;
 

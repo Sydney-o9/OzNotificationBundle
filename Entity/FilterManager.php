@@ -16,7 +16,7 @@ use merk\NotificationBundle\Model\FilterInterface;
 use merk\NotificationBundle\Model\FilterManager as BaseFilterManager;
 use merk\NotificationBundle\Model\NotificationEventInterface;
 use Doctrine\Common\Collections\ArrayCollection;
-
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * Doctrine ORM implementation of the FilterManager class.
@@ -60,6 +60,11 @@ class FilterManager extends BaseFilterManager
 
     }
 
+    /**
+     * Filters loaded from config file
+     *
+     * @return FilterInterface $filter
+     */
     public function create()
     {
         $class = $this->class;
@@ -67,6 +72,9 @@ class FilterManager extends BaseFilterManager
         return new $class;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getFiltersForEvent(NotificationEventInterface $event)
     {
         $qb = $this->repository->createQueryBuilder('f')
@@ -80,13 +88,43 @@ class FilterManager extends BaseFilterManager
         ));
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public function getFiltersForEventOwnedBySingleReceiver(NotificationEventInterface $event, UserInterface $receiver)
+    {
+        $qb = $this->repository->createQueryBuilder('f')
+            ->select(array('f', 'up', 'u'))
+            ->leftJoin('f.userPreferences', 'up')
+            ->leftJoin('up.user', 'u')
+            ->andWhere('f.notificationKey = :key')
+            ->andWhere('u.username = :username');
+
+        return $qb->getQuery()->execute(array(
+            'key' => $event->getNotificationKey(),
+            'username' => $receiver->getUsername()
+        ));
+    }
 
     /**
-     * Build the filters from the following parameters
-     * defined in config file
-     *
-     * @param Array $filtersParams
-     * @return array|\Doctrine\Common\Collections\Collection FilterInterface[]
+     * @param array|\Doctrine\Common\Collections\Collection $configFilters
+     */
+    public function setConfigFilters($configFilters)
+    {
+        $this->configFilters = $configFilters;
+    }
+
+
+    /**
+     * @return array|\Doctrine\Common\Collections\Collection
+     */
+    public function getConfigFilters()
+    {
+        return $this->configFilters;
+    }
+
+    /**
+     * {@inheritDoc}
      */
     public function buildConfigFilters(array $filterParameters){
 
@@ -110,25 +148,5 @@ class FilterManager extends BaseFilterManager
 
         $this->setConfigFilters($configFilters);
     }
-
-
-
-    /**
-     * @param array|\Doctrine\Common\Collections\Collection $configFilters
-     */
-    public function setConfigFilters($configFilters)
-    {
-        $this->configFilters = $configFilters;
-    }
-
-    /**
-     * @return array|\Doctrine\Common\Collections\Collection
-     */
-    public function getConfigFilters()
-    {
-        return $this->configFilters;
-    }
-
-
 
 }

@@ -108,6 +108,7 @@ class UserPreferencesManager extends BaseUserPreferencesManager
          * 2- Get filters saved in the db
          */
         $userPreferences = $this->findByUser($user);
+
         $userFilters = $userPreferences->getFilters();
         //And the notificationKeys
         $notificationKeysUserFilters = array();

@@ -13,8 +13,8 @@ namespace merk\NotificationBundle\Notifier;
 
 use merk\NotificationBundle\Model\NotificationManagerInterface;
 use merk\NotificationBundle\Model\NotificationEventManagerInterface;
-use merk\NotificationBundle\Model\UserPreferencesManagerInterface;
 use merk\NotificationBundle\Sender\SenderInterface;
+use \merk\NotificationBundle\Model\FilterManagerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use DateTime;
 
@@ -26,32 +26,32 @@ use DateTime;
 class Notifier implements NotifierInterface
 {
     /**
-     * @var \merk\NotificationBundle\Model\NotificationEventManagerInterface
+     * @var NotificationEventManagerInterface
      */
     protected $notificationEventManager;
 
     /**
-     * @var \merk\NotificationBundle\Model\NotificationManagerInterface
+     * @var NotificationManagerInterface
      */
     protected $notificationManager;
 
     /**
-     * @var \merk\NotificationBundle\Model\FilterManagerInterface
+     * @var FilterManagerInterface
      */
     protected $filterManager;
 
     /**
-     * @var \merk\NotificationBundle\Sender\SenderInterface
+     * @var SenderInterface
      */
     protected $sender;
 
     /**
-     * @param \merk\NotificationBundle\Model\NotificationEventManagerInterface $notificationEventManager
-     * @param \merk\NotificationBundle\Model\FilterManagerInterface $filterManager
-     * @param \merk\NotificationBundle\Model\NotificationManagerInterface $notificationManager
-     * @param \merk\NotificationBundle\Sender\SenderInterface $sender
+     * @param NotificationEventManagerInterface $notificationEventManager
+     * @param FilterManagerInterface $filterManager
+     * @param NotificationManagerInterface $notificationManager
+     * @param SenderInterface $sender
      */
-    public function __construct(NotificationEventManagerInterface $notificationEventManager, \merk\NotificationBundle\Model\FilterManagerInterface $filterManager, NotificationManagerInterface $notificationManager, SenderInterface $sender)
+    public function __construct(NotificationEventManagerInterface $notificationEventManager, FilterManagerInterface $filterManager, NotificationManagerInterface $notificationManager, SenderInterface $sender)
     {
         $this->notificationEventManager = $notificationEventManager;
         $this->notificationManager = $notificationManager;
@@ -59,21 +59,44 @@ class Notifier implements NotifierInterface
         $this->sender = $sender;
     }
 
+
     /**
-     * Triggers notifications for a specific notification event.
-     *
-     * @param string $notificationKey
-     * @param mixed $subject
-     * @param string $verb
-     * @param \Symfony\Component\Security\Core\User\UserInterface $actor
-     * @param \DateTime $createdAt
+     * {@inheritDoc}
      */
-    public function trigger($notificationKey, $subject, $verb, UserInterface $actor = null, DateTime $createdAt = null)
+    public function triggerSingleNotification($notificationKey, UserInterface $receiver, $verb, $subject, UserInterface $actor = null, DateTime $createdAt = null)
     {
-        //Creates event
+        $this->trigger($notificationKey, $receiver, $verb, $subject, $actor, $createdAt);
+    }
+
+
+    /**
+     * {@inheritDoc}
+     */
+    public function trigger($notificationKey, UserInterface $receiver, $verb, $subject, UserInterface $actor = null, DateTime $createdAt = null)
+    {
+
         $event = $this->notificationEventManager->create($notificationKey, $subject, $verb, $actor, $createdAt);
 
-        //Returns all the filters for that event
+        $filters = $this->filterManager->getFiltersForEventOwnedBySingleReceiver($event, $receiver);
+
+        $notifications = $this->notificationManager->createForEvent($event, $filters);
+
+        $this->sender->send($notifications);
+
+        $this->notificationEventManager->update($event, false);
+
+        $this->notificationManager->updateBulk($notifications);
+
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function triggerBulkNotification($notificationKey, $verb, $subject, UserInterface $actor = null, DateTime $createdAt = null)
+    {
+
+        $event = $this->notificationEventManager->create($notificationKey, $subject, $verb, $actor, $createdAt);
+
         $filters = $this->filterManager->getFiltersForEvent($event);
 
         $notifications = $this->notificationManager->createForEvent($event, $filters);
@@ -85,4 +108,5 @@ class Notifier implements NotifierInterface
         $this->notificationManager->updateBulk($notifications);
 
     }
+
 }

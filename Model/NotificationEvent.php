@@ -14,19 +14,43 @@ namespace merk\NotificationBundle\Model;
 use Symfony\Component\Security\Core\User\UserInterface;
 use DateTime;
 
+/**
+ * A notification event, identified by a notification key (e.g 'newsletter.of.the.week')
+ * is triggered by a user (actor) about a particular action (verb) taken on
+ * an object managed by doctrine ORM (subject)
+ */
 abstract class NotificationEvent implements NotificationEventInterface
 {
+    /**
+     * @var string $notificationKey
+     */
     protected $notificationKey;
+
+    /**
+     * @var mixed $subject
+     */
     protected $subject;
-    protected $actor;
+
+    /**
+     * @var string $verb
+     */
     protected $verb;
+
+    /**
+    * @var UserInterface $actor
+    */
+    protected $actor;
+
+    /**
+     * @var \DateTime $createdAt
+     */
     protected $createdAt;
 
     /**
      * @param string $notificationKey
      * @param mixed $subject
      * @param string $verb
-     * @param \Symfony\Component\Security\Core\User\UserInterface $actor
+     * @param UserInterface $actor
      * @param \DateTime $createdAt
      */
     public function __construct($notificationKey, $subject, $verb, UserInterface $actor = null, DateTime $createdAt = null)
@@ -40,18 +64,21 @@ abstract class NotificationEvent implements NotificationEventInterface
     }
 
     /**
-     * Sets the actor of this event.
+     * Returns the user that caused the event.
      *
-     * @param \Symfony\Component\Security\Core\User\UserInterface $actor
+     * @return UserInterface
      */
-    abstract protected function setActor(UserInterface $actor = null);
+    public function getActor()
+    {
+        return $this->actor;
+    }
 
     /**
-     * Sets the subject of this event.
-     *
-     * @param mixed $subject
-     */
-    abstract protected function setSubject($subject);
+    * Sets the actor of this event.
+    *
+    * @param UserInterface $actor
+    */
+    abstract protected function setActor(UserInterface $actor = null);
 
     /**
      * Returns the subject of the event.
@@ -64,14 +91,12 @@ abstract class NotificationEvent implements NotificationEventInterface
     }
 
     /**
-     * Returns the user that caused the event.
-     *
-     * @return \Symfony\Component\Security\Core\User\UserInterface
-     */
-    public function getActor()
-    {
-        return $this->actor;
-    }
+    * Sets the subject of this event.
+    *
+    * @param mixed $subject
+    */
+    abstract protected function setSubject($subject);
+
 
     /**
      * Returns the verb describing the event.
