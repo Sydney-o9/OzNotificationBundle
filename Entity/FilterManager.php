@@ -12,8 +12,10 @@
 namespace merk\NotificationBundle\Entity;
 
 use Doctrine\ORM\EntityManager;
+use merk\NotificationBundle\Model\FilterInterface;
 use merk\NotificationBundle\Model\FilterManager as BaseFilterManager;
 use merk\NotificationBundle\Model\NotificationEventInterface;
+
 
 /**
  * Doctrine ORM implementation of the FilterManager class.
@@ -22,17 +24,38 @@ use merk\NotificationBundle\Model\NotificationEventInterface;
  */
 class FilterManager extends BaseFilterManager
 {
+    /**
+     * @var EntityManager
+     */
     protected $em;
+
+    /**
+     * @var FilterRepository
+     */
     protected $repository;
+
+    /**
+     * @var string
+     */
     protected $class;
 
-    public function __construct(EntityManager $em, $class)
+    /**
+     * Filters loaded from config file
+     *
+     * @var FilterInterface[]
+     */
+    protected $configFilters;
+
+
+    public function __construct(EntityManager $em, $class, array $filtersParams)
     {
         $this->em = $em;
         $this->repository = $em->getRepository($class);
 
         $metadata = $em->getClassMetadata($class);
         $this->class = $metadata->name;
+
+        $this->buildConfigFilters($filtersParams);
     }
 
     public function create()
@@ -53,5 +76,37 @@ class FilterManager extends BaseFilterManager
         return $qb->getQuery()->execute(array(
             'key' => $event->getNotificationKey()
         ));
+    }
+
+
+
+    /**
+     * Build the filters from the following parameters
+     * defined in config file
+     *
+     * @param Array $filtersParams
+     * @return FilterInterface[]
+     */
+    public function buildConfigFilters(array $filtersParams){
+
+        $configFilters = array();
+
+        foreach ($filtersParams as $filterParam) {
+
+            $filter = $this->create();
+            $filter->setNotificationKey($filterParam['notification_key']);
+
+            //TODO: Does not support array at the moment
+            $default_methods = $filterParam['default_methods'];
+            $filter->setMethod($default_methods[0]);
+
+            //TODO: Filter are not configured to support the user class at the moment.
+            //$user_class = $filterParam['user_class'];
+
+            $configFilters[] = $filter;
+
+        }
+
+        $this->configFilters = $configFilters;
     }
 }

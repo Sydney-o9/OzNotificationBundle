@@ -12,10 +12,11 @@
 namespace merk\NotificationBundle\Entity;
 
 use Doctrine\ORM\EntityManager;
-use merk\NotificationBundle\Model\NotificationEventInterface;
+use merk\NotificationBundle\Model\FilterManagerInterface;
 use merk\NotificationBundle\Model\UserPreferencesInterface;
 use merk\NotificationBundle\Model\UserPreferencesManager as BaseUserPreferencesManager;
 use Symfony\Component\Security\Core\User\UserInterface;
+
 
 /**
  * Doctrine ORM implementation of the UserPreferencesManager class.
@@ -24,19 +25,36 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class UserPreferencesManager extends BaseUserPreferencesManager
 {
+    /**
+     * @var EntityManager
+     */
     protected $em;
+
+    /**
+     * @var UserPreferencesRepository
+     */
     protected $repository;
+
+    /**
+     * @var string
+     */
     protected $class;
 
-    public function __construct(EntityManager $em, $class, array $parameters)
+    /*
+     * FilterManager
+     */
+    protected $filterManager;
+
+
+    public function __construct(EntityManager $em, $class, FilterManagerInterface $filterManager)
     {
+
         $this->em = $em;
         $this->repository = $em->getRepository($class);
-
         $metadata = $em->getClassMetadata($class);
         $this->class = $metadata->name;
+        $this->filterManager = $filterManager;
 
-        $this->buildConfig($parameters);
     }
 
     public function findByUser(UserInterface $user)
@@ -63,27 +81,7 @@ class UserPreferencesManager extends BaseUserPreferencesManager
         }
     }
 
-    /**
-     * Retrieve filters defined in config file.
-     * (name, notification_key, default_methods, user_class)
-     *
-     */
-    public function buildConfig(array $filters){
 
-        foreach ($filters as $filter) {
-
-            $notification_key = $filter['notification_key'];
-            $default_methods = $filter['default_methods'];
-            $user_class = $filter['user_class'];
-            $description = $filter['description'];
-
-            ladybug_dump($notification_key, $default_methods, $user_class, $description);
-
-            //TODO: store the filters in the object
-
-        }
-
-    }
 
     /**
      * Create form with the filters loaded from the config file

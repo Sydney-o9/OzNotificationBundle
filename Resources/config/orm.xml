@@ -17,7 +17,7 @@
         <service id="merk_notification.user_preferences.manager.default" class="merk\NotificationBundle\Entity\UserPreferencesManager">
             <argument type="service" id="merk_notification.entity_manager" />
             <argument>%merk_notification.user_preferences.class%</argument>
-            <argument>%merk_config_filters%</argument>
+            <argument type="service" id="merk_notification.filter.manager" />
         </service>
 
         <service id="merk_notification.notification.manager.default" class="merk\NotificationBundle\Entity\NotificationManager">
@@ -29,6 +29,7 @@
         <service id="merk_notification.filter.manager.default" class="merk\NotificationBundle\Entity\FilterManager">
             <argument type="service" id="merk_notification.entity_manager" />
             <argument>%merk_notification.filter.class%</argument>
+            <argument>%merk_filters_parameters%</argument>
         </service>
 
         <service id="merk_notification.notification_event.listener" class="merk\NotificationBundle\Entity\NotificationEventListener" public="false">

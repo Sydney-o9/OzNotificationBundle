@@ -58,6 +58,9 @@ class UserPreferencesController extends ContainerAware
 
         $userPreferences = $this->getUserPreferencesManager()->findByUser($user);
 
+//        ladybug_dump($userPreferences);
+        echo "There is/are".count($userPreferences->getFilters())." filter(s) loaded from the database. <br /> <br />";
+
         return $userPreferences;
     }
 
