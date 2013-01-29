@@ -16,7 +16,6 @@ use merk\NotificationBundle\Model\FilterManagerInterface;
 use merk\NotificationBundle\Model\UserPreferencesInterface;
 use merk\NotificationBundle\Model\UserPreferencesManager as BaseUserPreferencesManager;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Doctrine ORM implementation of the UserPreferencesManager class.
@@ -57,6 +56,9 @@ class UserPreferencesManager extends BaseUserPreferencesManager
 
     }
 
+    /*
+     * Find User Preferences By User
+     */
     public function findByUser(UserInterface $user)
     {
         $qb = $this->repository->createQueryBuilder('up');
@@ -66,6 +68,9 @@ class UserPreferencesManager extends BaseUserPreferencesManager
         return $qb->getQuery()->getOneOrNullResult();
     }
 
+    /*
+     * Update User Preferences
+     */
     public function update(UserPreferencesInterface $preferences, $flush = true)
     {
         $this->em->persist($preferences);
@@ -93,7 +98,6 @@ class UserPreferencesManager extends BaseUserPreferencesManager
      */
     public function getUserPreferences($user){
 
-
         /**
          * 1- Get config filters
          */
@@ -107,9 +111,7 @@ class UserPreferencesManager extends BaseUserPreferencesManager
         /**
          * 2- Get filters saved in the db
          */
-        $userPreferences = $this->findByUser($user);
-
-        $userFilters = $userPreferences->getFilters();
+        $userFilters = $this->filterManager->findByUser($user);
         //And the notificationKeys
         $notificationKeysUserFilters = array();
         foreach ($userFilters as $userFilter){
@@ -128,7 +130,6 @@ class UserPreferencesManager extends BaseUserPreferencesManager
 
         foreach ($configFilters as  $key => $configFilter){
 
-
             if  (in_array($configFilter->getNotificationKey(), $intersectArray)){
                 $newConfigFilters->remove($key);
             }
@@ -137,6 +138,11 @@ class UserPreferencesManager extends BaseUserPreferencesManager
         /**
          * 5- Merge newConfigFilters with userFilters
          */
+        $userPreferences = $this->findByUser($user);
+        if ($userPreferences === null){
+            $userPreferences = $this->create();
+            $userPreferences->setUser($user);
+        }
         $finalFilters = clone $userFilters;
         foreach ($newConfigFilters as $newConfigFilter){
             $newConfigFilter->setUserPreferences($userPreferences);
@@ -147,8 +153,6 @@ class UserPreferencesManager extends BaseUserPreferencesManager
          * 6- Modify final product
          */
         $userPreferences->setFilters($finalFilters);
-
-
 
         return $userPreferences;
 

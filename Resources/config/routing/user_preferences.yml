@@ -1,10 +1,5 @@
-merk_notification_user_preferences_new:
-    pattern: /new
-    defaults:
-        _controller: merkNotificationBundle:UserPreferences:new
-
-merk_notification_user_preferences_edit:
-    pattern: /edit
+merk_notification_user_preferences:
+    pattern: /
     defaults:
         _controller: merkNotificationBundle:UserPreferences:edit
 

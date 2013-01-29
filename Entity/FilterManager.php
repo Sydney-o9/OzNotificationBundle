@@ -61,6 +61,32 @@ class FilterManager extends BaseFilterManager
     }
 
     /**
+     * {@inheritDoc}
+     */
+    public function buildConfigFilters(array $filterParameters){
+
+        $configFilters = new ArrayCollection();
+
+        foreach ($filterParameters as $filterParam) {
+
+            $filter = $this->create();
+            $filter->setNotificationKey($filterParam['notification_key']);
+
+            //TODO: Does not support array at the moment
+            $default_methods = $filterParam['default_methods'];
+            $filter->setMethod($default_methods[0]);
+
+            //TODO: Filter are not configured to support the user class at the moment.
+            //$user_class = $filterParam['user_class'];
+
+            $configFilters[] = $filter;
+
+        }
+
+        $this->setConfigFilters($configFilters);
+    }
+
+    /**
      * Filters loaded from config file
      *
      * @return FilterInterface $filter
@@ -71,6 +97,42 @@ class FilterManager extends BaseFilterManager
 
         return new $class;
     }
+
+    /**
+     * @param array|\Doctrine\Common\Collections\Collection $configFilters
+     */
+    public function setConfigFilters($configFilters)
+    {
+        $this->configFilters = $configFilters;
+    }
+
+
+    /**
+     *
+     * Obtain all default filters defined in config file
+     *
+     * @return array|\Doctrine\Common\Collections\Collection
+     */
+    public function getConfigFilters()
+    {
+        return $this->configFilters;
+    }
+
+
+    /*
+     * Find Filters By User
+     */
+    public function findByUser(UserInterface $user)
+    {
+        $qb = $this->repository->createQueryBuilder('f')
+        ->select(array('f'))
+        ->leftJoin('f.userPreferences', 'up')
+        ->andWhere('up.user = :user')
+        ->setParameter('user', $user);
+
+        return new ArrayCollection($qb->getQuery()->getResult());
+    }
+
 
     /**
      * {@inheritDoc}
@@ -106,47 +168,8 @@ class FilterManager extends BaseFilterManager
         ));
     }
 
-    /**
-     * @param array|\Doctrine\Common\Collections\Collection $configFilters
-     */
-    public function setConfigFilters($configFilters)
-    {
-        $this->configFilters = $configFilters;
-    }
 
 
-    /**
-     * @return array|\Doctrine\Common\Collections\Collection
-     */
-    public function getConfigFilters()
-    {
-        return $this->configFilters;
-    }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function buildConfigFilters(array $filterParameters){
-
-        $configFilters = new ArrayCollection();
-
-        foreach ($filterParameters as $filterParam) {
-
-            $filter = $this->create();
-            $filter->setNotificationKey($filterParam['notification_key']);
-
-            //TODO: Does not support array at the moment
-            $default_methods = $filterParam['default_methods'];
-            $filter->setMethod($default_methods[0]);
-
-            //TODO: Filter are not configured to support the user class at the moment.
-            //$user_class = $filterParam['user_class'];
-
-            $configFilters[] = $filter;
-
-        }
-
-        $this->setConfigFilters($configFilters);
-    }
 
 }

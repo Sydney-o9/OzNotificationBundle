@@ -37,6 +37,15 @@ class UserPreferencesController extends ContainerAware
         return $this->container->get('merk_notification.user_preferences.manager');
     }
 
+
+    /**
+     * TODO: delete before commit
+     */
+    protected function getFilterManager()
+    {
+        return $this->container->get('merk_notification.filter.manager');
+    }
+
     /**
      * Returns the user preferences object for the supplied user. If no user
      * is supplied, it uses the currently logged in user.
@@ -73,14 +82,6 @@ class UserPreferencesController extends ContainerAware
     {
         $preferences = $this->getUserPreferences();
 
-
-        if (!$preferences){
-            //The user never set his preferences and is redirect to new page
-            $preferencesUrl = $this->container->get('router')->generate('merk_notification_user_preferences_new');
-            return new RedirectResponse($preferencesUrl);
-        }
-
-
         /** @var \Symfony\Component\Form\FormFactory $formBuilder  */
         $formBuilder = $this->container->get('form.factory');
         $form = $formBuilder->createNamed('merk_notification_user_preferences', 'merk_notification_user_preferences', $preferences);
@@ -93,7 +94,7 @@ class UserPreferencesController extends ContainerAware
                 $this->getUserPreferencesManager()->update($preferences);
 
                 $this->container->get('session')->setFlash('merk_notification_success', 'user_preferences.flash.updated');
-                $redirectUrl = $this->container->get('router')->generate('merk_notification_user_preferences_edit');
+                $redirectUrl = $this->container->get('router')->generate('merk_notification_user_preferences');
 
                 return new RedirectResponse($redirectUrl);
             }
@@ -105,59 +106,9 @@ class UserPreferencesController extends ContainerAware
         ));
     }
 
-    /**
-     * Provides capability for users to create their notifications for the first time
-     *
-     * @param Request $request
-     * @return Response
-     */
-    public function newAction(Request $request)
-    {
-
-        //Redirect if user has already set preferences
-        if ($this->getUserPreferences()){
-            $redirectUrl = $this->container->get('router')->generate('merk_notification_user_preferences_edit');
-            return new RedirectResponse($redirectUrl);
-        }
-
-        $preferences = $this->getUserPreferencesManager()->create();
-
-        $user = $this->container->get('security.context')->getToken()->getUser();
-
-        $preferences->setUser($user);
-
-
-        /** @var \Symfony\Component\Form\FormFactory $formBuilder  */
-        $formBuilder = $this->container->get('form.factory');
-        $form = $formBuilder->createNamed('merk_notification_user_preferences', 'merk_notification_user_preferences', $preferences);
-
-        if ('POST' === $request->getMethod()) {
-
-            $form->bind($request);
-
-            if ($form->isValid()) {
-
-                $this->getUserPreferencesManager()->update($preferences);
-
-                $this->container->get('session')->setFlash('merk_notification_success', 'user_preferences.flash.updated');
-                $preferencesUrl = $this->container->get('router')->generate('merk_notification_user_preferences_edit');
-
-                return new RedirectResponse($preferencesUrl);
-            }
-        }
-
-        return $this->container->get('templating')->renderResponse('merkNotificationBundle:UserPreferences:new.html.twig', array(
-            'form' => $form->createView(),
-            'preferences' => $preferences,
-        ));
-    }
-
 
     /**
      * Just for tests
-     *
-     * @param Request $request
-     * @return Response
      */
     public function testAction()
     {
@@ -165,10 +116,13 @@ class UserPreferencesController extends ContainerAware
         $user = $this->container->get('security.context')->getToken()->getUser();
 
 
-        $PreferencesManager = $this->getUserPreferencesManager()->getUserPreferences($user);
+//        $PreferencesManager = $this->getUserPreferencesManager()->getUserPreferences($user);
 
-//        $filters = $this->container->getParameter('merk_config_filters');
+        $filterManager = $this->getFilterManager();
 
+        $filters = $filterManager->findByUser($user);
+
+        ladybug_dump($filters);
 
         $preferences = $this->getUserPreferencesManager()->create();
 
