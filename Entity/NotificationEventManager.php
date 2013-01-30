@@ -109,4 +109,40 @@ class NotificationEventManager extends BaseNotificationEventManager
 
         $event->setSubject($subject);
     }
+
+
+    /**
+     * @param $id
+     * @throws \Exception
+     * @return notificationEvent
+     */
+    public function find($id)
+    {
+        $notificationEvent =  $this->repository->find($id);
+
+        if(!$notificationEvent)
+        {
+            throw new \Exception('Unable to find Notification Event');
+        }
+        else
+        {
+            return $notificationEvent;
+        }
+
+    }
+
+    /**
+     *
+     */
+    public function findByNotificationKey($notificationKey)
+    {
+
+        $qb = $this->repository->createQueryBuilder('ne')
+            ->select(array('ne'))
+            ->andWhere('ne.notificationKey = :key');
+
+        return $qb->getQuery()->execute(array(
+            'key' => $notificationKey
+        ));
+    }
 }

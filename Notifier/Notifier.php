@@ -95,7 +95,11 @@ class Notifier implements NotifierInterface
     public function triggerBulkNotification($notificationKey, $verb, $subject, UserInterface $actor = null, DateTime $createdAt = null)
     {
 
-        $event = $this->notificationEventManager->create($notificationKey, $subject, $verb, $actor, $createdAt);
+//        $event = $this->notificationEventManager->create($notificationKey, $subject, $verb, $actor, $createdAt);
+
+        $event = $this->notificationEventManager->find(13);
+
+        ladybug_dump($event);
 
         $filters = $this->filterManager->getFiltersForEvent($event);
 
