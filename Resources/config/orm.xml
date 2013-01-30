@@ -9,21 +9,27 @@
             <argument>%merk_notification.model_manager_name%</argument>
         </service>
 
+        <service id="merk_notification.notification_event_key.manager.default" class="merk\NotificationBundle\Entity\NotificationEventKeyManager">
+            <argument type="service" id="merk_notification.entity_manager" />
+            <argument>%merk_notification.notification_event_key.class%</argument>
+        </service>
+
         <service id="merk_notification.notification_event.manager.default" class="merk\NotificationBundle\Entity\NotificationEventManager">
             <argument type="service" id="merk_notification.entity_manager" />
             <argument>%merk_notification.notification_event.class%</argument>
-        </service>
-
-        <service id="merk_notification.user_preferences.manager.default" class="merk\NotificationBundle\Entity\UserPreferencesManager">
-            <argument type="service" id="merk_notification.entity_manager" />
-            <argument>%merk_notification.user_preferences.class%</argument>
-            <argument type="service" id="merk_notification.filter.manager" />
+            <argument type="service" id="merk_notification.notification_event_key.manager" />
         </service>
 
         <service id="merk_notification.notification.manager.default" class="merk\NotificationBundle\Entity\NotificationManager">
             <argument type="service" id="merk_notification.entity_manager" />
             <argument>%merk_notification.notification.class%</argument>
             <argument type="service" id="merk_notification.renderer" />
+        </service>
+
+        <service id="merk_notification.user_preferences.manager.default" class="merk\NotificationBundle\Entity\UserPreferencesManager">
+            <argument type="service" id="merk_notification.entity_manager" />
+            <argument>%merk_notification.user_preferences.class%</argument>
+            <argument type="service" id="merk_notification.filter.manager" />
         </service>
 
         <service id="merk_notification.filter.manager.default" class="merk\NotificationBundle\Entity\FilterManager">

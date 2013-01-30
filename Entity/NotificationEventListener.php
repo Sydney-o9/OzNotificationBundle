@@ -53,7 +53,7 @@ class NotificationEventListener implements EventSubscriber
         return array(
             Events::prePersist,
             Events::preUpdate,
-            Events::postLoad,
+//            Events::postLoad,
         );
     }
 

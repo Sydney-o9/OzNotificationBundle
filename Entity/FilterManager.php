@@ -106,7 +106,6 @@ class FilterManager extends BaseFilterManager
         $this->configFilters = $configFilters;
     }
 
-
     /**
      *
      * Obtain all default filters defined in config file
@@ -146,7 +145,7 @@ class FilterManager extends BaseFilterManager
             ->andWhere('f.notificationKey = :key');
 
         return $qb->getQuery()->execute(array(
-            'key' => $event->getNotificationKey()
+            'key' => (string)$event->getNotificationKey()
         ));
     }
 
@@ -163,7 +162,7 @@ class FilterManager extends BaseFilterManager
             ->andWhere('u.username = :username');
 
         return $qb->getQuery()->execute(array(
-            'key' => $event->getNotificationKey(),
+            'key' => (string)$event->getNotificationKey(),
             'username' => $receiver->getUsername()
         ));
     }

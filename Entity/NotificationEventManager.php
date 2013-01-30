@@ -12,9 +12,11 @@
 namespace merk\NotificationBundle\Entity;
 
 use Doctrine\ORM\EntityManager;
+use Symfony\Component\Security\Core\User\UserInterface;
 use merk\NotificationBundle\Model\NotificationEventInterface;
+use merk\NotificationBundle\Model\NotificationEventKeyManagerInterface;
 use merk\NotificationBundle\Model\NotificationEventManager as BaseNotificationEventManager;
-
+use DateTime;
 /**
  * Doctrine ORM implementation of the NotificationEventManager class.
  *
@@ -39,7 +41,13 @@ class NotificationEventManager extends BaseNotificationEventManager
     protected $class;
 
 
-    public function __construct(EntityManager $em, $class)
+    /**
+     * @var NotificationEventKeyManagerInterface
+     */
+    protected $notificationEventKeyManager;
+
+
+    public function __construct(EntityManager $em, $class, NotificationEventKeyManagerInterface $notificationEventKeyManager)
     {
         $this->em = $em;
 
@@ -48,6 +56,9 @@ class NotificationEventManager extends BaseNotificationEventManager
         $metadata = $em->getClassMetadata($class);
 
         $this->class = $metadata->name;
+
+        $this->notificationEventKeyManager = $notificationEventKeyManager;
+
     }
 
     /**
@@ -132,17 +143,33 @@ class NotificationEventManager extends BaseNotificationEventManager
     }
 
     /**
-     *
+     * {@inheritDoc}
      */
     public function findByNotificationKey($notificationKey)
     {
-
         $qb = $this->repository->createQueryBuilder('ne')
-            ->select(array('ne'))
-            ->andWhere('ne.notificationKey = :key');
+            ->select(array('ne', 'nk'))
+            ->leftJoin('ne.notificationKey', 'nk')
+            ->andWhere('nk.notificationKey = :key')
+            ->setParameter('key',$notificationKey);
 
-        return $qb->getQuery()->execute(array(
-            'key' => $notificationKey
-        ));
+        return $qb->getQuery()->getOneOrNullResult();
     }
+
+
+    /**
+     * {@inheritDoc}
+     */
+    public function create($notificationKey, $subject, $verb, UserInterface $actor = null, DateTime $createdAt = null)
+    {
+
+        $class = $this->class;
+
+        $notificationKey = $this->notificationEventKeyManager->findByNotificationKey($notificationKey);
+
+        return new $class($notificationKey, $subject, $verb, $actor);
+    }
+
+
+
 }

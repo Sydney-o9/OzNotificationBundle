@@ -1,0 +1,6 @@
+merk_notification:
+    notificationKey:
+        already_used: The notification key is already used
+        blank: Please enter a notification key
+        short: "[-Inf,Inf]The notification key is too short"
+        long: "[-Inf,Inf]The notification key is too long"

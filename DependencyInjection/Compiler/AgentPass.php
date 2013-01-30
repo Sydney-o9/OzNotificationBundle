@@ -46,3 +46,5 @@ class AgentPass implements CompilerPassInterface
         $container->getDefinition('merk_notification.sender')->replaceArgument(0, $senders);
     }
 }
+
+

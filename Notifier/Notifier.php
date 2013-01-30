@@ -97,10 +97,6 @@ class Notifier implements NotifierInterface
 
         $event = $this->notificationEventManager->create($notificationKey, $subject, $verb, $actor, $createdAt);
 
-//        $event = $this->notificationEventManager->find(13);
-
-        ladybug_dump($event);
-
         $filters = $this->filterManager->getFiltersForEvent($event);
 
         $notifications = $this->notificationManager->createForEvent($event, $filters);

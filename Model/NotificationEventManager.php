@@ -17,19 +17,6 @@ use DateTime;
 abstract class NotificationEventManager implements NotificationEventManagerInterface
 {
 
-    /**
-     * @var string NotificationEvent entity name
-     */
-    protected $class;
+    abstract function create($notificationKey, $subject, $verb, UserInterface $actor = null, DateTime $createdAt = null);
 
-    /**
-     * {@inheritDoc}
-     */
-    public function create($notificationKey, $subject, $verb, UserInterface $actor = null, DateTime $createdAt = null)
-    {
-
-        $class = $this->class;
-
-        return new $class($notificationKey, $subject, $verb, $actor);
-    }
 }

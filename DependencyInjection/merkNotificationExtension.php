@@ -46,19 +46,29 @@ class merkNotificationExtension extends Extension
             $loader->load(sprintf('%s.xml', $basename));
         }
 
+//        $loader->load('validation/orm.xml');
+
         $container->setAlias('merk_notification.filter.manager', 'merk_notification.filter.manager.default');
         $container->setAlias('merk_notification.notification.manager', 'merk_notification.notification.manager.default');
         $container->setAlias('merk_notification.notification_event.manager', 'merk_notification.notification_event.manager.default');
+        $container->setAlias('merk_notification.notification_event_key.manager', 'merk_notification.notification_event_key.manager.default');
         $container->setAlias('merk_notification.user_preferences.manager', 'merk_notification.user_preferences.manager.default');
 
         $container->setParameter('merk_notification.model_manager_name', $config['model_manager_name']);
-        $container->setParameter('merk_notification.filter.class', $config['class']['filter']);
-        $container->setParameter('merk_notification.notification.class', $config['class']['notification']);
+        $container->setParameter('merk_notification.notification_event_key.class', $config['class']['notification_event_key']);
         $container->setParameter('merk_notification.notification_event.class', $config['class']['notification_event']);
+        $container->setParameter('merk_notification.notification.class', $config['class']['notification']);
         $container->setParameter('merk_notification.user_preferences.class', $config['class']['user_preferences']);
+        $container->setParameter('merk_notification.filter.class', $config['class']['filter']);
+
 
         //Load the filters
         $filterParameters = $config['filters'];
         $container->setParameter('merk_filter_parameters', $filterParameters);
+
+        //Validation files
+        $xmlMappingFiles = $container->getParameter('validator.mapping.loader.xml_files_loader.mapping_files');
+        $xmlMappingFiles[] = __DIR__.'/../Resources/config/validation/orm.xml';
+        $container->setParameter('validator.mapping.loader.xml_files_loader.mapping_files', $xmlMappingFiles);
     }
 }

@@ -47,6 +47,22 @@ class UserPreferencesController extends ContainerAware
     }
 
     /**
+     * TODO: delete before commit
+     */
+    protected function getNotificationEventKeyManager()
+    {
+        return $this->container->get('merk_notification.notification_event_key.manager');
+    }
+
+    /**
+     * TODO: delete before commit
+     */
+    protected function getNotificationEventManager()
+    {
+        return $this->container->get('merk_notification.notification_event.manager');
+    }
+
+    /**
      * Returns the user preferences object for the supplied user. If no user
      * is supplied, it uses the currently logged in user.
      *
@@ -114,6 +130,16 @@ class UserPreferencesController extends ContainerAware
     {
 
         $user = $this->container->get('security.context')->getToken()->getUser();
+
+        $notificationKey = 'job.created';
+        $actor =$user;
+        $subject = new \Acme\JobBundle\Entity\Job();
+        $verb = 'patata';
+
+        $event = $this->getNotificationEventManager()->create($notificationKey, $subject, $verb, $actor);
+//        $this->getNotificationEventManager()->update($event);
+
+        ladybug_dump_die($event);
 
 
 //        $PreferencesManager = $this->getUserPreferencesManager()->getUserPreferences($user);
