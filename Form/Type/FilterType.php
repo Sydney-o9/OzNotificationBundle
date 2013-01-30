@@ -20,6 +20,7 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 class FilterType extends AbstractType
 {
     private $class;
+
     private $sender;
 
     /**

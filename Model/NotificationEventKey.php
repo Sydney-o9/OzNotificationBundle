@@ -3,8 +3,6 @@
 namespace merk\NotificationBundle\Model;
 
 
-use DateTime;
-
 /**
  * Contains all the notification events accessible to users
  * so that they can subscribe to it.
@@ -30,21 +28,6 @@ abstract class NotificationEventKey implements NotificationEventKeyInterface
      * @var string $description
      */
     protected $description;
-
-
-//    /**
-//     * @param string $notificationKey
-//     * @param string $defaultMethod
-//     * @param string $description
-//     * @param \DateTime $createdAt
-//     */
-//    public function __construct($notificationKey, $defaultMethod, $description = null, DateTime $createdAt = null)
-//    {
-//        $this->notificationKey = $notificationKey;
-//        $this->defaultMethod   = $defaultMethod;
-//        $this->description     = $description;
-//        $this->createdAt       = $createdAt ?: new DateTime;
-//    }
 
     /**
      * @param string $defaultMethod

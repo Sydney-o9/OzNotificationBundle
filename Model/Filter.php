@@ -24,7 +24,7 @@ abstract class Filter implements FilterInterface
     protected $method;
 
     /**
-     * @var string
+     * @var NotificationEventKey
      */
     protected $notificationKey;
 
@@ -60,7 +60,7 @@ abstract class Filter implements FilterInterface
     }
 
     /**
-     * @return string
+     * @return NotificationEventKey
      */
     public function getNotificationKey()
     {
@@ -68,7 +68,7 @@ abstract class Filter implements FilterInterface
     }
 
     /**
-     * @param string $notificationKey
+     * @param NotificationEventKey $notificationKey
      */
     public function setNotificationKey($notificationKey)
     {

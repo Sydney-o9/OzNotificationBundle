@@ -40,7 +40,6 @@ class NotificationEventManager extends BaseNotificationEventManager
      */
     protected $class;
 
-
     /**
      * @var NotificationEventKeyManagerInterface
      */

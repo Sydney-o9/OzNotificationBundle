@@ -55,6 +55,16 @@ class NotificationEventKeyManager extends BaseNotificationEventKeyManager
 
     }
 
+    /**
+     * Fetch all objects
+     *
+     * @return notificationEventKey[]
+     */
+    public function findAll()
+    {
+        return  $this->repository->findAll();
+    }
+
 
     /**
      * Fetch object by notification key

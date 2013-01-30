@@ -6,8 +6,6 @@
 
     <mapped-superclass name="merk\NotificationBundle\Entity\NotificationEvent">
 
-        <!--<field name="notificationKey" column="notificationKey" type="string" />-->
-
         <field name="createdAt" column="created_at" type="datetime" />
 
         <field name="verb" column="verb" type="string" />

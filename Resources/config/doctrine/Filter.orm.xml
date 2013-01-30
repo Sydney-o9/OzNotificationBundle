@@ -6,7 +6,6 @@
 
     <mapped-superclass name="merk\NotificationBundle\Entity\Filter">
 
-        <field name="notificationKey" column="notificationKey" type="string" />
         <field name="method" column="method" type="string" />
 
     </mapped-superclass>

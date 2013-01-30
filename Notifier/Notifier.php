@@ -99,7 +99,11 @@ class Notifier implements NotifierInterface
 
         $filters = $this->filterManager->getFiltersForEvent($event);
 
+        ladybug_dump_die($filters);
+
         $notifications = $this->notificationManager->createForEvent($event, $filters);
+
+        ladybug_dump_die($notifications);
 
         $this->sender->send($notifications);
 

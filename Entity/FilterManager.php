@@ -14,6 +14,7 @@ namespace merk\NotificationBundle\Entity;
 use Doctrine\ORM\EntityManager;
 use merk\NotificationBundle\Model\FilterInterface;
 use merk\NotificationBundle\Model\FilterManager as BaseFilterManager;
+use merk\NotificationBundle\Model\NotificationEventKeyManagerInterface;
 use merk\NotificationBundle\Model\NotificationEventInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -47,8 +48,15 @@ class FilterManager extends BaseFilterManager
      */
     protected $configFilters;
 
+    /**
+     * To fetch notification keys for filter generation
+     *
+     * @var NotificationEventKeyManager
+     */
+    protected $notificationEventKeyManager;
 
-    public function __construct(EntityManager $em, $class, array $filterParameters)
+
+    public function __construct(EntityManager $em, $class, NotificationEventKeyManagerInterface $notificationEventKeyManager, $filterParameters)
     {
         $this->em = $em;
         $this->repository = $em->getRepository($class);
@@ -56,34 +64,10 @@ class FilterManager extends BaseFilterManager
         $metadata = $em->getClassMetadata($class);
         $this->class = $metadata->name;
 
+        $this->notificationEventKeyManager = $notificationEventKeyManager;
+
         $this->buildConfigFilters($filterParameters);
 
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function buildConfigFilters(array $filterParameters){
-
-        $configFilters = new ArrayCollection();
-
-        foreach ($filterParameters as $filterParam) {
-
-            $filter = $this->create();
-            $filter->setNotificationKey($filterParam['notification_key']);
-
-            //TODO: Does not support array at the moment
-            $default_methods = $filterParam['default_methods'];
-            $filter->setMethod($default_methods[0]);
-
-            //TODO: Filter are not configured to support the user class at the moment.
-            //$user_class = $filterParam['user_class'];
-
-            $configFilters[] = $filter;
-
-        }
-
-        $this->setConfigFilters($configFilters);
     }
 
     /**
@@ -99,27 +83,35 @@ class FilterManager extends BaseFilterManager
     }
 
     /**
-     * @param array|\Doctrine\Common\Collections\Collection $configFilters
+     * Generate all filters available to the user
+     * by using the notificationKey
+     *
+     * 1 filter <----> 1 particular event / 1 notification key
+     *
+     * @return Filter[]
      */
-    public function setConfigFilters($configFilters)
-    {
-        $this->configFilters = $configFilters;
+    public function generateAllEmptyFilters(){
+
+        $keys = $this->notificationEventKeyManager->findAll();
+
+        $filters = new ArrayCollection();
+        foreach ($keys as $key){
+            $filter = $this->create();
+            $filter->setNotificationKey($key);
+            $filters[]= $filter;
+        }
+
+        return $filters;
     }
+
+
+
 
     /**
-     *
-     * Obtain all default filters defined in config file
-     *
-     * @return array|\Doctrine\Common\Collections\Collection
-     */
-    public function getConfigFilters()
-    {
-        return $this->configFilters;
-    }
-
-
-    /*
      * Find Filters By User
+     *
+     * @param UserInterface $user
+     * @return Filter[]
      */
     public function findByUser(UserInterface $user)
     {
@@ -132,7 +124,6 @@ class FilterManager extends BaseFilterManager
         return new ArrayCollection($qb->getQuery()->getResult());
     }
 
-
     /**
      * {@inheritDoc}
      */
@@ -140,9 +131,10 @@ class FilterManager extends BaseFilterManager
     {
         $qb = $this->repository->createQueryBuilder('f')
             ->select(array('f', 'up', 'u'))
+            ->leftJoin('f.notificationKey', 'nk')
             ->leftJoin('f.userPreferences', 'up')
             ->leftJoin('up.user', 'u')
-            ->andWhere('f.notificationKey = :key');
+            ->andWhere('nk.notificationKey = :key');
 
         return $qb->getQuery()->execute(array(
             'key' => (string)$event->getNotificationKey()
@@ -171,4 +163,52 @@ class FilterManager extends BaseFilterManager
 
 
 
+
+
+
+
+    /**
+     * {@inheritDoc}
+     */
+    public function buildConfigFilters(array $filterParameters){
+
+        $configFilters = new ArrayCollection();
+
+        foreach ($filterParameters as $filterParam) {
+
+            $filter = $this->create();
+            $filter->setNotificationKey($filterParam['notification_key']);
+
+            //TODO: Does not support array at the moment
+            $default_methods = $filterParam['default_methods'];
+            $filter->setMethod($default_methods[0]);
+
+            //TODO: Filter are not configured to support the user class at the moment.
+            //$user_class = $filterParam['user_class'];
+
+            $configFilters[] = $filter;
+
+        }
+
+        $this->setConfigFilters($configFilters);
+    }
+
+    /**
+     * @param array|\Doctrine\Common\Collections\Collection $configFilters
+     */
+    public function setConfigFilters($configFilters)
+    {
+        $this->configFilters = $configFilters;
+    }
+
+    /**
+     *
+     * Obtain all default filters defined in config file
+     *
+     * @return array|\Doctrine\Common\Collections\Collection
+     */
+    public function getConfigFilters()
+    {
+        return $this->configFilters;
+    }
 }

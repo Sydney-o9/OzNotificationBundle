@@ -98,15 +98,27 @@ class UserPreferencesManager extends BaseUserPreferencesManager
      */
     public function getUserPreferences($user){
 
+//        /**
+//         * 1- Get config filters
+//         */
+//        $configFilters = $this->filterManager->getConfigFilters();
+//        //And the notificationKeys
+//        $notificationKeysConfigFilters = array();
+//        foreach ($configFilters as $configFilter){
+//            $notificationKeysConfigFilters[]=$configFilter->getNotificationKey();
+//        }
+
+
         /**
-         * 1- Get config filters
+         * 1- Get all filters
          */
-        $configFilters = $this->filterManager->getConfigFilters();
+        $configFilters = $this->filterManager->generateAllEmptyFilters();
         //And the notificationKeys
         $notificationKeysConfigFilters = array();
         foreach ($configFilters as $configFilter){
             $notificationKeysConfigFilters[]=$configFilter->getNotificationKey();
         }
+
 
         /**
          * 2- Get filters saved in the db

@@ -35,6 +35,7 @@
         <service id="merk_notification.filter.manager.default" class="merk\NotificationBundle\Entity\FilterManager">
             <argument type="service" id="merk_notification.entity_manager" />
             <argument>%merk_notification.filter.class%</argument>
+            <argument type="service" id="merk_notification.notification_event_key.manager" />
             <argument>%merk_filter_parameters%</argument>
         </service>
 
