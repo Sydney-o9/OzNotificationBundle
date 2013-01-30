@@ -32,10 +32,10 @@
             <argument>%merk_filter_parameters%</argument>
         </service>
 
-        <!--<service id="merk_notification.notification_event.listener" class="merk\NotificationBundle\Entity\NotificationEventListener" public="false">-->
-            <!--<tag name="doctrine.event_subscriber" />-->
-            <!--<argument type="service" id="service_container" />-->
-        <!--</service>-->
+        <service id="merk_notification.notification_event.listener" class="merk\NotificationBundle\Entity\NotificationEventListener" public="false">
+            <tag name="doctrine.event_subscriber" />
+            <argument type="service" id="service_container" />
+        </service>
 
     </services>
 
