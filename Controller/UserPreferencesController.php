@@ -131,6 +131,9 @@ class UserPreferencesController extends ContainerAware
 
         $user = $this->container->get('security.context')->getToken()->getUser();
 
+        ladybug_dump_die($this->getUserPreferences($user));
+
+
         $notificationKey = 'job.created';
         $actor =$user;
         $subject = new \Acme\JobBundle\Entity\Job();

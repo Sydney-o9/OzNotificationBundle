@@ -16,6 +16,7 @@ use merk\NotificationBundle\Model\FilterInterface;
 use merk\NotificationBundle\Model\FilterManager as BaseFilterManager;
 use merk\NotificationBundle\Model\NotificationEventKeyManagerInterface;
 use merk\NotificationBundle\Model\NotificationEventInterface;
+use merk\NotificationBundle\Model\NotificationEventKeyInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -160,11 +161,40 @@ class FilterManager extends BaseFilterManager
     }
 
 
+    /**
+     * Obtain filter for a particular user that subscribed to a particular notification key
+     *
+     * @param UserInterface $user
+     * @param NotificationEventKeyInterface $notificationKey
+     * @return Filter|null
+     */
+    public function getUserFilterByNotificationKey(UserInterface $user, NotificationEventKeyInterface $notificationKey)
+    {
+        $qb = $this->repository->createQueryBuilder('f')
+            ->select(array('f'))
+            ->leftJoin('f.notificationKey', 'nk')
+            ->leftJoin('f.userPreferences', 'up')
+            ->leftJoin('up.user', 'u')
+            ->andWhere('nk.notificationKey = :key')
+            ->andWhere('u.username = :username')
+            ->setParameter('key', (string)$notificationKey)
+            ->setParameter('username', $user->getUsername());
+
+        return $qb->getQuery()->getOneOrNullResult();
+    }
 
 
-
-
-
+    /**
+     * Returns true if a particular user is subscribed to a particular notification key
+     *
+     * @param UserInterface $user
+     * @param NotificationEventKeyInterface $notificationKey
+     * @return boolean
+     */
+    public function isUserSubscribedTo(UserInterface $user, NotificationEventKeyInterface $notificationKey)
+    {
+        return ($this->getUserFilterByNotificationKey($user, $notificationKey)) ? true :false;
+    }
 
 
     /**

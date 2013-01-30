@@ -16,6 +16,7 @@ use merk\NotificationBundle\Model\FilterManagerInterface;
 use merk\NotificationBundle\Model\UserPreferencesInterface;
 use merk\NotificationBundle\Model\UserPreferencesManager as BaseUserPreferencesManager;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Doctrine ORM implementation of the UserPreferencesManager class.
@@ -89,97 +90,37 @@ class UserPreferencesManager extends BaseUserPreferencesManager
 
     /**
      *
-     * TODO: Clean this method and implement it in FormTransformer
      *
-     * Get User Preferences in 3 steps:
-     *  - get config filters
-     *  - get filters already saved in db
-     *  - compare them, sort them
+     * Get User Preferences in 2 steps:
+     *  - generate all empty/default filters
+     *  - if the user has one of these filters already, replace it
+     *
+     * @param UserInterface $user
      */
     public function getUserPreferences($user){
 
-//        /**
-//         * 1- Get config filters
-//         */
-//        $configFilters = $this->filterManager->getConfigFilters();
-//        //And the notificationKeys
-//        $notificationKeysConfigFilters = array();
-//        foreach ($configFilters as $configFilter){
-//            $notificationKeysConfigFilters[]=$configFilter->getNotificationKey();
-//        }
-
-
-        /**
-         * 1- Get all filters
-         */
-        $configFilters = $this->filterManager->generateAllEmptyFilters();
-        //And the notificationKeys
-        $notificationKeysConfigFilters = array();
-        foreach ($configFilters as $configFilter){
-            $notificationKeysConfigFilters[]=$configFilter->getNotificationKey();
-        }
-
-
-        /**
-         * 2- Get filters saved in the db
-         */
-        $userFilters = $this->filterManager->findByUser($user);
-        //And the notificationKeys
-        $notificationKeysUserFilters = array();
-        foreach ($userFilters as $userFilter){
-            $notificationKeysUserFilters[]=$userFilter->getNotificationKey();
-        }
-
-        /**
-         * 3- Find Keys that are similar
-         */
-        $intersectArray = array_intersect($notificationKeysUserFilters, $notificationKeysConfigFilters);
-
-        /**
-         * 4- Remove them from the configFilters
-         */
-        $newConfigFilters = clone($configFilters);
-
-        foreach ($configFilters as  $key => $configFilter){
-
-            if  (in_array($configFilter->getNotificationKey(), $intersectArray)){
-                $newConfigFilters->remove($key);
-            }
-        }
-
-        /**
-         * 5- Merge newConfigFilters with userFilters
-         */
-        $userPreferences = $this->findByUser($user);
-        if ($userPreferences === null){
+        if (!$userPreferences = $this->findByUser($user)){
             $userPreferences = $this->create();
             $userPreferences->setUser($user);
         }
-        $finalFilters = clone $userFilters;
-        foreach ($newConfigFilters as $newConfigFilter){
-            $newConfigFilter->setUserPreferences($userPreferences);
-            $finalFilters[] = $newConfigFilter;
-        }
+        $emptyFilters = $this->filterManager->generateAllEmptyFilters();
 
-        /**
-         * 6- Modify final product
-         */
-        $userPreferences->setFilters($finalFilters);
+        $filters = new ArrayCollection();
+
+        foreach ($emptyFilters as $emptyFilter){
+            //If user has already subscribed to it
+            if ($filter = $this->filterManager->getUserFilterByNotificationKey($user, $emptyFilter->getNotificationKey())){
+                $filters[]= $filter;
+            }
+            //otherwise, create new filter
+            else{
+                $emptyFilter->setUserPreferences($userPreferences);
+                $filters[] = $emptyFilter;
+            }
+        }
+        $userPreferences->setFilters($filters);
 
         return $userPreferences;
-
     }
-
-
-
-    /**
-     * Create form with the filters loaded from the config file
-     *
-     */
-    public function createDefaultForm(){
-        //TODO: create default form with all the filters loaded with buildConfig
-
-    }
-
 
 }
