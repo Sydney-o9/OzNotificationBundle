@@ -34,6 +34,17 @@ interface FilterManagerInterface
     public function getFiltersForEventOwnedBySingleReceiver(NotificationEventInterface $event, UserInterface $receiver);
 
 
+
+    /**
+     * Obtain filter for a particular user that subscribed to a particular notification key
+     *
+     * @param UserInterface $user
+     * @param string | NotificationEventKeyInterface $notificationKey
+     * @return Filter|null
+     */
+    public function getUserFilterByNotificationKey(UserInterface $user, $notificationKey);
+
+
     /**
      * Build filters from parameters defined in config file
      *

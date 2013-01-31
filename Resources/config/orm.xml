@@ -44,6 +44,13 @@
             <argument type="service" id="service_container" />
         </service>
 
+
+        <service id="merk_notification.unique_filter.validator" class="merk\NotificationBundle\Validator\Constraints\UniqueFilterValidator">
+            <argument type="service" id="security.context" />
+            <argument type="service" id="merk_notification.filter.manager" />
+            <tag name="validator.constraint_validator" alias="merk_notification.filter.validator" />
+        </service>
+
     </services>
 
 </container>

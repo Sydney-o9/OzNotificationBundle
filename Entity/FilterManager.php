@@ -165,10 +165,10 @@ class FilterManager extends BaseFilterManager
      * Obtain filter for a particular user that subscribed to a particular notification key
      *
      * @param UserInterface $user
-     * @param NotificationEventKeyInterface $notificationKey
+     * @param string | NotificationEventKeyInterface $notificationKey
      * @return Filter|null
      */
-    public function getUserFilterByNotificationKey(UserInterface $user, NotificationEventKeyInterface $notificationKey)
+    public function getUserFilterByNotificationKey(UserInterface $user, $notificationKey)
     {
         $qb = $this->repository->createQueryBuilder('f')
             ->select(array('f'))
