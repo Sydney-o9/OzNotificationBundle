@@ -8,7 +8,11 @@ use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 use merk\NotificationBundle\model\FilterManagerInterface;
 
-
+/**
+ * Validator on the hole entity Filter.
+ * Makes sure the filters are unique for each notificationKey.
+ *
+ */
 class UniqueFilterValidator extends ConstraintValidator{
 
 

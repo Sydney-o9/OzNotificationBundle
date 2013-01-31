@@ -31,11 +31,6 @@ abstract class Filter implements FilterInterface
     /**
      * @var string
      */
-    protected $label;
-
-    /**
-     * @var string
-     */
     protected $recipientData;
 
     /**
@@ -79,22 +74,6 @@ abstract class Filter implements FilterInterface
     public function setMethod($method)
     {
         $this->method = $method;
-    }
-
-    /**
-     * @param string $label
-     */
-    public function setLabel($label)
-    {
-        $this->label = $label;
-    }
-
-    /**
-     * @return string
-     */
-    public function getLabel()
-    {
-        return $this->label;
     }
 
     /**
