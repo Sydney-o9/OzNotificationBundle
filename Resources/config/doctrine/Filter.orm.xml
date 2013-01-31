@@ -8,5 +8,7 @@
 
         <field name="method" column="method" type="string" />
 
+        <field name="label" column="label" type="string" />
+
     </mapped-superclass>
 </doctrine-mapping>

@@ -23,5 +23,18 @@ http://symfony.com/schema/dic/constraint-mapping/constraint-mapping-1.0.xsd">
 
     </class>
 
+
+    <class name="merk\NotificationBundle\Model\Filter">
+        <property name="notificationKey">
+            <constraint name="NotBlank">
+                <option name="message">merk_notification.notificationKey.blank</option>
+            </constraint>
+            <constraint name="NotNull">
+                <option name="message">merk_notification.notificationKey.null</option>
+            </constraint>
+        </property>
+    </class>
+
+
 </constraint-mapping>
 

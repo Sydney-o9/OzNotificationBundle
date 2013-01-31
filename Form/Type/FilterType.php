@@ -35,12 +35,14 @@ class FilterType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('notificationKey');
+        $builder->add('notificationKey', null);
+
+//        $builder->add('label', 'text', array('attr' => array('disabled'=> true)));
 
         $builder->add('method', 'choice', array(
             'choices' => $this->getMethodChoices(),
             'multiple' => false,
-            'expanded' => true,
+            'expanded' => true
         ));
     }
 
