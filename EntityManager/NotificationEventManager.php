@@ -15,7 +15,7 @@ use Doctrine\ORM\EntityManager;
 use Symfony\Component\Security\Core\User\UserInterface;
 use merk\NotificationBundle\Model\NotificationEventInterface;
 use merk\NotificationBundle\Entity\NotificationEvent;
-use merk\NotificationBundle\ModelManager\NotificationEventKeyManagerInterface;
+use merk\NotificationBundle\ModelManager\NotificationKeyManagerInterface;
 use merk\NotificationBundle\ModelManager\NotificationEventManager as BaseNotificationEventManager;
 use DateTime;
 /**
@@ -42,12 +42,12 @@ class NotificationEventManager extends BaseNotificationEventManager
     protected $class;
 
     /**
-     * @var NotificationEventKeyManagerInterface
+     * @var NotificationKeyManagerInterface
      */
-    protected $notificationEventKeyManager;
+    protected $notificationKeyManager;
 
 
-    public function __construct(EntityManager $em, $class, NotificationEventKeyManagerInterface $notificationEventKeyManager)
+    public function __construct(EntityManager $em, $class, NotificationKeyManagerInterface $notificationKeyManager)
     {
         $this->em = $em;
 
@@ -57,7 +57,7 @@ class NotificationEventManager extends BaseNotificationEventManager
 
         $this->class = $metadata->name;
 
-        $this->notificationEventKeyManager = $notificationEventKeyManager;
+        $this->notificationKeyManager = $notificationKeyManager;
 
     }
 
@@ -165,7 +165,7 @@ class NotificationEventManager extends BaseNotificationEventManager
 
         $class = $this->class;
 
-        $notificationKey = $this->notificationEventKeyManager->findByNotificationKey($notificationKey);
+        $notificationKey = $this->notificationKeyManager->findByNotificationKey($notificationKey);
 
         return new $class($notificationKey, $subject, $verb, $actor);
     }

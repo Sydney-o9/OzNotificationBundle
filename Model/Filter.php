@@ -19,7 +19,7 @@ namespace merk\NotificationBundle\Model;
 abstract class Filter implements FilterInterface
 {
     /**
-     * @var NotificationEventKey
+     * @var NotificationKey
      */
     protected $notificationKey;
 
@@ -45,7 +45,7 @@ abstract class Filter implements FilterInterface
 
 
     /**
-     * @return NotificationEventKey
+     * @return NotificationKey
      */
     public function getNotificationKey()
     {
@@ -53,7 +53,7 @@ abstract class Filter implements FilterInterface
     }
 
     /**
-     * @param NotificationEventKey $notificationKey
+     * @param NotificationKey $notificationKey
      */
     public function setNotificationKey($notificationKey)
     {

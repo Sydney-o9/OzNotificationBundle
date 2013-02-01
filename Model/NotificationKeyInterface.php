@@ -7,7 +7,7 @@ namespace merk\NotificationBundle\Model;
  * accessible
  *
  */
-interface NotificationEventKeyInterface
+interface NotificationKeyInterface
 {
     /**
      * Returns the event key.

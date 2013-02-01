@@ -49,9 +49,9 @@ class UserPreferencesController extends ContainerAware
     /**
      * TODO: delete before commit
      */
-    protected function getNotificationEventKeyManager()
+    protected function getNotificationKeyManager()
     {
-        return $this->container->get('merk_notification.notification_event_key.manager');
+        return $this->container->get('merk_notification.notification_key.manager');
     }
 
     /**

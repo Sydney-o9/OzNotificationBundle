@@ -14,9 +14,9 @@ namespace merk\NotificationBundle\EntityManager;
 use Doctrine\ORM\EntityManager;
 use merk\NotificationBundle\Model\FilterInterface;
 use merk\NotificationBundle\ModelManager\FilterManager as BaseFilterManager;
-use merk\NotificationBundle\ModelManager\NotificationEventKeyManagerInterface;
+use merk\NotificationBundle\ModelManager\NotificationKeyManagerInterface;
 use merk\NotificationBundle\Model\NotificationEventInterface;
-use merk\NotificationBundle\Model\NotificationEventKeyInterface;
+use merk\NotificationBundle\Model\NotificationKeyInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -52,12 +52,12 @@ class FilterManager extends BaseFilterManager
     /**
      * To fetch notification keys for filter generation
      *
-     * @var NotificationEventKeyManager
+     * @var NotificationKeyManager
      */
-    protected $notificationEventKeyManager;
+    protected $notificationKeyManager;
 
 
-    public function __construct(EntityManager $em, $class, NotificationEventKeyManagerInterface $notificationEventKeyManager, $filterParameters)
+    public function __construct(EntityManager $em, $class, NotificationKeyManagerInterface $notificationKeyManager, $filterParameters)
     {
         $this->em = $em;
         $this->repository = $em->getRepository($class);
@@ -65,7 +65,7 @@ class FilterManager extends BaseFilterManager
         $metadata = $em->getClassMetadata($class);
         $this->class = $metadata->name;
 
-        $this->notificationEventKeyManager = $notificationEventKeyManager;
+        $this->notificationKeyManager = $notificationKeyManager;
 
         $this->buildConfigFilters($filterParameters);
 
@@ -93,7 +93,7 @@ class FilterManager extends BaseFilterManager
      */
     public function generateAllEmptyFilters(){
 
-        $keys = $this->notificationEventKeyManager->findAll();
+        $keys = $this->notificationKeyManager->findAll();
 
         $filters = new ArrayCollection();
         foreach ($keys as $key){
@@ -104,8 +104,6 @@ class FilterManager extends BaseFilterManager
 
         return $filters;
     }
-
-
 
 
     /**
@@ -166,7 +164,7 @@ class FilterManager extends BaseFilterManager
      * Obtain filter for a particular user that subscribed to a particular notification key
      *
      * @param UserInterface $user
-     * @param string | NotificationEventKeyInterface $notificationKey
+     * @param string | NotificationKeyInterface $notificationKey
      * @return \merk\NotificationBundle\Model\Filter|null
      */
     public function getUserFilterByNotificationKey(UserInterface $user, $notificationKey)
@@ -189,10 +187,10 @@ class FilterManager extends BaseFilterManager
      * Returns true if a particular user is subscribed to a particular notification key
      *
      * @param UserInterface $user
-     * @param NotificationEventKeyInterface $notificationKey
+     * @param NotificationKeyInterface $notificationKey
      * @return boolean
      */
-    public function isUserSubscribedTo(UserInterface $user, NotificationEventKeyInterface $notificationKey)
+    public function isUserSubscribedTo(UserInterface $user, NotificationKeyInterface $notificationKey)
     {
         return ($this->getUserFilterByNotificationKey($user, $notificationKey)) ? true :false;
     }

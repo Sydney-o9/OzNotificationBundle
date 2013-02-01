@@ -42,7 +42,7 @@ interface FilterManagerInterface
      * Obtain filter for a particular user that subscribed to a particular notification key
      *
      * @param UserInterface $user
-     * @param string | \merk\NotificationBundle\Model\NotificationEventKeyInterface $notificationKey
+     * @param string | \merk\NotificationBundle\Model\NotificationKeyInterface $notificationKey
      * @return \merk\NotificationBundle\Model\Filter |null
      */
     public function getUserFilterByNotificationKey(UserInterface $user, $notificationKey);

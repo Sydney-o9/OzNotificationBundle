@@ -4,9 +4,9 @@ namespace merk\NotificationBundle\EntityManager;
 
 use Doctrine\ORM\EntityManager;
 
-use merk\NotificationBundle\ModelManager\NotificationEventKeyManager as BaseNotificationEventKeyManager;
+use merk\NotificationBundle\ModelManager\NotificationKeyManager as BaseNotificationKeyManager;
 
-class NotificationEventKeyManager extends BaseNotificationEventKeyManager
+class NotificationKeyManager extends BaseNotificationKeyManager
 {
     /**
      * @var EntityManager.
@@ -14,12 +14,12 @@ class NotificationEventKeyManager extends BaseNotificationEventKeyManager
     protected $em;
 
     /**
-     * @var EntityRepository of the NotificationEventKey class.
+     * @var EntityRepository of the NotificationKey class.
      */
     protected $repository;
 
     /**
-     * @var string NotificationEventKey entity name.
+     * @var string NotificationKey entity name.
      */
     protected $class;
 
@@ -38,19 +38,19 @@ class NotificationEventKeyManager extends BaseNotificationEventKeyManager
     /**
      * @param $id
      * @throws \Exception
-     * @return \merk\NotificationBundle\Model\notificationEventKey
+     * @return \merk\NotificationBundle\Model\notificationKey
      */
     public function find($id)
     {
-        $notificationEventKey =  $this->repository->find($id);
+        $notificationKey =  $this->repository->find($id);
 
-        if(!$notificationEventKey)
+        if(!$notificationKey)
         {
             throw new \Exception('Unable to find Notification Event Key');
         }
         else
         {
-            return $notificationEventKey;
+            return $notificationKey;
         }
 
     }
@@ -58,7 +58,7 @@ class NotificationEventKeyManager extends BaseNotificationEventKeyManager
     /**
      * Fetch all objects
      *
-     * @return \merk\NotificationBundle\Model\notificationEventKey[]
+     * @return \merk\NotificationBundle\Model\notificationKey[]
      */
     public function findAll()
     {
@@ -70,7 +70,7 @@ class NotificationEventKeyManager extends BaseNotificationEventKeyManager
      * Fetch object by notification key
      *
      * @param $notificationKey
-     * @return \merk\NotificationBundle\Model\NotificationEventKey
+     * @return \merk\NotificationBundle\Model\NotificationKey
      */
     public function findByNotificationKey($notificationKey)
     {

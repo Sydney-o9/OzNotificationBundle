@@ -31,7 +31,7 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('db_driver')->cannotBeOverwritten()->isRequired()->cannotBeEmpty()->end()
                 ->scalarNode('model_manager_name')->defaultValue('default')->end()
                 ->arrayNode('class')->children()
-                    ->scalarNode('notification_event_key')->isRequired()->cannotBeEmpty()->end()
+                    ->scalarNode('notification_key')->isRequired()->cannotBeEmpty()->end()
                     ->scalarNode('notification_event')->isRequired()->cannotBeEmpty()->end()
                     ->scalarNode('notification')->isRequired()->cannotBeEmpty()->end()
                     ->scalarNode('user_preferences')->isRequired()->cannotBeEmpty()->end()
