@@ -149,9 +149,10 @@ class FilterManager extends BaseFilterManager
     {
         $qb = $this->repository->createQueryBuilder('f')
             ->select(array('f', 'up', 'u'))
+            ->leftJoin('f.notificationKey', 'nk')
             ->leftJoin('f.userPreferences', 'up')
             ->leftJoin('up.user', 'u')
-            ->andWhere('f.notificationKey = :key')
+            ->andWhere('nk.notificationKey = :key')
             ->andWhere('u.username = :username');
 
         return $qb->getQuery()->execute(array(
