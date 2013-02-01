@@ -9,12 +9,12 @@
  * file that was distributed with this source code.
  */
 
-namespace merk\NotificationBundle\Entity;
+namespace merk\NotificationBundle\EntityManager;
 
 use Doctrine\ORM\EntityManager;
-use merk\NotificationBundle\Model\FilterManagerInterface;
+use merk\NotificationBundle\ModelManager\FilterManagerInterface;
 use merk\NotificationBundle\Model\UserPreferencesInterface;
-use merk\NotificationBundle\Model\UserPreferencesManager as BaseUserPreferencesManager;
+use merk\NotificationBundle\ModelManager\UserPreferencesManager as BaseUserPreferencesManager;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 

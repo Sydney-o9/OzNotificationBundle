@@ -9,9 +9,12 @@
  * file that was distributed with this source code.
  */
 
-namespace merk\NotificationBundle\Model;
+namespace merk\NotificationBundle\ModelManager;
 
 use Symfony\Component\Security\Core\User\UserInterface;
+use merk\NotificationBundle\Model\NotificationEventInterface;
+
+
 
 interface FilterManagerInterface
 {
@@ -39,8 +42,8 @@ interface FilterManagerInterface
      * Obtain filter for a particular user that subscribed to a particular notification key
      *
      * @param UserInterface $user
-     * @param string | NotificationEventKeyInterface $notificationKey
-     * @return Filter|null
+     * @param string | \merk\NotificationBundle\Model\NotificationEventKeyInterface $notificationKey
+     * @return \merk\NotificationBundle\Model\Filter |null
      */
     public function getUserFilterByNotificationKey(UserInterface $user, $notificationKey);
 

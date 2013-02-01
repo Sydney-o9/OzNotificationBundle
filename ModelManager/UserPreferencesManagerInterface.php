@@ -9,9 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace merk\NotificationBundle\Model;
+namespace merk\NotificationBundle\ModelManager;
 
 use Symfony\Component\Security\Core\User\UserInterface;
+use merk\NotificationBundle\Model\UserPreferencesInterface;
 
 /**
  * Defines the UserPreferencesManager interface.

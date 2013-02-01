@@ -6,7 +6,7 @@ use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 
 use Symfony\Component\Security\Core\SecurityContextInterface;
-use merk\NotificationBundle\model\FilterManagerInterface;
+use merk\NotificationBundle\modelManager\FilterManagerInterface;
 
 /**
  * Validator on the hole entity Filter.

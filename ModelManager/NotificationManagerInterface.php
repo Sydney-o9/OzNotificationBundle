@@ -9,9 +9,11 @@
  * file that was distributed with this source code.
  */
 
-namespace merk\NotificationBundle\Model;
+namespace merk\NotificationBundle\ModelManager;
 
 use merk\NotificationBundle\Model\NotificationEventInterface;
+use merk\NotificationBundle\Model\FilterInterface;
+use merk\NotificationBundle\Model\NotificationInterface;
 
 interface NotificationManagerInterface
 {

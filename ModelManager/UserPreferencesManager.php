@@ -9,7 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace merk\NotificationBundle\Model;
+namespace merk\NotificationBundle\ModelManager;
+
+use merk\NotificationBundle\Model\UserPreferencesInterface;
 
 /**
  * Base UserPreferencesManager

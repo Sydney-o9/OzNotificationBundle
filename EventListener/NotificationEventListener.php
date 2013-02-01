@@ -9,14 +9,14 @@
  * file that was distributed with this source code.
  */
 
-namespace merk\NotificationBundle\Entity;
+namespace merk\NotificationBundle\EventListener;
 
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Events;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use merk\NotificationBundle\Model\NotificationEventInterface as BaseNotificationEventInterface;
-use merk\NotificationBundle\Model\NotificationEventManager as BaseNotificationEventManager;
+use merk\NotificationBundle\ModelManager\NotificationEventManager as BaseNotificationEventManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**

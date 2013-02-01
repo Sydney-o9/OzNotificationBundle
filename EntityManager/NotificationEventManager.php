@@ -9,13 +9,14 @@
  * file that was distributed with this source code.
  */
 
-namespace merk\NotificationBundle\Entity;
+namespace merk\NotificationBundle\EntityManager;
 
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Security\Core\User\UserInterface;
 use merk\NotificationBundle\Model\NotificationEventInterface;
-use merk\NotificationBundle\Model\NotificationEventKeyManagerInterface;
-use merk\NotificationBundle\Model\NotificationEventManager as BaseNotificationEventManager;
+use merk\NotificationBundle\Entity\NotificationEvent;
+use merk\NotificationBundle\ModelManager\NotificationEventKeyManagerInterface;
+use merk\NotificationBundle\ModelManager\NotificationEventManager as BaseNotificationEventManager;
 use DateTime;
 /**
  * Doctrine ORM implementation of the NotificationEventManager class.

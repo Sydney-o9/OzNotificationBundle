@@ -30,7 +30,7 @@ class UserPreferencesController extends ContainerAware
     /**
      * Returns the user preferences manager.
      *
-     * @return \merk\NotificationBundle\Model\UserPreferencesManagerInterface
+     * @return \merk\NotificationBundle\ModelManager\UserPreferencesManagerInterface
      */
     protected function getUserPreferencesManager()
     {

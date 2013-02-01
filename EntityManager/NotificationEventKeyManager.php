@@ -1,10 +1,10 @@
 <?php
 
-namespace merk\NotificationBundle\Entity;
+namespace merk\NotificationBundle\EntityManager;
 
 use Doctrine\ORM\EntityManager;
 
-use merk\NotificationBundle\Model\NotificationEventKeyManager as BaseNotificationEventKeyManager;
+use merk\NotificationBundle\ModelManager\NotificationEventKeyManager as BaseNotificationEventKeyManager;
 
 class NotificationEventKeyManager extends BaseNotificationEventKeyManager
 {
@@ -38,7 +38,7 @@ class NotificationEventKeyManager extends BaseNotificationEventKeyManager
     /**
      * @param $id
      * @throws \Exception
-     * @return notificationEventKey
+     * @return \merk\NotificationBundle\Model\notificationEventKey
      */
     public function find($id)
     {
@@ -58,7 +58,7 @@ class NotificationEventKeyManager extends BaseNotificationEventKeyManager
     /**
      * Fetch all objects
      *
-     * @return notificationEventKey[]
+     * @return \merk\NotificationBundle\Model\notificationEventKey[]
      */
     public function findAll()
     {
@@ -69,7 +69,8 @@ class NotificationEventKeyManager extends BaseNotificationEventKeyManager
     /**
      * Fetch object by notification key
      *
-     * @return NotificationEventKey
+     * @param $notificationKey
+     * @return \merk\NotificationBundle\Model\NotificationEventKey
      */
     public function findByNotificationKey($notificationKey)
     {

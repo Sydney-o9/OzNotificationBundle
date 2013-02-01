@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace merk\NotificationBundle\Model;
+namespace merk\NotificationBundle\ModelManager;
 
-abstract class FilterManager implements FilterManagerInterface
+abstract class NotificationManager implements NotificationManagerInterface
 {
 
 }

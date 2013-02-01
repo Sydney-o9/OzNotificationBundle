@@ -9,13 +9,13 @@
  * file that was distributed with this source code.
  */
 
-namespace merk\NotificationBundle\Entity;
+namespace merk\NotificationBundle\EntityManager;
 
 use Doctrine\ORM\EntityManager;
 use merk\NotificationBundle\Model\FilterInterface;
 use merk\NotificationBundle\Model\NotificationEventInterface;
 use merk\NotificationBundle\Model\NotificationInterface;
-use merk\NotificationBundle\Model\NotificationManager as BaseNotificationManager;
+use merk\NotificationBundle\ModelManager\NotificationManager as BaseNotificationManager;
 use merk\NotificationBundle\Renderer\RendererInterface;
 
 /**

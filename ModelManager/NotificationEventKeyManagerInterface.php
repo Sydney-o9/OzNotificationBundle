@@ -1,6 +1,6 @@
 <?php
 
-namespace merk\NotificationBundle\Model;
+namespace merk\NotificationBundle\ModelManager;
 
 
 interface NotificationEventKeyManagerInterface

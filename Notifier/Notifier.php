@@ -11,10 +11,10 @@
 
 namespace merk\NotificationBundle\Notifier;
 
-use merk\NotificationBundle\Model\NotificationManagerInterface;
-use merk\NotificationBundle\Model\NotificationEventManagerInterface;
+use merk\NotificationBundle\ModelManager\NotificationManagerInterface;
+use merk\NotificationBundle\ModelManager\NotificationEventManagerInterface;
 use merk\NotificationBundle\Sender\SenderInterface;
-use \merk\NotificationBundle\Model\FilterManagerInterface;
+use \merk\NotificationBundle\ModelManager\FilterManagerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use DateTime;
 
@@ -99,11 +99,7 @@ class Notifier implements NotifierInterface
 
         $filters = $this->filterManager->getFiltersForEvent($event);
 
-        ladybug_dump_die($filters);
-
         $notifications = $this->notificationManager->createForEvent($event, $filters);
-
-        ladybug_dump_die($notifications);
 
         $this->sender->send($notifications);
 

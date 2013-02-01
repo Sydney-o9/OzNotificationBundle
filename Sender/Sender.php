@@ -12,7 +12,7 @@
 namespace merk\NotificationBundle\Sender;
 
 use merk\NotificationBundle\Model\NotificationEventInterface;
-use merk\NotificationBundle\Model\UserPreferencesManagerInterface;
+use merk\NotificationBundle\ModelManager\UserPreferencesManagerInterface;
 use merk\NotificationBundle\Sender\Agent\AgentInterface;
 
 /**

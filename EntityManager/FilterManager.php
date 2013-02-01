@@ -9,12 +9,12 @@
  * file that was distributed with this source code.
  */
 
-namespace merk\NotificationBundle\Entity;
+namespace merk\NotificationBundle\EntityManager;
 
 use Doctrine\ORM\EntityManager;
 use merk\NotificationBundle\Model\FilterInterface;
-use merk\NotificationBundle\Model\FilterManager as BaseFilterManager;
-use merk\NotificationBundle\Model\NotificationEventKeyManagerInterface;
+use merk\NotificationBundle\ModelManager\FilterManager as BaseFilterManager;
+use merk\NotificationBundle\ModelManager\NotificationEventKeyManagerInterface;
 use merk\NotificationBundle\Model\NotificationEventInterface;
 use merk\NotificationBundle\Model\NotificationEventKeyInterface;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -89,7 +89,7 @@ class FilterManager extends BaseFilterManager
      *
      * 1 filter <----> 1 particular event / 1 notification key
      *
-     * @return Filter[]
+     * @return \merk\NotificationBundle\Model\Filter[]
      */
     public function generateAllEmptyFilters(){
 
@@ -112,7 +112,7 @@ class FilterManager extends BaseFilterManager
      * Find Filters By User
      *
      * @param UserInterface $user
-     * @return Filter[]
+     * @return \merk\NotificationBundle\Model\Filter[]
      */
     public function findByUser(UserInterface $user)
     {
@@ -166,7 +166,7 @@ class FilterManager extends BaseFilterManager
      *
      * @param UserInterface $user
      * @param string | NotificationEventKeyInterface $notificationKey
-     * @return Filter|null
+     * @return \merk\NotificationBundle\Model\Filter|null
      */
     public function getUserFilterByNotificationKey(UserInterface $user, $notificationKey)
     {
