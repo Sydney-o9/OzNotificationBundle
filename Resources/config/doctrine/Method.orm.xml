@@ -4,9 +4,9 @@
                   xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                   http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
-    <mapped-superclass name="merk\NotificationBundle\Entity\Filter">
+    <mapped-superclass name="merk\NotificationBundle\Entity\Method">
 
-        <field name="method" column="method" type="string" />
+        <field name="name" column="name" type="string" />
 
     </mapped-superclass>
 

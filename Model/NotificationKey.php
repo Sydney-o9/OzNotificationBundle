@@ -4,8 +4,8 @@ namespace merk\NotificationBundle\Model;
 
 
 /**
- * Contains all the notification events accessible to users
- * so that they can subscribe to it.
+* Contains all the notification events accessible to users
+* so that they can subscribe to it.
  */
 abstract class NotificationKey implements NotificationKeyInterface
 {

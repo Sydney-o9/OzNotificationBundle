@@ -20,8 +20,11 @@ abstract class Notification implements NotificationInterface
      */
     protected $user;
 
-
-
+    /**
+     * The event the notification has been triggered by.
+     *
+     * @var NotificationEvent
+     */
     protected $event;
 
     /**

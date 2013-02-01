@@ -36,6 +36,7 @@ class Configuration implements ConfigurationInterface
                     ->scalarNode('notification')->isRequired()->cannotBeEmpty()->end()
                     ->scalarNode('user_preferences')->isRequired()->cannotBeEmpty()->end()
                     ->scalarNode('filter')->isRequired()->cannotBeEmpty()->end()
+                    ->scalarNode('method')->isRequired()->cannotBeEmpty()->end()
                 ->end()
             ->end();
 
