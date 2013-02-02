@@ -20,30 +20,9 @@ abstract class NotificationKey implements NotificationKeyInterface
     protected $notificationKey;
 
     /**
-     * @var string $defaultMethod
-     */
-    protected $defaultMethod;
-
-    /**
      * @var string $description
      */
     protected $description;
-
-    /**
-     * @param string $defaultMethod
-     */
-    public function setDefaultMethod($defaultMethod)
-    {
-        $this->defaultMethod = $defaultMethod;
-    }
-
-    /**
-     * @return string
-     */
-    public function getDefaultMethod()
-    {
-        return $this->defaultMethod;
-    }
 
     /**
      * @param string $description

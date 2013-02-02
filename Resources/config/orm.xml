@@ -38,6 +38,11 @@
             <argument type="service" id="merk_notification.notification_key.manager" />
         </service>
 
+        <service id="merk_notification.method.manager.default" class="merk\NotificationBundle\EntityManager\MethodManager">
+            <argument type="service" id="merk_notification.entity_manager" />
+            <argument>%merk_notification.method.class%</argument>
+        </service>
+
         <service id="merk_notification.notification_event.listener" class="merk\NotificationBundle\EventListener\NotificationEventListener" public="false">
             <tag name="doctrine.event_subscriber" />
             <argument type="service" id="service_container" />

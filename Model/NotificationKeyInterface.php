@@ -16,15 +16,23 @@ interface NotificationKeyInterface
      */
     public function getNotificationKey();
 
+
     /**
-     * Returns the Default Method of the event.
+     * Returns available methods of the notification key.
      *
      * @return string
      */
-    public function getDefaultMethod();
+    public function getMethods();
 
     /**
-     * Returns the description of the event.
+     * Returns the default methods of the notification key.
+     *
+     * @return string
+     */
+    public function getDefaultMethods();
+
+    /**
+     * Returns the description of the notification key.
      *
      * @return string
      */

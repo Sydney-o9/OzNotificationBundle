@@ -10,8 +10,6 @@
             <generator strategy="AUTO" />
         </id>
 
-        <field name="defaultMethod" column="defaultMethod" type="string" />
-
         <field name="notificationKey" column="notificationKey" type="string" />
 
         <field name="description" column="description" type="string" />

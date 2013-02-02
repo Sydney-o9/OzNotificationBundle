@@ -104,7 +104,7 @@ class UserPreferencesManager extends BaseUserPreferencesManager
             $userPreferences = $this->create();
             $userPreferences->setUser($user);
         }
-        /** @var ArrayCollection $emptyFilters */ 
+        /** @var ArrayCollection $emptyFilters */
         $emptyFilters = $this->filterManager->generateAllEmptyFilters();
 
         $filters = array();
@@ -120,11 +120,6 @@ class UserPreferencesManager extends BaseUserPreferencesManager
             else{
 
                 $emptyFilter->setUserPreferences($userPreferences);
-
-                /** Methods are empty, fill with default methods */
-                /** TODO: rep default methods */
-
-
                 $filters[] = $emptyFilter;
             }
         }

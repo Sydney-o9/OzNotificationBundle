@@ -62,16 +62,16 @@ class AddMethodFieldSubscriber implements EventSubscriberInterface
                     'class' => 'AcmeNotificationBundle:Method',
                     'multiple' => true,
                     'expanded' => true,
-                'query_builder' => function(EntityRepository $er) use ($data) {
-                    $query = $er->createQueryBuilder('met')
-                        ->select(array('met'))
-                        ->leftJoin('met.notificationKeys', 'nk')
-                        ->andWhere('nk.notificationKey = :key')
-                        ->setParameter('key', (string)$data->getNotificationKey());
+                    'query_builder' => function(EntityRepository $er) use ($data) {
+                        $query = $er->createQueryBuilder('met')
+                            ->select(array('met'))
+                            ->leftJoin('met.notificationKeys', 'nk')
+                            ->andWhere('nk.notificationKey = :key')
+                            ->setParameter('key', (string)$data->getNotificationKey());
 
-                    return $query;
+                        return $query;
 
-                },
+                    },
                 )
             ));
 

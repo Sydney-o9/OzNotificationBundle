@@ -17,6 +17,7 @@ use merk\NotificationBundle\ModelManager\FilterManager as BaseFilterManager;
 use merk\NotificationBundle\ModelManager\NotificationKeyManagerInterface;
 use merk\NotificationBundle\Model\NotificationEventInterface;
 use merk\NotificationBundle\Model\NotificationKeyInterface;
+use merk\NotificationBundle\ModelManager\MethodManagerInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -90,12 +91,29 @@ class FilterManager extends BaseFilterManager
         foreach ($keys as $key){
             $filter = $this->create();
             $filter->setNotificationKey($key);
+
+            /** Methods are empty, fill with default methods */
+            $defaultMethods = $this->generateDefaultMethods($filter);
+            $filter->setMethods($defaultMethods);
+
             $filters[]= $filter;
         }
 
         return $filters;
     }
 
+    /**
+     * Generate ArrayCollection of the default methods
+     * for a particular filter
+     *
+     *
+     * @param FilterInterface $filter
+     * @return \merk\NotificationBundle\Model\Method[]
+     */
+    public function generateDefaultMethods(FilterInterface $filter){
+
+        return new ArrayCollection($filter->getNotificationKey()->getDefaultMethods()->toArray());
+    }
 
     /**
      * Find Filters By User

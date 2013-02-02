@@ -11,7 +11,6 @@
 
 namespace merk\NotificationBundle\Form\Type;
 
-use merk\NotificationBundle\Sender\SenderInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use merk\NotificationBundle\Form\EventListener\AddMethodFieldSubscriber;
