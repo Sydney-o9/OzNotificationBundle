@@ -104,19 +104,27 @@ class UserPreferencesManager extends BaseUserPreferencesManager
             $userPreferences = $this->create();
             $userPreferences->setUser($user);
         }
+        /** @var ArrayCollection $emptyFilters */ 
         $emptyFilters = $this->filterManager->generateAllEmptyFilters();
 
         $filters = array();
 
         foreach ($emptyFilters as $emptyFilter){
 
-            //If user has already subscribed to it
+            /** If user has already subscribed to it */
             if ($filter = $this->filterManager->getUserFilterByNotificationKey($user, $emptyFilter->getNotificationKey())){
+
                 $filters[]= $filter;
             }
-            //otherwise, create new filter
+            /** otherwise, create new filter */
             else{
+
                 $emptyFilter->setUserPreferences($userPreferences);
+
+                /** Methods are empty, fill with default methods */
+                /** TODO: rep default methods */
+
+
                 $filters[] = $emptyFilter;
             }
         }

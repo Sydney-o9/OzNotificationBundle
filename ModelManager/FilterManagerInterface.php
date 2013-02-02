@@ -48,13 +48,4 @@ interface FilterManagerInterface
     public function getUserFilterByNotificationKey(UserInterface $user, $notificationKey);
 
 
-    /**
-     * Build filters from parameters defined in config file
-     *
-     * @param array $filterParameters
-     * @return array|\Doctrine\Common\Collections\Collection FilterInterface[]
-     */
-    public function buildConfigFilters(array $filterParameters);
-
-
 }

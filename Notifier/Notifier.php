@@ -74,7 +74,6 @@ class Notifier implements NotifierInterface
      */
     public function trigger($notificationKey, UserInterface $receiver, $verb, $subject, UserInterface $actor = null, DateTime $createdAt = null)
     {
-
         $event = $this->notificationEventManager->create($notificationKey, $subject, $verb, $actor, $createdAt);
 
         $filters = $this->filterManager->getFiltersForEventOwnedBySingleReceiver($event, $receiver);

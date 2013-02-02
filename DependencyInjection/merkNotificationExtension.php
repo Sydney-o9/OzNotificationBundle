@@ -27,6 +27,8 @@ class merkNotificationExtension extends Extension
      *
      * @param array $configs
      * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
+     * @throws \InvalidArgumentException
+     * @return void
      */
     public function load(array $configs, ContainerBuilder $container)
     {
@@ -46,7 +48,6 @@ class merkNotificationExtension extends Extension
             $loader->load(sprintf('%s.xml', $basename));
         }
 
-
         $container->setAlias('merk_notification.filter.manager', 'merk_notification.filter.manager.default');
         $container->setAlias('merk_notification.notification.manager', 'merk_notification.notification.manager.default');
         $container->setAlias('merk_notification.notification_event.manager', 'merk_notification.notification_event.manager.default');
@@ -60,11 +61,6 @@ class merkNotificationExtension extends Extension
         $container->setParameter('merk_notification.user_preferences.class', $config['class']['user_preferences']);
         $container->setParameter('merk_notification.filter.class', $config['class']['filter']);
         $container->setParameter('merk_notification.method.class', $config['class']['method']);
-
-
-        //Load the filters
-        $filterParameters = $config['filters'];
-        $container->setParameter('merk_filter_parameters', $filterParameters);
 
         //Validation files
         $xmlMappingFiles = $container->getParameter('validator.mapping.loader.xml_files_loader.mapping_files');

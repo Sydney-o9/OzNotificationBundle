@@ -19,41 +19,35 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class FilterType extends AbstractType
 {
+    /**
+     * @var string
+     */
     private $class;
 
-    private $sender;
+    /**
+     * @var string
+     */
+    private $methodClass;
 
     /**
      * @param string $class
-     * @param \merk\NotificationBundle\Sender\SenderInterface $sender
+     * @param string $methodClass
      */
-    public function __construct($class, SenderInterface $sender)
+    public function __construct($class, $methodClass)
     {
         $this->class = $class;
-        $this->sender = $sender;
+
+        $this->methodClass = $methodClass;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $subscriber = new AddMethodFieldSubscriber($builder->getFormFactory());
+        $subscriber = new AddMethodFieldSubscriber($builder->getFormFactory(),  $this->methodClass);
 
         $builder->addEventSubscriber($subscriber);
 
         $builder->add('notificationKey', null);
 
-        //TYPE 1: CHOICE
-        $builder->add('method', 'choice', array(
-            'choices' => $this->getMethodChoices(),
-            'multiple' => false,
-            'expanded' => true
-        ));
-
-    }
-
-    protected function getMethodChoices()
-    {
-        $choices = $this->sender->getAgentAliases();
-        return array_combine($choices, $choices);
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)

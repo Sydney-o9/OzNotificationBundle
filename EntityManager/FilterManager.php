@@ -43,13 +43,6 @@ class FilterManager extends BaseFilterManager
     protected $class;
 
     /**
-     * Filters loaded from config file
-     *
-     * @var array|\Doctrine\Common\Collections\Collection FilterInterface[]
-     */
-    protected $configFilters;
-
-    /**
      * To fetch notification keys for filter generation
      *
      * @var NotificationKeyManager
@@ -57,7 +50,7 @@ class FilterManager extends BaseFilterManager
     protected $notificationKeyManager;
 
 
-    public function __construct(EntityManager $em, $class, NotificationKeyManagerInterface $notificationKeyManager, $filterParameters)
+    public function __construct(EntityManager $em, $class, NotificationKeyManagerInterface $notificationKeyManager)
     {
         $this->em = $em;
         $this->repository = $em->getRepository($class);
@@ -66,8 +59,6 @@ class FilterManager extends BaseFilterManager
         $this->class = $metadata->name;
 
         $this->notificationKeyManager = $notificationKeyManager;
-
-        $this->buildConfigFilters($filterParameters);
 
     }
 
@@ -195,49 +186,4 @@ class FilterManager extends BaseFilterManager
         return ($this->getUserFilterByNotificationKey($user, $notificationKey)) ? true :false;
     }
 
-
-    /**
-     * {@inheritDoc}
-     */
-    public function buildConfigFilters(array $filterParameters){
-
-        $configFilters = new ArrayCollection();
-
-        foreach ($filterParameters as $filterParam) {
-
-            $filter = $this->create();
-            $filter->setNotificationKey($filterParam['notification_key']);
-
-            //TODO: Does not support array at the moment
-            $default_methods = $filterParam['default_methods'];
-            $filter->setMethod($default_methods[0]);
-
-            //TODO: Filter are not configured to support the user class at the moment.
-            //$user_class = $filterParam['user_class'];
-
-            $configFilters[] = $filter;
-
-        }
-
-        $this->setConfigFilters($configFilters);
-    }
-
-    /**
-     * @param array|\Doctrine\Common\Collections\Collection $configFilters
-     */
-    public function setConfigFilters($configFilters)
-    {
-        $this->configFilters = $configFilters;
-    }
-
-    /**
-     *
-     * Obtain all default filters defined in config file
-     *
-     * @return array|\Doctrine\Common\Collections\Collection
-     */
-    public function getConfigFilters()
-    {
-        return $this->configFilters;
-    }
 }

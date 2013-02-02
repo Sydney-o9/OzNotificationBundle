@@ -35,17 +35,9 @@ http://symfony.com/schema/dic/constraint-mapping/constraint-mapping-1.0.xsd">
             </constraint>
             <!--<constraint name="merk\NotificationBundle\Validator\Constraints\UniqueFilter" />-->
         </property>
-        <property name="method">
-            <constraint name="NotBlank">
-                <option name="message">merk_notification.defaultMethod.blank</option>
-            </constraint>
-            <constraint name="NotNull">
-                <option name="message">merk_notification.defaultMethod.null</option>
-            </constraint>
-            <constraint name="merk\NotificationBundle\Validator\Constraints\ContainsNoneChoice" />
-        </property>
 
     </class>
+
 
     <class name="merk\NotificationBundle\Model\UserPreferences">
         <property name="filters">

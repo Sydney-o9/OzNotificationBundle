@@ -26,11 +26,6 @@ abstract class Filter implements FilterInterface
     /**
      * @var string
      */
-    protected $method;
-
-    /**
-     * @var string
-     */
     protected $recipientData;
 
     /**
@@ -58,22 +53,6 @@ abstract class Filter implements FilterInterface
     public function setNotificationKey($notificationKey)
     {
         $this->notificationKey = $notificationKey;
-    }
-
-    /**
-     * @return string
-     */
-    public function getMethod()
-    {
-        return $this->method;
-    }
-
-    /**
-     * @param string $method
-     */
-    public function setMethod($method)
-    {
-        $this->method = $method;
     }
 
     /**

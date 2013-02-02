@@ -22,8 +22,10 @@ interface FilterInterface
     public function getUserPreferences();
 
     public function getNotificationKey();
-    public function getMethod();
+
+    public function getMethods();
 
     public function getRecipientName();
+
     public function getRecipientData();
 }

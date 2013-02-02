@@ -12,11 +12,13 @@
 namespace merk\NotificationBundle\EntityManager;
 
 use Doctrine\ORM\EntityManager;
+use Doctrine\Common\Collections\ArrayCollection;
 use merk\NotificationBundle\Model\FilterInterface;
 use merk\NotificationBundle\Model\NotificationEventInterface;
 use merk\NotificationBundle\Model\NotificationInterface;
 use merk\NotificationBundle\ModelManager\NotificationManager as BaseNotificationManager;
 use merk\NotificationBundle\Renderer\RendererInterface;
+
 
 /**
  * Doctrine ORM implementation of the NotificationManager class.
@@ -73,14 +75,22 @@ class NotificationManager extends BaseNotificationManager
         }
     }
 
+    /**
+     * Create a single notification using the event triggered
+     * and a unique filter selected for that event
+     *
+     * @param NotificationEventInterface $event
+     * @param FilterInterface $filter
+     * @return NotificationInterface
+     */
     public function create(NotificationEventInterface $event, FilterInterface $filter)
     {
         $class = $this->class;
 
-        /** @var \merk\NotificationBundle\Model\NotificationInterface $notification  */
+        /** @var NotificationInterface $notification  */
         $notification = new $class;
         $notification->setEvent($event);
-        $notification->setMethod($filter->getMethod());
+        $notification->setMethod($filter->getMethods()->first()->getName());
 
         $notification->setUser($filter->getUserPreferences()->getUser());
         $notification->setRecipientName($filter->getRecipientName());
@@ -93,12 +103,39 @@ class NotificationManager extends BaseNotificationManager
         return $notification;
     }
 
+    /**
+     * Create all notifications using the event triggered
+     * and the array of filters selected for that event
+     *
+     * @param NotificationEventInterface $event
+     * @param array $filters
+     * @return array Notification[]
+     */
     public function createForEvent(NotificationEventInterface $event, array $filters)
     {
         $notifications = array();
 
+        /** Iterate through each filter */
         foreach ($filters AS $filter) {
-            $notifications[] = $this->create($event, $filter);
+
+
+            $methods = $filter->getMethods();
+            $iterator = $methods->getIterator();
+
+            /** Iterate through each method to create an individual filter for each method */
+            while($method = $iterator->current()){
+
+                $currentMethod = new ArrayCollection();
+                $currentMethod->add($method);
+
+                $filter->setMethods($currentMethod);
+
+                $notifications[] = $this->create($event, $filter);
+
+                $iterator->next();
+
+            }
+
         }
 
         return $notifications;
