@@ -96,6 +96,7 @@ class UserPreferencesManager extends BaseUserPreferencesManager
      *  - if the user has one of these filters already, replace it
      *
      * @param UserInterface $user
+     * @return \merk\NotificationBundle\Model\UserPreferencesInterface|mixed
      */
     public function getUserPreferences($user){
 
@@ -105,9 +106,10 @@ class UserPreferencesManager extends BaseUserPreferencesManager
         }
         $emptyFilters = $this->filterManager->generateAllEmptyFilters();
 
-        $filters = new ArrayCollection();
+        $filters = array();
 
         foreach ($emptyFilters as $emptyFilter){
+
             //If user has already subscribed to it
             if ($filter = $this->filterManager->getUserFilterByNotificationKey($user, $emptyFilter->getNotificationKey())){
                 $filters[]= $filter;

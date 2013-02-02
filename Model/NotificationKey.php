@@ -86,4 +86,12 @@ abstract class NotificationKey implements NotificationKeyInterface
         return $this->notificationKey;
 
     }
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 }

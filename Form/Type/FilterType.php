@@ -14,7 +14,7 @@ namespace merk\NotificationBundle\Form\Type;
 use merk\NotificationBundle\Sender\SenderInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-
+use merk\NotificationBundle\Form\EventListener\AddMethodFieldSubscriber;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class FilterType extends AbstractType
@@ -35,15 +35,19 @@ class FilterType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $subscriber = new AddMethodFieldSubscriber($builder->getFormFactory());
+
+        $builder->addEventSubscriber($subscriber);
+
         $builder->add('notificationKey', null);
 
-//        $builder->add('label', 'text', array('attr' => array('disabled'=> true)));
-
+        //TYPE 1: CHOICE
         $builder->add('method', 'choice', array(
             'choices' => $this->getMethodChoices(),
             'multiple' => false,
             'expanded' => true
         ));
+
     }
 
     protected function getMethodChoices()
