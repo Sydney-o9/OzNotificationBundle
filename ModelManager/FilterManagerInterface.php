@@ -20,6 +20,7 @@ interface FilterManagerInterface
 {
     /**
      * Obtain filters owned by all users for a particular event
+     * 1 event ---> 1 notification key ----> many filters for all users (still 1 filter/user/event)
      *
      * @param NotificationEventInterface $event
      * @return array
@@ -28,13 +29,14 @@ interface FilterManagerInterface
 
 
     /**
-     * Obtain filters owned by a particular receiver for a particular event
+     * Obtain filter owned by a particular receiver for a particular event
+     * 1 event ---> 1 notification key ----> 1 filter/user/event
      *
      * @param NotificationEventInterface $event
      * @param UserInterface $receiver
      * @return array
      */
-    public function getFiltersForEventOwnedBySingleReceiver(NotificationEventInterface $event, UserInterface $receiver);
+    public function getFilterForEventOwnedBySingleReceiver(NotificationEventInterface $event, UserInterface $receiver);
 
 
 

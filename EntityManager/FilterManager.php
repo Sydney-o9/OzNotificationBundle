@@ -17,7 +17,6 @@ use merk\NotificationBundle\ModelManager\FilterManager as BaseFilterManager;
 use merk\NotificationBundle\ModelManager\NotificationKeyManagerInterface;
 use merk\NotificationBundle\Model\NotificationEventInterface;
 use merk\NotificationBundle\Model\NotificationKeyInterface;
-use merk\NotificationBundle\ModelManager\MethodManagerInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -76,14 +75,15 @@ class FilterManager extends BaseFilterManager
     }
 
     /**
-     * Generate all filters available to the user
-     * by using the notificationKey
+     * Generate the default filters available to the user
+     * using the notificationKey and the default methods
+     * associated to it.
      *
      * 1 filter <----> 1 particular event / 1 notification key
      *
      * @return \merk\NotificationBundle\Model\Filter[]
      */
-    public function generateAllEmptyFilters(){
+    public function generateDefaultFilters(){
 
         $keys = $this->notificationKeyManager->findAll();
 
@@ -152,7 +152,7 @@ class FilterManager extends BaseFilterManager
     /**
      * {@inheritDoc}
      */
-    public function getFiltersForEventOwnedBySingleReceiver(NotificationEventInterface $event, UserInterface $receiver)
+    public function getFilterForEventOwnedBySingleReceiver(NotificationEventInterface $event, UserInterface $receiver)
     {
         $qb = $this->repository->createQueryBuilder('f')
             ->select(array('f', 'up', 'u'))
@@ -160,12 +160,11 @@ class FilterManager extends BaseFilterManager
             ->leftJoin('f.userPreferences', 'up')
             ->leftJoin('up.user', 'u')
             ->andWhere('nk.notificationKey = :key')
-            ->andWhere('u.username = :username');
+            ->andWhere('u.username = :username')
+            ->setParameter('key', (string)$event->getNotificationKey())
+            ->setParameter('username', $receiver->getUsername());
 
-        return $qb->getQuery()->execute(array(
-            'key' => (string)$event->getNotificationKey(),
-            'username' => $receiver->getUsername()
-        ));
+        return $qb->getQuery()->getResult();
     }
 
 
@@ -191,6 +190,59 @@ class FilterManager extends BaseFilterManager
         return $qb->getQuery()->getOneOrNullResult();
     }
 
+    /**
+     * Obtain users that subscribed to a particular notification key
+     * TODO: Either move this function somewhere else or change AcmeUserBundle:User
+     *
+     *
+     * @param string|NotificationKeyInterface $notificationKey
+     * @return UserInterface[]
+     */
+    public function getSubscribedUsers($notificationKey)
+    {
+        $qb = $this->em->createQueryBuilder()
+            ->select(array('u'))
+            ->from('AcmeUserBundle:User','u')
+            ->leftJoin('u.userPreferences', 'up')
+            ->leftJoin('up.filters', 'f')
+            ->leftJoin('f.notificationKey', 'nk')
+            ->andWhere('nk.notificationKey = :key')
+            ->setParameter('key', (string)$notificationKey);
+
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * Obtain users that did not subscribe to a particular notification key
+     * TODO: Either move this function somewhere else or change AcmeUserBundle:User
+     *
+     * @param string|NotificationKeyInterface $notificationKey
+     * @return UserInterface[]
+     */
+    public function getUnsubscribedUsers($notificationKey)
+    {
+        $qb=$this->em->createQueryBuilder();
+
+        $subscribed = $qb
+            ->select(array('u.id'))
+            ->from('AcmeUserBundle:User','u')
+            ->leftJoin('u.userPreferences', 'up')
+            ->leftJoin('up.filters', 'f')
+            ->leftJoin('f.notificationKey', 'nk')
+            ->andWhere('nk.notificationKey = :key')
+            ->getDQL();
+
+        $query = $this->em->createQueryBuilder();
+
+        $unsubscribed = $query
+            ->select('user')
+            ->from('AcmeUserBundle:User','user')
+            ->where($query->expr()->notIn('user.id', $subscribed))
+            ->setParameter('key', (string)$notificationKey);
+
+        return $unsubscribed->getQuery()->getResult();
+    }
+
 
     /**
      * Returns true if a particular user is subscribed to a particular notification key
@@ -199,7 +251,7 @@ class FilterManager extends BaseFilterManager
      * @param NotificationKeyInterface $notificationKey
      * @return boolean
      */
-    public function isUserSubscribedTo(UserInterface $user, NotificationKeyInterface $notificationKey)
+    public function isUserSubscribedTo(UserInterface $user, $notificationKey)
     {
         return ($this->getUserFilterByNotificationKey($user, $notificationKey)) ? true :false;
     }

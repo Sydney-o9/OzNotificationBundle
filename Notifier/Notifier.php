@@ -75,11 +75,18 @@ class Notifier implements NotifierInterface
     public function trigger($notificationKey, UserInterface $receiver, $verb, $subject, UserInterface $actor = null, DateTime $createdAt = null)
     {
         $event = $this->notificationEventManager->create($notificationKey, $subject, $verb, $actor, $createdAt);
-
-        $filters = $this->filterManager->getFiltersForEventOwnedBySingleReceiver($event, $receiver);
+        ladybug_dump($event);
+        if ($this->filterManager->isUserSubscribedTo($receiver, $notificationKey)){
+            echo "subscribed to".(string)$notificationKey;
+        }
+        $users = $this->filterManager->getUnsubscribedUsers('job.posted');
+//        ladybug_dump($users[0]->getUserPreferences()->getFilters()->toArray());
+        ladybug_dump_die($users);
+        $filters = $this->filterManager->getFilterForEventOwnedBySingleReceiver($event, $receiver);
+        ladybug_dump($filters);
 
         $notifications = $this->notificationManager->createForEvent($event, $filters);
-
+        ladybug_dump_die($notifications);
         $this->sender->send($notifications);
 
         $this->notificationEventManager->update($event, false);
@@ -95,11 +102,11 @@ class Notifier implements NotifierInterface
     {
 
         $event = $this->notificationEventManager->create($notificationKey, $subject, $verb, $actor, $createdAt);
-
+        ladybug_dump($event);
         $filters = $this->filterManager->getFiltersForEvent($event);
-
+        ladybug_dump($filters);
         $notifications = $this->notificationManager->createForEvent($event, $filters);
-
+        ladybug_dump_die($notifications);
         $this->sender->send($notifications);
 
         $this->notificationEventManager->update($event, false);
