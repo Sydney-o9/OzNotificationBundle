@@ -43,6 +43,11 @@ class FilterManager extends BaseFilterManager
     protected $class;
 
     /**
+     * @var string
+     */
+    protected $userClass;
+
+    /**
      * To fetch notification keys for filter generation
      *
      * @var NotificationKeyManager
@@ -50,13 +55,15 @@ class FilterManager extends BaseFilterManager
     protected $notificationKeyManager;
 
 
-    public function __construct(EntityManager $em, $class, NotificationKeyManagerInterface $notificationKeyManager)
+    public function __construct(EntityManager $em, $class, $userClass, NotificationKeyManagerInterface $notificationKeyManager)
     {
         $this->em = $em;
+
         $this->repository = $em->getRepository($class);
 
-        $metadata = $em->getClassMetadata($class);
-        $this->class = $metadata->name;
+        $this->class = $em->getClassMetadata($class)->name;
+
+        $this->userClass = $em->getClassMetadata($userClass)->name;
 
         $this->notificationKeyManager = $notificationKeyManager;
 
@@ -192,8 +199,9 @@ class FilterManager extends BaseFilterManager
 
     /**
      * Obtain users that subscribed to a particular notification key
-     * TODO: Either move this function somewhere else or change AcmeUserBundle:User
      *
+     * (USERS THAT HAVE A FILTER FOR THAT NOTIFICATION KEY AND HAVE
+     *  SAVED THEIR PREFERRED METHODS)
      *
      * @param string|NotificationKeyInterface $notificationKey
      * @return UserInterface[]
@@ -202,11 +210,12 @@ class FilterManager extends BaseFilterManager
     {
         $qb = $this->em->createQueryBuilder()
             ->select(array('u'))
-            ->from('AcmeUserBundle:User','u')
+            ->from($this->userClass,'u')
             ->leftJoin('u.userPreferences', 'up')
             ->leftJoin('up.filters', 'f')
             ->leftJoin('f.notificationKey', 'nk')
             ->andWhere('nk.notificationKey = :key')
+            ->andWhere('size(f.methods) >= 1')
             ->setParameter('key', (string)$notificationKey);
 
         return $qb->getQuery()->getResult();
@@ -214,18 +223,45 @@ class FilterManager extends BaseFilterManager
 
     /**
      * Obtain users that did not subscribe to a particular notification key
-     * TODO: Either move this function somewhere else or change AcmeUserBundle:User
+     *
+     * (USERS THAT HAVE A FILTER FOR THAT NOTIFICATION KEY BUT THAT DO NOT
+     *  HAVE ANY METHODS)
+     *
      *
      * @param string|NotificationKeyInterface $notificationKey
      * @return UserInterface[]
      */
     public function getUnsubscribedUsers($notificationKey)
     {
+        $qb = $this->em->createQueryBuilder()
+            ->select(array('u'))
+            ->from($this->userClass,'u')
+            ->leftJoin('u.userPreferences', 'up')
+            ->leftJoin('up.filters', 'f')
+            ->leftJoin('f.notificationKey', 'nk')
+            ->andWhere('nk.notificationKey = :key')
+            ->andWhere('f.methods is EMPTY')
+            ->setParameter('key', (string)$notificationKey);
+
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * Obtain users without a filter for a particular notification key
+     *
+     * (USERS THAT DID NOT UPDATE THEIR PREFERENCES AND THEREFORE DO NOT
+     *  HAVE A FILTER YET.)
+     *
+     * @param string|NotificationKeyInterface $notificationKey
+     * @return UserInterface[]
+     */
+    public function getUsersMissingFilter($notificationKey)
+    {
         $qb=$this->em->createQueryBuilder();
 
         $subscribed = $qb
             ->select(array('u.id'))
-            ->from('AcmeUserBundle:User','u')
+            ->from($this->userClass,'u')
             ->leftJoin('u.userPreferences', 'up')
             ->leftJoin('up.filters', 'f')
             ->leftJoin('f.notificationKey', 'nk')
@@ -242,7 +278,6 @@ class FilterManager extends BaseFilterManager
 
         return $unsubscribed->getQuery()->getResult();
     }
-
 
     /**
      * Returns true if a particular user is subscribed to a particular notification key

@@ -56,6 +56,7 @@ class merkNotificationExtension extends Extension
         $container->setAlias('merk_notification.method.manager', 'merk_notification.method.manager.default');
 
         $container->setParameter('merk_notification.model_manager_name', $config['model_manager_name']);
+        $container->setParameter('merk_notification.user.class', $config['class']['user']);
         $container->setParameter('merk_notification.notification_key.class', $config['class']['notification_key']);
         $container->setParameter('merk_notification.notification_event.class', $config['class']['notification_event']);
         $container->setParameter('merk_notification.notification.class', $config['class']['notification']);
