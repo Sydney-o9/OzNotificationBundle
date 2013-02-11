@@ -248,8 +248,35 @@ class FilterManager extends BaseFilterManager
         return $qb->getQuery()->getResult();
     }
 
+
     /**
-     * Obtain users without a filter for a particular notification key
+     * Obtain users that are committed to a particular notification key
+     *
+     * (USERS THAT UPDATED THEIR PREFERENCES AND THEREFORE
+     *  HAVE A FILTER.)
+     *
+     * @param string|NotificationKeyInterface $notificationKey
+     * @return UserInterface[]
+     */
+    public function getCommittedUsers($notificationKey)
+    {
+        $qb=$this->em->createQueryBuilder();
+
+        $committed = $qb
+            ->select(array('u.id'))
+            ->from($this->userClass,'u')
+            ->leftJoin('u.userPreferences', 'up')
+            ->leftJoin('up.filters', 'f')
+            ->leftJoin('f.notificationKey', 'nk')
+            ->andWhere('nk.notificationKey = :key')
+            ->setParameter('key', (string)$notificationKey);
+
+        return $committed->getQuery()->getResult();
+    }
+
+    /**
+     * Obtain users that are not committed to a particular notification key
+     * They haven't told their preference yet.
      *
      * (USERS THAT DID NOT UPDATE THEIR PREFERENCES AND THEREFORE DO NOT
      *  HAVE A FILTER YET.)
@@ -257,11 +284,11 @@ class FilterManager extends BaseFilterManager
      * @param string|NotificationKeyInterface $notificationKey
      * @return UserInterface[]
      */
-    public function getUsersMissingFilter($notificationKey)
+    public function getUncommittedUsers($notificationKey)
     {
         $qb=$this->em->createQueryBuilder();
 
-        $subscribed = $qb
+        $committed = $qb
             ->select(array('u.id'))
             ->from($this->userClass,'u')
             ->leftJoin('u.userPreferences', 'up')
@@ -272,13 +299,13 @@ class FilterManager extends BaseFilterManager
 
         $query = $this->em->createQueryBuilder();
 
-        $unsubscribed = $query
+        $uncommitted = $query
             ->select('user')
             ->from('AcmeUserBundle:User','user')
-            ->where($query->expr()->notIn('user.id', $subscribed))
+            ->where($query->expr()->notIn('user.id', $committed))
             ->setParameter('key', (string)$notificationKey);
 
-        return $unsubscribed->getQuery()->getResult();
+        return $uncommitted->getQuery()->getResult();
     }
 
     /**

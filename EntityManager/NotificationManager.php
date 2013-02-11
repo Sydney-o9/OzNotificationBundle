@@ -147,10 +147,9 @@ class NotificationManager extends BaseNotificationManager
     }
 
 
-
     /**
      * Create the default notifications using the event triggered
-     * and the unsubscribed user
+     * and the user
      *
      * @param NotificationEventInterface $event
      * @param UserInterface $user
@@ -186,7 +185,6 @@ class NotificationManager extends BaseNotificationManager
 
         return $notifications;
     }
-
 
 
 }

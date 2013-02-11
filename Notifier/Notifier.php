@@ -82,18 +82,15 @@ class Notifier implements NotifierInterface
 
         /** If the receiver has a filter (subscribed to that event) */
         if ($filter = $this->filterManager->getFilterForEventOwnedBySingleReceiver($event, $receiver)){
-
-            echo "The user has a filter";
+            echo "The user has a filter. <br />";
             $notifications = $this->notificationManager->createForEvent($event, $filter);
         }
 
         /** If the receiver hasn't subscribed, generate default notification */
         else{
-            echo "The user has no filters";
+            echo "The user has no filters. <br />";
             $notifications = $this->notificationManager->createDefaultNotificationsForUser($event, $receiver);
-
         }
-
 
         $this->sender->send($notifications);
 
@@ -110,17 +107,69 @@ class Notifier implements NotifierInterface
     {
 
         $event = $this->notificationEventManager->create($notificationKey, $subject, $verb, $actor, $createdAt);
-        ladybug_dump($event);
+
         $filters = $this->filterManager->getFiltersForEvent($event);
-        ladybug_dump($filters);
-        $notifications = $this->notificationManager->createForEvent($event, $filters);
-        ladybug_dump_die($notifications);
+
+        $notifications = $this->generateNotificationForAllUsers($event, $filters);
+
         $this->sender->send($notifications);
 
         $this->notificationEventManager->update($event, false);
 
         $this->notificationManager->updateBulk($notifications);
 
+    }
+
+    /**
+     * Generate notifications for All Users: Committed and Uncommitted to a filter/Notification key
+     *
+     */
+    public function generateNotificationForAllUsers($event, $filters){
+
+        $committedNotifications = $this->generateNotificationForCommittedUsers($event, $filters);
+
+        $uncommittedNotifications = $this->generateNotificationForUncommittedUsers($event);
+
+        $notifications = array_merge($committedNotifications, $uncommittedNotifications);
+
+        return $notifications;
+    }
+
+    /**
+     * Generate notifications for Users Committed to a filter/Notification key
+     *
+     */
+    public function generateNotificationForCommittedUsers($event, $filters){
+
+        $committedNotifications = $this->notificationManager->createForEvent($event, $filters);
+
+        return $committedNotifications;
+
+    }
+
+    /**
+     * Generate notifications for Users Uncommitted to a filter/Notification key
+     *
+     */
+    public function generateNotificationForUncommittedUsers($event){
+
+
+        $users = $this->filterManager->getUncommittedUsers($event->getNotificationKey());
+
+        $uncommittedNotifications = array();
+
+        foreach ($users as $user){
+            $notifications = $this->notificationManager->createDefaultNotificationsForUser($event, $user);
+
+            foreach ($notifications as $notification){
+
+                $uncommittedNotifications[] = $notification;
+            }
+
+
+        }
+
+        return $uncommittedNotifications;
     }
 
 }
