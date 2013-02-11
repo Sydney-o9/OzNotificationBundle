@@ -29,6 +29,7 @@ class SMSAgent implements AgentInterface
      */
     public function send(NotificationInterface $notification)
     {
+        return false;
         throw new \Exception('Not implemented');
     }
 
@@ -39,6 +40,7 @@ class SMSAgent implements AgentInterface
      */
     public function sendBulk(array $notifications)
     {
+        return false;
         throw new \Exception('Not implemented');
     }
 }

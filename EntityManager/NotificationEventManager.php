@@ -162,10 +162,14 @@ class NotificationEventManager extends BaseNotificationEventManager
      */
     public function create($notificationKey, $subject, $verb, UserInterface $actor = null, DateTime $createdAt = null)
     {
-
         $class = $this->class;
 
         $notificationKey = $this->notificationKeyManager->findByNotificationKey($notificationKey);
+
+        if (!$notificationKey){
+
+            throw new \Exception("The notification key does not exist");
+        }
 
         return new $class($notificationKey, $subject, $verb, $actor);
     }

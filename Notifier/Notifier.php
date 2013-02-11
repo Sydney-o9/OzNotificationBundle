@@ -80,17 +80,21 @@ class Notifier implements NotifierInterface
 //        $users = $this->filterManager->getSubscribedUsers('job.posted');
 //        $users = $this->filterManager->getUnsubscribedUsers('job.posted');
 
+        /** If the receiver has a filter (subscribed to that event) */
         if ($filter = $this->filterManager->getFilterForEventOwnedBySingleReceiver($event, $receiver)){
-            ladybug_dump($filter);
+
             echo "The user has a filter";
             $notifications = $this->notificationManager->createForEvent($event, $filter);
-            ladybug_dump($notifications);
         }
+
+        /** If the receiver hasn't subscribed, generate default notification */
         else{
-            $notifications = $this->notificationManager->createForEvent($event, $receiver);
             echo "The user has no filters";
+            $notifications = $this->notificationManager->createDefaultNotificationsForUser($event, $receiver);
+
         }
-        die();
+
+
         $this->sender->send($notifications);
 
         $this->notificationEventManager->update($event, false);

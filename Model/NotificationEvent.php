@@ -47,7 +47,7 @@ abstract class NotificationEvent implements NotificationEventInterface
     protected $createdAt;
 
     /**
-     * @param string $notificationKey
+     * @param NotificationKey $notificationKey
      * @param mixed $subject
      * @param string $verb
      * @param UserInterface $actor
@@ -119,9 +119,17 @@ abstract class NotificationEvent implements NotificationEventInterface
     }
 
     /**
+     * @param string $notificationKey
+     */
+    public function setNotificationKey($notificationKey)
+    {
+        $this->notificationKey = $notificationKey;
+    }
+
+    /**
      * Returns the event key.
      *
-     * @return string
+     * @return NotificationKey
      */
     public function getNotificationKey()
     {

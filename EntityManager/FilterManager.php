@@ -95,6 +95,7 @@ class FilterManager extends BaseFilterManager
         $keys = $this->notificationKeyManager->findAll();
 
         $filters = new ArrayCollection();
+
         foreach ($keys as $key){
             $filter = $this->create();
             $filter->setNotificationKey($key);
@@ -121,6 +122,7 @@ class FilterManager extends BaseFilterManager
 
         return new ArrayCollection($filter->getNotificationKey()->getDefaultMethods()->toArray());
     }
+
 
     /**
      * Find Filters By User

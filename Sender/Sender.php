@@ -87,5 +87,6 @@ class Sender implements SenderInterface
         foreach ($sorted as $method => $notifications) {
             $this->getAgent($method)->sendBulk($notifications);
         }
+
     }
 }

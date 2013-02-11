@@ -18,6 +18,7 @@ use merk\NotificationBundle\Model\NotificationEventInterface;
 use merk\NotificationBundle\Model\NotificationInterface;
 use merk\NotificationBundle\ModelManager\NotificationManager as BaseNotificationManager;
 use merk\NotificationBundle\Renderer\RendererInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 
 /**
@@ -67,6 +68,7 @@ class NotificationManager extends BaseNotificationManager
     public function updateBulk(array $notifications, $flush = true)
     {
         foreach ($notifications AS $notification) {
+
             $this->update($notification, false);
         }
 
@@ -87,20 +89,34 @@ class NotificationManager extends BaseNotificationManager
     {
         $class = $this->class;
 
-        /** @var NotificationInterface $notification  */
-        $notification = new $class;
-        $notification->setEvent($event);
-        $notification->setMethod($filter->getMethods()->first()->getName());
+        $notifications = array();
 
-        $notification->setUser($filter->getUserPreferences()->getUser());
-        $notification->setRecipientName($filter->getRecipientName());
-        $notification->setRecipientData($filter->getRecipientData());
+        $methods = $filter->getMethods();
+        $iterator = $methods->getIterator();
 
-        $template = $this->renderer->render($notification);
-        $notification->setSubject($template['subject']);
-        $notification->setMessage($template['body']);
+        /** Iterate through each method and create a notification*/
+        while($method = $iterator->current()){
 
-        return $notification;
+            /** @var NotificationInterface $notification  */
+            $notification = new $class;
+            $notification->setEvent($event);
+            $notification->setMethod($method->getName());
+
+            $notification->setUser($filter->getUserPreferences()->getUser());
+            $notification->setRecipientName($filter->getRecipientName());
+            $notification->setRecipientData($filter->getRecipientData());
+
+            $template = $this->renderer->render($notification);
+            $notification->setSubject($template['subject']);
+            $notification->setMessage($template['body']);
+
+            $notifications[] = $notification;
+
+            $iterator->next();
+
+        }
+
+        return $notifications;
     }
 
     /**
@@ -113,31 +129,64 @@ class NotificationManager extends BaseNotificationManager
      */
     public function createForEvent(NotificationEventInterface $event, array $filters)
     {
-        $notifications = array();
+        $notificationsForEvent = array();
 
         /** Iterate through each filter */
         foreach ($filters AS $filter) {
 
+            $notifications = $this->create($event, $filter);
 
-            $methods = $filter->getMethods();
-            $iterator = $methods->getIterator();
+            foreach ($notifications AS $notification){
 
-            /** Iterate through each method to create an individual filter for each method */
-            while($method = $iterator->current()){
-
-                $currentMethod = new ArrayCollection();
-                $currentMethod->add($method);
-
-                $filter->setMethods($currentMethod);
-
-                $notifications[] = $this->create($event, $filter);
-
-                $iterator->next();
-
+                $notificationsForEvent[] = $notification;
             }
 
         }
 
+        return $notificationsForEvent;
+    }
+
+
+
+    /**
+     * Create the default notifications using the event triggered
+     * and the unsubscribed user
+     *
+     * @param NotificationEventInterface $event
+     * @param UserInterface $user
+     * @return NotificationInterface
+     */
+    public function createDefaultNotificationsForUser(NotificationEventInterface $event, UserInterface $user)
+    {
+        $class = $this->class;
+
+        $methods = $event->getNotificationKey()->getDefaultMethods()->toArray();
+
+        $notifications = array();
+
+        foreach($methods as $method){
+
+            /** @var NotificationInterface $notification  */
+            $notification = new $class;
+            $notification->setEvent($event);
+            $notification->setMethod($method->getName());
+
+            $notification->setUser($user);
+            $notification->setRecipientName($user->getUsername());
+            $notification->setRecipientData($user->getEmail());
+
+            $template = $this->renderer->render($notification);
+            $notification->setSubject($template['subject']);
+            $notification->setMessage($template['body']);
+
+            $notifications[] = $notification;
+
+        }
+
+
         return $notifications;
     }
+
+
+
 }

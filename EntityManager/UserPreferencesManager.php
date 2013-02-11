@@ -107,7 +107,7 @@ class UserPreferencesManager extends BaseUserPreferencesManager
         /** @var ArrayCollection $defaultFilters */
         $defaultFilters = $this->filterManager->generateDefaultFilters();
 
-        $filters = array();
+        $filters = new ArrayCollection();
 
         foreach ($defaultFilters as $defaultFilter){
 

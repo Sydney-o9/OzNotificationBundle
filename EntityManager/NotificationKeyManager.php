@@ -69,7 +69,7 @@ class NotificationKeyManager extends BaseNotificationKeyManager
     /**
      * Fetch object by notification key
      *
-     * @param $notificationKey
+     * @param string $notificationKey
      * @return \merk\NotificationBundle\Model\NotificationKey
      */
     public function findByNotificationKey($notificationKey)
