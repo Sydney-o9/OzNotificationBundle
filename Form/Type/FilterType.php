@@ -41,11 +41,17 @@ class FilterType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+
+
         $subscriber = new AddMethodFieldSubscriber($builder->getFormFactory(),  $this->methodClass);
 
         $builder->addEventSubscriber($subscriber);
 
         $builder->add('notificationKey', null);
+
+//          $builder->add('notificationKey', 'entity', array('class'=>'AcmeNotificationBundle:NotificationKey'));
+
+
 
     }
 
