@@ -48,13 +48,10 @@ class UserPreferencesManager extends BaseUserPreferencesManager
 
     public function __construct(EntityManager $em, $class, FilterManagerInterface $filterManager)
     {
-
         $this->em = $em;
         $this->repository = $em->getRepository($class);
-        $metadata = $em->getClassMetadata($class);
-        $this->class = $metadata->name;
+        $this->class = $em->getClassMetadata($class)->name;
         $this->filterManager = $filterManager;
-
     }
 
     /*
@@ -105,7 +102,7 @@ class UserPreferencesManager extends BaseUserPreferencesManager
             $userPreferences->setUser($user);
         }
         /** @var ArrayCollection $defaultFilters */
-        $defaultFilters = $this->filterManager->generateDefaultFilters();
+        $defaultFilters = $this->filterManager->generateDefaultFilters($user);
 
         $filters = new ArrayCollection();
 

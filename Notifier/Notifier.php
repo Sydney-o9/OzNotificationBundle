@@ -76,10 +76,6 @@ class Notifier implements NotifierInterface
     {
         $event = $this->notificationEventManager->create($notificationKey, $subject, $verb, $actor, $createdAt);
 
-//        $users = $this->filterManager->getUsersMissingFilter('job.posted');
-//        $users = $this->filterManager->getSubscribedUsers('job.posted');
-//        $users = $this->filterManager->getUnsubscribedUsers('job.posted');
-
         /** If the receiver has a filter (subscribed to that event) */
         if ($filter = $this->filterManager->getFilterForEventOwnedBySingleReceiver($event, $receiver)){
             echo "The user has a filter. <br />";
@@ -149,6 +145,7 @@ class Notifier implements NotifierInterface
 
     /**
      * Generate notifications for Users Uncommitted to a filter/Notification key
+     * Todo: move the logic to notificationManager
      *
      */
     public function generateNotificationForUncommittedUsers($event){

@@ -67,6 +67,7 @@ class UserPreferencesController extends ContainerAware
      * is supplied, it uses the currently logged in user.
      *
      * @param null|\Symfony\Component\Security\Core\User\UserInterface $user
+     * @throws \RuntimeException
      * @return \merk\NotificationBundle\Model\UserPreferencesInterface
      */
     protected function getUserPreferences(UserInterface $user = null)

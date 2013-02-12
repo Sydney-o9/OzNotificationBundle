@@ -88,11 +88,14 @@ class FilterManager extends BaseFilterManager
      *
      * 1 filter <----> 1 particular event / 1 notification key
      *
+     * @param $user
      * @return \merk\NotificationBundle\Model\Filter[]
      */
-    public function generateDefaultFilters(){
+    public function generateDefaultFilters($user){
 
-        $keys = $this->notificationKeyManager->findAll();
+        $roles = $user->getRoles();
+
+        $keys = $this->notificationKeyManager->findBySubscriberRoles($roles);
 
         $filters = new ArrayCollection();
 

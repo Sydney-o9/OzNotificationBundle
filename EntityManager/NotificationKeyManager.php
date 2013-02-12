@@ -65,6 +65,62 @@ class NotificationKeyManager extends BaseNotificationKeyManager
         return  $this->repository->findAll();
     }
 
+    /**
+     * Fetch all objects that have the subscriberRoles
+     *
+     * @param string $subscriberRole
+     * @throws \InvalidArgumentException
+     * @return \merk\NotificationBundle\Model\notificationKey[]
+     */
+    public function findBySubscriberRole($subscriberRole)
+    {
+        if(!is_string($subscriberRole)){
+            throw new \InvalidArgumentException(sprintf('subscriberRole should be a string, %s given.', gettype($subscriberRole)));
+        }
+
+        $qb = $this->repository->createQueryBuilder('nek');
+
+        $qb->select(array('nek'))
+            ->where($qb->expr()->like('nek.subscriberRoles', ':subscriberRole')
+        )
+            ->setParameter('subscriberRole',"%".$subscriberRole."%");
+
+        return $qb->getQuery()->getResult();
+
+    }
+
+    /**
+     * Fetch all objects that have the subscriberRoles
+     *
+     * @param array $subscriberRoles
+     * @throws \InvalidArgumentException
+     * @return \merk\NotificationBundle\Model\notificationKey[]
+     */
+    public function findBySubscriberRoles($subscriberRoles)
+    {
+        if(!is_array($subscriberRoles)){
+            throw new \InvalidArgumentException(sprintf('SubscriberRoles should be an array, %s given.', gettype($subscriberRoles)));
+        }
+
+        $qb = $this->repository->createQueryBuilder('nek');
+
+        $qb->select(array('nek'));
+
+        $i = 0;
+        foreach ($subscriberRoles as $subscriberRole){
+
+            $identifier = ':subscriberRole'.$i;
+
+            $qb->orWhere($qb->expr()->like('nek.subscriberRoles', $identifier))
+                ->setParameter($identifier,"%".$subscriberRole."%");
+            $i++;
+
+        }
+
+        return $qb->getQuery()->getResult();
+
+    }
+
 
     /**
      * Fetch object by notification key

@@ -12,6 +12,8 @@
 
         <field name="notificationKey" column="notificationKey" type="string" />
 
+        <field name="subscriberRoles" column="subscriberRoles" type="array" />
+
         <field name="description" column="description" type="string" />
 
     </mapped-superclass>
