@@ -14,9 +14,12 @@ namespace merk\NotificationBundle\Notifier;
 use merk\NotificationBundle\ModelManager\NotificationKeyManagerInterface;
 use merk\NotificationBundle\ModelManager\NotificationManagerInterface;
 use merk\NotificationBundle\ModelManager\NotificationEventManagerInterface;
+use merk\NotificationBundle\ModelManager\FilterManagerInterface;
 use merk\NotificationBundle\Sender\SenderInterface;
-use \merk\NotificationBundle\ModelManager\FilterManagerInterface;
+
 use Symfony\Component\Security\Core\User\UserInterface;
+use merk\NotificationBundle\Model\NotificationEventInterface;
+
 use DateTime;
 
 /**
@@ -140,7 +143,7 @@ class Notifier implements NotifierInterface
      * Generate notifications for All Users: Committed and Uncommitted to a filter/Notification key
      *
      */
-    public function generateNotificationForAllUsers($event, $filters){
+    public function generateNotificationForAllUsers(NotificationEventInterface $event, $filters){
 
         $committedNotifications = $this->generateNotificationForCommittedUsers($event, $filters);
 
@@ -155,7 +158,7 @@ class Notifier implements NotifierInterface
      * Generate notifications for Users Committed to a filter/Notification key
      *
      */
-    public function generateNotificationForCommittedUsers($event, $filters){
+    public function generateNotificationForCommittedUsers(NotificationEventInterface $event, $filters){
 
         $committedNotifications = $this->notificationManager->createForEvent($event, $filters);
 
@@ -168,7 +171,7 @@ class Notifier implements NotifierInterface
      * Todo: move the logic to notificationManager?
      *
      */
-    public function generateNotificationForUncommittedUsers($event){
+    public function generateNotificationForUncommittedUsers(NotificationEventInterface $event){
 
 
         $users = $this->filterManager->getUncommittedUsers($event->getNotificationKey());

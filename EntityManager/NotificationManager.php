@@ -12,7 +12,6 @@
 namespace merk\NotificationBundle\EntityManager;
 
 use Doctrine\ORM\EntityManager;
-use Doctrine\Common\Collections\ArrayCollection;
 use merk\NotificationBundle\Model\FilterInterface;
 use merk\NotificationBundle\Model\NotificationEventInterface;
 use merk\NotificationBundle\Model\NotificationInterface;
@@ -87,6 +86,9 @@ class NotificationManager extends BaseNotificationManager
      */
     public function create(NotificationEventInterface $event, FilterInterface $filter)
     {
+        /** If user hasn't access to that event, no notifications are created */
+        if (!$this->CanUserAccessToEvent($event, $filter->getUserPreferences()->getUser())){return array();}
+
         $class = $this->class;
 
         $notifications = array();
@@ -156,7 +158,7 @@ class NotificationManager extends BaseNotificationManager
      */
     public function createForUncommittedUser(NotificationEventInterface $event, UserInterface $user)
     {
-
+        /** If user hasn't access to that event, no notifications are created */
         if (!$this->CanUserAccessToEvent($event, $user)){return array();}
 
         /** Start generating notifications. */
@@ -190,7 +192,7 @@ class NotificationManager extends BaseNotificationManager
 
     /**
      * Check if user has access to that notification key with his role.
-     * 
+     *
      * @param NotificationEventInterface $event
      * @param userInterface $user
      * @return boolean

@@ -50,4 +50,17 @@ interface FilterManagerInterface
     public function getUserFilterByNotificationKey(UserInterface $user, $notificationKey);
 
 
+    /**
+     * Obtain users that are not committed to a particular notification key
+     * They haven't told their preference yet.
+     *
+     * (USERS THAT DID NOT UPDATE THEIR PREFERENCES AND THEREFORE DO NOT
+     *  HAVE A FILTER YET.)
+     *
+     * @param string|\merk\NotificationBundle\Model\NotificationKeyInterface $notificationKey
+     * @return UserInterface[]
+     */
+    public function getUncommittedUsers($notificationKey);
+
+
 }

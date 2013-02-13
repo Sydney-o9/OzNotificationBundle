@@ -14,6 +14,7 @@ namespace merk\NotificationBundle\ModelManager;
 use merk\NotificationBundle\Model\NotificationEventInterface;
 use merk\NotificationBundle\Model\FilterInterface;
 use merk\NotificationBundle\Model\NotificationInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 interface NotificationManagerInterface
 {
@@ -33,6 +34,17 @@ interface NotificationManagerInterface
      * @return array
      */
     public function createForEvent(NotificationEventInterface $event, array $filters);
+
+
+    /**
+     * Create the default notifications using the event triggered
+     * and the user (uncommitted to the notificationKey)
+     *
+     * @param NotificationEventInterface $event
+     * @param UserInterface $user
+     * @return array NotificationInterface[]
+     */
+    public function createForUncommittedUser(NotificationEventInterface $event, UserInterface $user);
 
     /**
      * Persists and flushes a notification to persistent storage.
