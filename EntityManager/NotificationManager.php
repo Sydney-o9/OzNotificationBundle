@@ -146,17 +146,20 @@ class NotificationManager extends BaseNotificationManager
         return $notificationsForEvent;
     }
 
-
     /**
      * Create the default notifications using the event triggered
-     * and the user
+     * and the user (uncommitted to the notificationKey)
      *
      * @param NotificationEventInterface $event
      * @param UserInterface $user
-     * @return NotificationInterface
+     * @return array NotificationInterface[]
      */
-    public function createDefaultNotificationsForUser(NotificationEventInterface $event, UserInterface $user)
+    public function createForUncommittedUser(NotificationEventInterface $event, UserInterface $user)
     {
+
+        if (!$this->CanUserAccessToEvent($event, $user)){return array();}
+
+        /** Start generating notifications. */
         $class = $this->class;
 
         $methods = $event->getNotificationKey()->getDefaultMethods()->toArray();
@@ -182,8 +185,30 @@ class NotificationManager extends BaseNotificationManager
 
         }
 
-
         return $notifications;
+    }
+
+    /**
+     * Check if user has access to that notification key with his role.
+     * 
+     * @param NotificationEventInterface $event
+     * @param userInterface $user
+     * @return boolean
+     */
+    public function CanUserAccessToEvent(NotificationEventInterface $event, UserInterface $user){
+
+        $requiredRoles = $event->getNotificationKey()->getSubscriberRoles();
+        $roles = $user->getRoles();
+
+        $canAccess = false;
+        foreach ($requiredRoles as $requiredRole){
+            if (in_array($requiredRole, $roles)){
+                $canAccess = true;
+                break;
+            }
+        }
+
+        return $canAccess;
     }
 
 

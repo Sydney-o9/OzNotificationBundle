@@ -86,12 +86,14 @@ class Notifier implements NotifierInterface
 
         /** If the receiver has a filter (subscribed to that event) */
         if ($filter = $this->filterManager->getFilterForEventOwnedBySingleReceiver($event, $receiver)){
+            echo "The user has a filter. <br /><br />";
             $notifications = $this->notificationManager->createForEvent($event, $filter);
         }
 
         /** If the receiver hasn't subscribed, generate default notification */
         else{
-            $notifications = $this->notificationManager->createDefaultNotificationsForUser($event, $receiver);
+            echo "The user does not have a filter. <br /><br />";
+            $notifications = $this->notificationManager->createForUncommittedUser($event, $receiver);
         }
 
         $this->sender->send($notifications);
@@ -174,7 +176,7 @@ class Notifier implements NotifierInterface
         $uncommittedNotifications = array();
 
         foreach ($users as $user){
-            $notifications = $this->notificationManager->createDefaultNotificationsForUser($event, $user);
+            $notifications = $this->notificationManager->createForUncommittedUser($event, $user);
 
             foreach ($notifications as $notification){
 
