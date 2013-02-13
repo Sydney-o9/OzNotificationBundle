@@ -12,6 +12,8 @@
 
         <field name="notificationKey" column="notificationKey" type="string" />
 
+        <field name="isBulkable" column="isBulkable" type="boolean" />
+
         <field name="subscriberRoles" column="subscriberRoles" type="array" />
 
         <field name="description" column="description" type="string" />

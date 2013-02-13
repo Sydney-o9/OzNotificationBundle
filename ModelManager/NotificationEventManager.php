@@ -12,11 +12,12 @@
 namespace merk\NotificationBundle\ModelManager;
 
 use Symfony\Component\Security\Core\User\UserInterface;
+use merk\NotificationBundle\Model\NotificationKeyInterface;
 use DateTime;
 
 abstract class NotificationEventManager implements NotificationEventManagerInterface
 {
 
-    abstract function create($notificationKey, $subject, $verb, UserInterface $actor = null, DateTime $createdAt = null);
+    abstract function create(NotificationKeyInterface $notificationKey, $subject, $verb, UserInterface $actor = null, DateTime $createdAt = null);
 
 }

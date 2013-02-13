@@ -15,7 +15,7 @@ use Doctrine\ORM\EntityManager;
 use Symfony\Component\Security\Core\User\UserInterface;
 use merk\NotificationBundle\Model\NotificationEventInterface;
 use merk\NotificationBundle\Entity\NotificationEvent;
-use merk\NotificationBundle\ModelManager\NotificationKeyManagerInterface;
+use \merk\NotificationBundle\Model\NotificationKeyInterface;
 use merk\NotificationBundle\ModelManager\NotificationEventManager as BaseNotificationEventManager;
 use DateTime;
 /**
@@ -41,13 +41,8 @@ class NotificationEventManager extends BaseNotificationEventManager
      */
     protected $class;
 
-    /**
-     * @var NotificationKeyManagerInterface
-     */
-    protected $notificationKeyManager;
 
-
-    public function __construct(EntityManager $em, $class, NotificationKeyManagerInterface $notificationKeyManager)
+    public function __construct(EntityManager $em, $class)
     {
         $this->em = $em;
 
@@ -56,8 +51,6 @@ class NotificationEventManager extends BaseNotificationEventManager
         $metadata = $em->getClassMetadata($class);
 
         $this->class = $metadata->name;
-
-        $this->notificationKeyManager = $notificationKeyManager;
 
     }
 
@@ -160,16 +153,9 @@ class NotificationEventManager extends BaseNotificationEventManager
     /**
      * {@inheritDoc}
      */
-    public function create($notificationKey, $subject, $verb, UserInterface $actor = null, DateTime $createdAt = null)
+    public function create(NotificationKeyInterface $notificationKey, $subject, $verb, UserInterface $actor = null, DateTime $createdAt = null)
     {
         $class = $this->class;
-
-        $notificationKey = $this->notificationKeyManager->findByNotificationKey($notificationKey);
-
-        if (!$notificationKey){
-
-            throw new \Exception("The notification key does not exist");
-        }
 
         return new $class($notificationKey, $subject, $verb, $actor);
     }

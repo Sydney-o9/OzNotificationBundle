@@ -11,6 +11,7 @@
 
 namespace merk\NotificationBundle\Notifier;
 
+use merk\NotificationBundle\ModelManager\NotificationKeyManagerInterface;
 use merk\NotificationBundle\ModelManager\NotificationManagerInterface;
 use merk\NotificationBundle\ModelManager\NotificationEventManagerInterface;
 use merk\NotificationBundle\Sender\SenderInterface;
@@ -25,6 +26,11 @@ use DateTime;
  */
 class Notifier implements NotifierInterface
 {
+    /**
+     * @var NotificationKeyManagerInterface
+     */
+    protected $notificationKeyManager;
+
     /**
      * @var NotificationEventManagerInterface
      */
@@ -47,12 +53,14 @@ class Notifier implements NotifierInterface
 
     /**
      * @param NotificationEventManagerInterface $notificationEventManager
+     * @param NotificationKeyManagerInterface $notificationKeyManager
      * @param FilterManagerInterface $filterManager
      * @param NotificationManagerInterface $notificationManager
      * @param SenderInterface $sender
      */
-    public function __construct(NotificationEventManagerInterface $notificationEventManager, FilterManagerInterface $filterManager, NotificationManagerInterface $notificationManager, SenderInterface $sender)
+    public function __construct(NotificationKeyManagerInterface $notificationKeyManager, NotificationEventManagerInterface $notificationEventManager, FilterManagerInterface $filterManager, NotificationManagerInterface $notificationManager, SenderInterface $sender)
     {
+        $this->notificationKeyManager = $notificationKeyManager;
         $this->notificationEventManager = $notificationEventManager;
         $this->notificationManager = $notificationManager;
         $this->filterManager = $filterManager;
@@ -65,26 +73,24 @@ class Notifier implements NotifierInterface
      */
     public function triggerSingleNotification($notificationKey, UserInterface $receiver, $verb, $subject, UserInterface $actor = null, DateTime $createdAt = null)
     {
-        $this->trigger($notificationKey, $receiver, $verb, $subject, $actor, $createdAt);
-    }
+        if (!is_string($notificationKey) || !is_string($verb)){
+            throw new \InvalidArgumentException(sprintf('"NotificationKey" and "Verb" should be of string type, "%s" and "%s" given respectively.', gettype($notificationKey), gettype($verb)));
+        }
 
+        $notificationKey = $this->notificationKeyManager->findByNotificationKey($notificationKey);
+        if (!$notificationKey){
+            throw new \InvalidArgumentException(sprintf('The notificationKey "%s" does not exist.', $notificationKey));
+        }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function trigger($notificationKey, UserInterface $receiver, $verb, $subject, UserInterface $actor = null, DateTime $createdAt = null)
-    {
         $event = $this->notificationEventManager->create($notificationKey, $subject, $verb, $actor, $createdAt);
 
         /** If the receiver has a filter (subscribed to that event) */
         if ($filter = $this->filterManager->getFilterForEventOwnedBySingleReceiver($event, $receiver)){
-            echo "The user has a filter. <br />";
             $notifications = $this->notificationManager->createForEvent($event, $filter);
         }
 
         /** If the receiver hasn't subscribed, generate default notification */
         else{
-            echo "The user has no filters. <br />";
             $notifications = $this->notificationManager->createDefaultNotificationsForUser($event, $receiver);
         }
 
@@ -93,14 +99,26 @@ class Notifier implements NotifierInterface
         $this->notificationEventManager->update($event, false);
 
         $this->notificationManager->updateBulk($notifications);
-
     }
+
 
     /**
      * {@inheritDoc}
      */
     public function triggerBulkNotification($notificationKey, $verb, $subject, UserInterface $actor = null, DateTime $createdAt = null)
     {
+        if (!is_string($notificationKey) || !is_string($verb)){
+            throw new \InvalidArgumentException(sprintf('"NotificationKey" and "Verb" should be of string type, "%s" and "%s" given respectively.', gettype($notificationKey), gettype($verb)));
+        }
+
+        $notificationKey = $this->notificationKeyManager->findByNotificationKey($notificationKey);
+        if (!$notificationKey){
+            throw new \InvalidArgumentException(sprintf('The notificationKey "%s" does not exist.', $notificationKey));
+        }
+
+        if (false === $notificationKey->isBulkable()){
+                throw new \InvalidArgumentException(sprintf('NotificationKey "%s" is not bulkable. This notification can not be sent in mass.', $notificationKey->getNotificationKey()));
+        }
 
         $event = $this->notificationEventManager->create($notificationKey, $subject, $verb, $actor, $createdAt);
 
@@ -145,7 +163,7 @@ class Notifier implements NotifierInterface
 
     /**
      * Generate notifications for Users Uncommitted to a filter/Notification key
-     * Todo: move the logic to notificationManager
+     * Todo: move the logic to notificationManager?
      *
      */
     public function generateNotificationForUncommittedUsers($event){

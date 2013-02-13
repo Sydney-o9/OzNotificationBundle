@@ -65,6 +65,28 @@ class NotificationKeyManager extends BaseNotificationKeyManager
         return  $this->repository->findAll();
     }
 
+
+    /**
+     * Fetch object by notification key
+     *
+     * @param string $notificationKey
+     * @throws \InvalidArgumentException
+     * @return \merk\NotificationBundle\Model\NotificationKey
+     */
+    public function findByNotificationKey($notificationKey)
+    {
+        if(!is_string($notificationKey)){
+            throw new \InvalidArgumentException(sprintf('notificationKey should be a string, %s given.', gettype($notificationKey)));
+        }
+
+        $qb = $this->repository->createQueryBuilder('nek')
+            ->select(array('nek'))
+            ->andWhere('nek.notificationKey = :key')
+            ->setParameter('key',$notificationKey);
+
+        return $qb->getQuery()->getOneOrNullResult();
+    }
+
     /**
      * Fetch all objects that have the subscriberRoles
      *
@@ -120,25 +142,5 @@ class NotificationKeyManager extends BaseNotificationKeyManager
         return $qb->getQuery()->getResult();
 
     }
-
-
-    /**
-     * Fetch object by notification key
-     *
-     * @param string $notificationKey
-     * @return \merk\NotificationBundle\Model\NotificationKey
-     */
-    public function findByNotificationKey($notificationKey)
-    {
-
-        $qb = $this->repository->createQueryBuilder('nek')
-            ->select(array('nek'))
-            ->andWhere('nek.notificationKey = :key')
-            ->setParameter('key',$notificationKey);
-
-        return $qb->getQuery()->getOneOrNullResult();
-    }
-
-
 
 }

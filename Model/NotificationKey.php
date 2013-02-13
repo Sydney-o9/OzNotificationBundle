@@ -24,6 +24,14 @@ abstract class NotificationKey implements NotificationKeyInterface
      */
     protected $description;
 
+
+    /**
+     * Can this notification be sent in mass?
+     *
+     * @var boolean $isBulkable
+     */
+    protected $isBulkable;
+
     /**
      * A notification key is meant to be used by a subscriber
      * with specific roles.
@@ -104,6 +112,31 @@ abstract class NotificationKey implements NotificationKeyInterface
 
         return $this;
     }
+
+    /**
+     * @param boolean $isBulkable
+     */
+    public function setIsBulkable($isBulkable)
+    {
+        $this->isBulkable = $isBulkable;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getIsBulkable()
+    {
+        return $this->isBulkable;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isBulkable()
+    {
+        return ($this->getIsBulkable() === true) ? true :false;
+    }
+
 
     /**
      * @param string $description

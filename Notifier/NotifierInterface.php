@@ -21,23 +21,9 @@ use DateTime;
  */
 interface NotifierInterface
 {
-    /**
-     * Triggers notifications for a specific notification event.
-     *
-     * @param string $notificationKey
-     * @param UserInterface $receiver
-     * @param string $verb
-     * @param mixed $subject
-     * @param UserInterface $actor
-     * @param \DateTime $createdAt
-     * @return
-     */
-    public function trigger($notificationKey, UserInterface $receiver, $verb, $subject, UserInterface $actor = null, DateTime $createdAt = null);
-
-
 
     /**
-     * Triggers single notification of a receiver for a specific notification event.
+     * Triggers single notification to a particular receiver for a specific notification event.
      *
      * @param string $notificationKey
      * @param UserInterface $receiver

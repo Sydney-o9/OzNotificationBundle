@@ -13,6 +13,7 @@ namespace merk\NotificationBundle\ModelManager;
 
 use merk\NotificationBundle\Model\NotificationEventInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use merk\NotificationBundle\Model\NotificationKeyInterface;
 use DateTime;
 
 interface NotificationEventManagerInterface
@@ -20,7 +21,7 @@ interface NotificationEventManagerInterface
     /**
      * Creates a new Event.
      *
-     * @param string $notificationKey
+     * @param NotificationKeyInterface $notificationKey
      * @param mixed $subject
      * @param string $verb
      * @param \Symfony\Component\Security\Core\User\UserInterface $actor
@@ -28,7 +29,7 @@ interface NotificationEventManagerInterface
      *
      * @return NotificationEventInterface
      */
-    public function create($notificationKey, $subject, $verb, UserInterface $actor = null, DateTime $createdAt = null);
+    public function create(NotificationKeyInterface $notificationKey, $subject, $verb, UserInterface $actor = null, DateTime $createdAt = null);
 
     /**
      * Persists and flushes the event to the persistent storage.

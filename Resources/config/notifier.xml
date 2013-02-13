@@ -6,6 +6,7 @@
     <services>
 
         <service id="merk_notification.notifier" class="merk\NotificationBundle\Notifier\Notifier">
+            <argument type="service" id="merk_notification.notification_key.manager" />
             <argument type="service" id="merk_notification.notification_event.manager" />
             <argument type="service" id="merk_notification.filter.manager" />
             <argument type="service" id="merk_notification.notification.manager" />

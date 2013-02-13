@@ -17,7 +17,6 @@
         <service id="merk_notification.notification_event.manager.default" class="merk\NotificationBundle\EntityManager\NotificationEventManager">
             <argument type="service" id="merk_notification.entity_manager" />
             <argument>%merk_notification.notification_event.class%</argument>
-            <argument type="service" id="merk_notification.notification_key.manager" />
         </service>
 
         <service id="merk_notification.notification.manager.default" class="merk\NotificationBundle\EntityManager\NotificationManager">

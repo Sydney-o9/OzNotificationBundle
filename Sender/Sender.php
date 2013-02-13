@@ -31,6 +31,7 @@ class Sender implements SenderInterface
 
     /**
      * @param array $agents
+     * @throws \InvalidArgumentException
      */
     public function __construct(array $agents)
     {
@@ -65,7 +66,7 @@ class Sender implements SenderInterface
     protected function getAgent($alias)
     {
         if (!isset($this->agents[$alias])) {
-            throw new \InvalidArgumentException(sprintf('Alias "%s" doesnt exist', $alias));
+            throw new \InvalidArgumentException(sprintf('Alias "%s" does not exist', $alias));
         }
 
         return $this->agents[$alias];
