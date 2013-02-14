@@ -6,9 +6,16 @@ use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
 use PhpAmqpLib\Message\AMQPMessage;
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
 
+use merk\NotificationBundle\Model\NotificationInterface;
+
 
 class EmailConsumer implements ConsumerInterface
 {
+
+    /**
+     * @var \Swift_Mailer
+     */
+    private $mailer;
 
     /**
      * @var LoggerInterface $logger
@@ -16,7 +23,9 @@ class EmailConsumer implements ConsumerInterface
     private $logger;
 
 
-    public function __construct(LoggerInterface $logger){
+    public function __construct(\Swift_Mailer $mailer, LoggerInterface $logger){
+
+        $this->mailer = $mailer;
 
         $this->logger = $logger;
     }
@@ -25,9 +34,15 @@ class EmailConsumer implements ConsumerInterface
     public function execute(AMQPMessage $msg)
     {
 
-        $this->logger->info('We are just about to send an email.');
+        $this->logger->info('---->Sending an Email......');
 
-        echo "Email";
+        echo "EmailTo";
+
+        $notification = unserialize($msg->body);
+        echo $notification->getRecipientData();
+        $this->send($notification);
+
+
 
         //Process notification.
         //$msg will be an instance of `PhpAmqpLib\Message\AMQPMessage` with the $msg->body being the data sent over RabbitMQ.
@@ -42,4 +57,26 @@ class EmailConsumer implements ConsumerInterface
 //            return false;
 //        }
     }
+
+
+
+    /**
+     * Sends a single notification.
+     *
+     * @param \merk\NotificationBundle\Model\NotificationInterface $notification
+     */
+    public function send(NotificationInterface $notification)
+    {
+        /** @var \Swift_Message $message  */
+        $message = $this->mailer->createMessage();
+        $message->setSubject($notification->getSubject());
+        $message->addPart($notification->getMessage(), 'text/plain', 'UTF8');
+
+        $message->addTo($notification->getRecipientData(), $notification->getRecipientName());
+        $message->setFrom('test@test.com', 'Test Sending');
+
+        $this->mailer->send($message);
+    }
+
+
 }

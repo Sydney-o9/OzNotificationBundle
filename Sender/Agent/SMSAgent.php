@@ -12,6 +12,7 @@
 namespace merk\NotificationBundle\Sender\Agent;
 
 use merk\NotificationBundle\Model\NotificationInterface;
+use Symfony\Component\HttpKernel\Log\LoggerInterface;
 
 /**
  * A stub class for sending notifications via SMS.
@@ -22,6 +23,23 @@ use merk\NotificationBundle\Model\NotificationInterface;
  */
 class SMSAgent implements AgentInterface
 {
+
+    /**
+     * This is the producer for email notifications
+     *
+     * @var old_sound_rabbit_mq.notification_sms_producer
+     */
+    private $notificationSMSProducer;
+
+    /**
+     * @param $notificationSMSProducer
+     */
+    public function __construct($notificationSMSProducer)
+    {
+
+        $this->notificationSMSProducer = $notificationSMSProducer;
+    }
+
     /**
      * Sends a single notification.
      *
@@ -29,7 +47,6 @@ class SMSAgent implements AgentInterface
      */
     public function send(NotificationInterface $notification)
     {
-        return false;
         throw new \Exception('Not implemented');
     }
 
@@ -40,7 +57,13 @@ class SMSAgent implements AgentInterface
      */
     public function sendBulk(array $notifications)
     {
-        return false;
-        throw new \Exception('Not implemented');
+        foreach ($notifications as $notification) {
+
+//            $this->send($notification);
+            //Implementation of RABBITMQ
+            $this->notificationSMSProducer->publish(serialize($notification));
+
+
+        }
     }
 }

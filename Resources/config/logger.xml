@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+
+        <!--EMAIL-->
+        <service id="merk_notification.logger.email" class="Symfony\Bridge\Monolog\Logger">
+            <argument>notification_email</argument>
+            <call method="pushHandler">
+                <argument type="service" id="notification_email_handler" />
+            </call>
+        </service>
+
+        <service id="merk_notification.handler.email" class="Monolog\Handler\StreamHandler">
+            <!--200 = INFO, see Monolog::Logger for the values of log levels-->
+            <argument>%kernel.root_dir%/logs/%kernel.environment%.notification.email.log</argument>
+            <argument>200</argument>
+        </service>
+
+
+        <service id="notification_email_logger" alias="merk_notification.logger.email" />
+
+        <service id="notification_email_handler" alias="merk_notification.handler.email" />
+
+
+        <!--SMS-->
+        <service id="merk_notification.logger.sms" class="Symfony\Bridge\Monolog\Logger">
+            <argument>notification_sms</argument>
+            <call method="pushHandler">
+                <argument type="service" id="notification_sms_handler" />
+            </call>
+        </service>
+
+        <service id="merk_notification.handler.sms" class="Monolog\Handler\StreamHandler">
+            <!--200 = INFO, see Monolog::Logger for the values of log levels-->
+            <argument>%kernel.root_dir%/logs/%kernel.environment%.notification.sms.log</argument>
+            <argument>200</argument>
+        </service>
+
+
+        <service id="notification_sms_logger" alias="merk_notification.logger.sms" />
+
+        <service id="notification_sms_handler" alias="merk_notification.handler.sms" />
+
+
+    </services>
+
+</container>
+

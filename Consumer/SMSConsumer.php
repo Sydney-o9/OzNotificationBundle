@@ -25,7 +25,7 @@ class SMSConsumer implements ConsumerInterface
     public function execute(AMQPMessage $msg)
     {
 
-        $this->logger->info('We are just about to send an SMS.');
+        $this->logger->info('---->Sending an SMS......');
 
         echo "SMS";
 

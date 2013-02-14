@@ -13,6 +13,7 @@ namespace merk\NotificationBundle\Sender\Agent;
 
 use merk\NotificationBundle\Model\NotificationInterface;
 
+
 /**
  * An agent that will send notifications through SwiftMailer.
  *
@@ -27,7 +28,7 @@ class EmailAgent implements AgentInterface
 
 
     /**
-     * This is the producer for
+     * This is the producer for email notifications
      *
      * @var old_sound_rabbit_mq.notification_email_producer
      */
@@ -35,6 +36,7 @@ class EmailAgent implements AgentInterface
 
     /**
      * @param \Swift_Mailer $mailer
+     * @param $notificationEmailProducer
      */
     public function __construct(\Swift_Mailer $mailer, $notificationEmailProducer)
     {
@@ -73,6 +75,8 @@ class EmailAgent implements AgentInterface
 
             //Implementation of RABBITMQ
             $this->notificationEmailProducer->publish(serialize($notification));
+
+
         }
     }
 }
