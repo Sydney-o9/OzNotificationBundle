@@ -13,6 +13,8 @@
             <argument type="service" id="merk_notification.sender" />
         </service>
 
+        <service id="notifier" alias="merk_notification.notifier" />
+
     </services>
 
 </container>

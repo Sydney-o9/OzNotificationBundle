@@ -25,12 +25,22 @@ class EmailAgent implements AgentInterface
      */
     private $mailer;
 
+
+    /**
+     * This is the producer for
+     *
+     * @var old_sound_rabbit_mq.notification_email_producer
+     */
+    private $notificationEmailProducer;
+
     /**
      * @param \Swift_Mailer $mailer
      */
-    public function __construct(\Swift_Mailer $mailer)
+    public function __construct(\Swift_Mailer $mailer, $notificationEmailProducer)
     {
         $this->mailer = $mailer;
+
+        $this->notificationEmailProducer = $notificationEmailProducer;
     }
 
     /**
@@ -59,7 +69,10 @@ class EmailAgent implements AgentInterface
     public function sendBulk(array $notifications)
     {
         foreach ($notifications as $notification) {
-            $this->send($notification);
+//            $this->send($notification);
+
+            //Implementation of RABBITMQ
+            $this->notificationEmailProducer->publish(serialize($notification));
         }
     }
 }

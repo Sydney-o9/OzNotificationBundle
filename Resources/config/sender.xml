@@ -16,7 +16,25 @@
         <service id="merk_notification.sender.agent.email" class="merk\NotificationBundle\Sender\Agent\EmailAgent">
             <tag name="merk_notification.sender.agent" alias="email" />
             <argument type="service" id="mailer" />
+            <argument type="service" id="old_sound_rabbit_mq.notification_email_producer" />
         </service>
+
+
+
+        <service id="merk_notification.consumer.email" class="merk\NotificationBundle\Consumer\EmailConsumer">
+            <!--<tag name="merk_notification.consumer.agent" alias="email" />-->
+            <argument type="service" id="notification_email_logger" />
+        </service>
+
+        <service id="merk_notification.consumer.sms" class="merk\NotificationBundle\Consumer\SMSConsumer">
+            <!--<tag name="merk_notification.consumer.agent" alias="email" />-->
+            <argument type="service" id="notification_sms_logger" />
+        </service>
+
+
+        <service id="email_notification_consumer" alias="merk_notification.consumer.email" />
+
+        <service id="sms_notification_consumer" alias="merk_notification.consumer.sms" />
 
     </services>
 
