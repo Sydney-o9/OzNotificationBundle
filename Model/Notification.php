@@ -28,13 +28,6 @@ abstract class Notification implements NotificationInterface
     protected $event;
 
     /**
-     * The method used for this notification.
-     *
-     * @var string
-     */
-    protected $method;
-
-    /**
      * When the notification was created.
      *
      * @var \DateTime
@@ -55,7 +48,6 @@ abstract class Notification implements NotificationInterface
      */
     protected $message;
 
-
     /**
      *
      * @var string
@@ -75,6 +67,8 @@ abstract class Notification implements NotificationInterface
         $this->createdAt = new \DateTime();
     }
 
+    abstract public function getType();
+
     /**
      * @param string $message
      */
@@ -89,22 +83,6 @@ abstract class Notification implements NotificationInterface
     public function getMessage()
     {
         return $this->message;
-    }
-
-    /**
-     * @param string $method
-     */
-    public function setMethod($method)
-    {
-        $this->method = $method;
-    }
-
-    /**
-     * @return string
-     */
-    public function getMethod()
-    {
-        return $this->method;
     }
 
     /**
@@ -180,4 +158,6 @@ abstract class Notification implements NotificationInterface
     {
         $this->sentAt = new \DateTime();
     }
+
+
 }

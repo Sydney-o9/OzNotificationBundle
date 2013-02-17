@@ -63,6 +63,14 @@ class UserPreferencesController extends ContainerAware
     }
 
     /**
+     * TODO: delete before commit
+     */
+    protected function getNotificationManager()
+    {
+        return $this->container->get('merk_notification.notification.manager');
+    }
+
+    /**
      * Returns the user preferences object for the supplied user. If no user
      * is supplied, it uses the currently logged in user.
      *
@@ -129,6 +137,13 @@ class UserPreferencesController extends ContainerAware
      */
     public function testAction()
     {
+
+//        $notificationManager = $this->getNotificationManager();
+//
+//        ladybug_dump_die($notificationManager);
+
+
+
 
         $user = $this->container->get('security.context')->getToken()->getUser();
 

@@ -41,6 +41,19 @@ class Configuration implements ConfigurationInterface
                 ->end()
             ->end();
 
+       /** Notifications */
+        $rootNode
+            ->children()
+                ->arrayNode('notification_types')->prototype('array')
+                    ->children()
+                        ->scalarNode('entity')->isRequired()->cannotBeEmpty()->end()
+                        ->scalarNode('factory')->defaultValue('merk\NotificationBundle\NotificationFactory\NotificationFactory')->end()
+                        ->end()
+                    ->end()
+                ->end()
+            ->end()
+        ;
+
         return $treeBuilder;
     }
 }

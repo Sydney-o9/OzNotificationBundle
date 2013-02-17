@@ -22,9 +22,6 @@ interface NotificationInterface
     public function getCreatedAt();
     public function markSent();
 
-    public function getMethod();
-    public function setMethod($method);
-
     /**
      * Returns the notification event that triggered this
      * notification to be sent.

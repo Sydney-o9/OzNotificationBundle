@@ -82,7 +82,7 @@ class Sender implements SenderInterface
     {
         $sorted = array();
         foreach ($notifications as $notification) {
-            $sorted[$notification->getMethod()][] = $notification;
+            $sorted[$notification->getType()][] = $notification;
         }
 
         foreach ($sorted as $method => $notifications) {

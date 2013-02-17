@@ -18,6 +18,7 @@ use merk\NotificationBundle\Model\NotificationInterface;
 use merk\NotificationBundle\ModelManager\NotificationManager as BaseNotificationManager;
 use merk\NotificationBundle\Renderer\RendererInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use merk\NotificationBundle\ModelManager\NotificationDiscriminator;
 
 
 /**
@@ -31,8 +32,9 @@ class NotificationManager extends BaseNotificationManager
     protected $repository;
     protected $class;
     protected $renderer;
+    protected $notificationDiscriminator;
 
-    public function __construct(EntityManager $em, $class, RendererInterface $renderer)
+    public function __construct(EntityManager $em, $class, RendererInterface $renderer, NotificationDiscriminator $notificationDiscriminator)
     {
         $this->em = $em;
         $this->repository = $em->getRepository($class);
@@ -41,6 +43,8 @@ class NotificationManager extends BaseNotificationManager
 
         $metadata = $em->getClassMetadata($class);
         $this->class = $metadata->name;
+
+        $this->notificationDiscriminator = $notificationDiscriminator;
     }
 
     /**
@@ -89,8 +93,6 @@ class NotificationManager extends BaseNotificationManager
         /** If user hasn't access to that event, no notifications are created */
         if (!$this->CanUserAccessToEvent($event, $filter->getUserPreferences()->getUser())){return array();}
 
-        $class = $this->class;
-
         $notifications = array();
 
         $methods = $filter->getMethods();
@@ -100,9 +102,9 @@ class NotificationManager extends BaseNotificationManager
         while($method = $iterator->current()){
 
             /** @var NotificationInterface $notification  */
-            $notification = new $class;
+            $notification = $this->notificationDiscriminator->createNotification($method->getName());
+
             $notification->setEvent($event);
-            $notification->setMethod($method->getName());
 
             $notification->setUser($filter->getUserPreferences()->getUser());
             $notification->setRecipientName($filter->getRecipientName());
@@ -162,8 +164,6 @@ class NotificationManager extends BaseNotificationManager
         if (!$this->CanUserAccessToEvent($event, $user)){return array();}
 
         /** Start generating notifications. */
-        $class = $this->class;
-
         $methods = $event->getNotificationKey()->getDefaultMethods()->toArray();
 
         $notifications = array();
@@ -171,9 +171,8 @@ class NotificationManager extends BaseNotificationManager
         foreach($methods as $method){
 
             /** @var NotificationInterface $notification  */
-            $notification = new $class;
+            $notification = $this->notificationDiscriminator->createNotification($method->getName());
             $notification->setEvent($event);
-            $notification->setMethod($method->getName());
 
             $notification->setUser($user);
             $notification->setRecipientName($user->getUsername());

@@ -54,6 +54,7 @@ class merkNotificationExtension extends Extension
         $container->setAlias('merk_notification.notification_key.manager', 'merk_notification.notification_key.manager.default');
         $container->setAlias('merk_notification.user_preferences.manager', 'merk_notification.user_preferences.manager.default');
         $container->setAlias('merk_notification.method.manager', 'merk_notification.method.manager.default');
+        $container->setAlias('merk_notification.notification.discriminator', 'merk_notification.notification.discriminator.default');
 
         $container->setParameter('merk_notification.model_manager_name', $config['model_manager_name']);
         $container->setParameter('merk_notification.user.class', $config['class']['user']);
@@ -68,5 +69,9 @@ class merkNotificationExtension extends Extension
         $xmlMappingFiles = $container->getParameter('validator.mapping.loader.xml_files_loader.mapping_files');
         $xmlMappingFiles[] = __DIR__.'/../Resources/config/validation/orm.xml';
         $container->setParameter('validator.mapping.loader.xml_files_loader.mapping_files', $xmlMappingFiles);
+
+        //Load the notification types
+        $notificationTypes = $config['notification_types'];
+        $container->setParameter('merk_notification_types', $notificationTypes);
     }
 }

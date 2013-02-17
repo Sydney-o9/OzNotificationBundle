@@ -89,7 +89,7 @@ class Renderer implements RendererInterface
         while (count($key)) {
             $templateName = $this->buildTemplateName(
                 implode('.', $key),
-                $notification->getMethod(),
+                $notification->getType(),
                 'txt'
             );
 
@@ -100,7 +100,7 @@ class Renderer implements RendererInterface
             array_pop($key);
         }
 
-        return $this->buildTemplateName('base', $notification->getMethod(), 'txt');
+        return $this->buildTemplateName('base', $notification->getType(), 'txt');
     }
 
     /**
