@@ -79,8 +79,9 @@ class EmailConsumer implements ConsumerInterface
         $this->logger->info("Email to ".$notification->getRecipientData()." in ".$time." seconds.");
         $this->logger->info("Notification id ".$id);
         $this->logger->info("Class is ".$class);
-        $this->logger->info("Class of subject is ".get_class($notification->getSubject()));
 
+        $this->logger->info("Class of subject is ".$notificationToUpdate->getEvent()->getSubjectClass());
+        $this->logger->info("Identifiers of subject is ".$notificationToUpdate->getEvent()->getSubjectIdentifiers());
         }
         catch(\Exception $e){
 

@@ -217,4 +217,24 @@ class NotificationManager extends BaseNotificationManager
         }
     }
 
+    /**
+     * @param $id
+     * @throws \InvalidArgumentException
+     * @return \merk\NotificationBundle\Model\Notification
+     */
+    public function find($id)
+    {
+        $notification =  $this->repository->find($id);
+
+        if(!$notification)
+        {
+            throw new \InvalidArgumentException(sprintf('Unable to find Notification "%s" ', $id));
+        }
+        else
+        {
+            return $notification;
+        }
+
+    }
+
 }
