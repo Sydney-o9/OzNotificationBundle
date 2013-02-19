@@ -88,10 +88,9 @@ class Notifier implements NotifierInterface
         $event = $this->notificationEventManager->create($notificationKey, $subject, $verb, $actor, $createdAt);
 
         /** If the receiver has a filter (subscribed to that event) */
-        if ($filter = $this->filterManager->getFilterForEventOwnedBySingleReceiver($event, $receiver)){
+        if ($filter = $this->filterManager->getFilterOwnedByUser($event, $receiver)){
             echo "The user has a filter. <br /><br />";
 
-            //TODO: Check error here.
             $notifications = $this->notificationManager->createForCommittedUser($event, $filter);
         }
 
@@ -101,11 +100,11 @@ class Notifier implements NotifierInterface
             $notifications = $this->notificationManager->createForUncommittedUser($event, $receiver);
         }
 
-        $this->sender->send($notifications);
-
         $this->notificationEventManager->update($event, false);
 
         $this->notificationManager->updateBulk($notifications);
+
+        $this->sender->send($notifications);
     }
 
 

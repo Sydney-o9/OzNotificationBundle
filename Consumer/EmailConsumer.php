@@ -2,11 +2,12 @@
 
 namespace merk\NotificationBundle\Consumer;
 
+use Doctrine\ORM\EntityManager;
 use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
 use PhpAmqpLib\Message\AMQPMessage;
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
-
 use merk\NotificationBundle\Model\NotificationInterface;
+
 
 
 class EmailConsumer implements ConsumerInterface
@@ -22,28 +23,70 @@ class EmailConsumer implements ConsumerInterface
      */
     private $logger;
 
+    /**
+     * @var EntityManager $entityManager
+     */
+    private $em;
 
-    public function __construct(\Swift_Mailer $mailer, LoggerInterface $logger){
+
+    public function __construct(\Swift_Mailer $mailer, LoggerInterface $logger, $entityManager){
 
         $this->mailer = $mailer;
 
         $this->logger = $logger;
+
+        $this->em = $entityManager;
     }
 
 
     public function execute(AMQPMessage $msg)
     {
 
+        try{
+        /**  1- Send email */
+
+        //Time start
+        $time_start = microtime(true);
+
+
         $this->logger->info('---->Sending an Email......');
 
-        echo "EmailTo";
+        echo "Email";
 
         $notification = unserialize($msg->body);
-        echo $notification->getRecipientData();
+
         $this->send($notification);
 
 
+        /**  2- Update the object in the database. */
 
+
+            $class = get_class($notification);
+
+            $id = $notification->getId();
+
+            $notificationToUpdate = $this->em->find($class, $id);
+
+            $notificationToUpdate->markSent();
+
+            $this->em->flush();
+
+
+        //Time end
+        $time_end = microtime(true);
+        $time = $time_end - $time_start;
+
+        $this->logger->info("Email to ".$notification->getRecipientData()." in ".$time." seconds.");
+        $this->logger->info("Notification id ".$id);
+        $this->logger->info("Class is ".$class);
+        $this->logger->info("Class of subject is ".get_class($notification->getSubject()));
+
+        }
+        catch(\Exception $e){
+
+        $this->logger->err('Message: '.$e->getMessage());
+
+        }
         //Process notification.
         //$msg will be an instance of `PhpAmqpLib\Message\AMQPMessage` with the $msg->body being the data sent over RabbitMQ.
 

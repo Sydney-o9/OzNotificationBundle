@@ -163,7 +163,7 @@ class FilterManager extends BaseFilterManager
     /**
      * {@inheritDoc}
      */
-    public function getFilterForEventOwnedBySingleReceiver(NotificationEventInterface $event, UserInterface $receiver)
+    public function getFilterOwnedByUser(NotificationEventInterface $event, UserInterface $user)
     {
         $qb = $this->repository->createQueryBuilder('f')
             ->select(array('f', 'up', 'u'))
@@ -173,7 +173,7 @@ class FilterManager extends BaseFilterManager
             ->andWhere('nk.notificationKey = :key')
             ->andWhere('u.username = :username')
             ->setParameter('key', (string)$event->getNotificationKey())
-            ->setParameter('username', $receiver->getUsername());
+            ->setParameter('username', $user->getUsername());
 
         return $qb->getQuery()->getOneOrNullResult();
     }

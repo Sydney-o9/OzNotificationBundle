@@ -6,6 +6,9 @@
 
     <mapped-superclass name="merk\NotificationBundle\Entity\Filter">
 
+        <id name="id" column="id" type="integer">
+            <generator strategy="AUTO" />
+        </id>
 
     </mapped-superclass>
 

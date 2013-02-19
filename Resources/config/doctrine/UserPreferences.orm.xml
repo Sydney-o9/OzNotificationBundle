@@ -6,6 +6,10 @@
 
     <mapped-superclass name="merk\NotificationBundle\Entity\UserPreferences">
 
+        <id name="id" column="id" type="integer">
+            <generator strategy="AUTO" />
+        </id>
+
         <field name="updatedAt" column="updated_at" type="datetime" />
 
         <field name="defaultMethod" column="default_method" type="string" />

@@ -19,6 +19,11 @@ namespace merk\NotificationBundle\Model;
 abstract class UserPreferences implements UserPreferencesInterface
 {
     /**
+     * @var integer $id
+     */
+    protected $id;
+
+    /**
      * @var \DateTime
      */
     protected $updatedAt;

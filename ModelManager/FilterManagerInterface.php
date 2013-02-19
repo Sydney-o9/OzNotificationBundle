@@ -13,6 +13,7 @@ namespace merk\NotificationBundle\ModelManager;
 
 use Symfony\Component\Security\Core\User\UserInterface;
 use merk\NotificationBundle\Model\NotificationEventInterface;
+use merk\NotificationBundle\Model\FilterInterface;
 
 
 
@@ -33,10 +34,10 @@ interface FilterManagerInterface
      * 1 event ---> 1 notification key ----> 1 filter/user/event
      *
      * @param NotificationEventInterface $event
-     * @param UserInterface $receiver
-     * @return array
+     * @param UserInterface $user
+     * @return FilterInterface|null
      */
-    public function getFilterForEventOwnedBySingleReceiver(NotificationEventInterface $event, UserInterface $receiver);
+    public function getFilterOwnedByUser(NotificationEventInterface $event, UserInterface $user);
 
 
     /**

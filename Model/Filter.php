@@ -19,6 +19,11 @@ namespace merk\NotificationBundle\Model;
 abstract class Filter implements FilterInterface
 {
     /**
+     * @var integer $id
+     */
+    protected $id;
+
+    /**
      * @var NotificationKey
      */
     protected $notificationKey;
@@ -38,6 +43,13 @@ abstract class Filter implements FilterInterface
      */
     protected $userPreferences;
 
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 
     /**
      * @return NotificationKey

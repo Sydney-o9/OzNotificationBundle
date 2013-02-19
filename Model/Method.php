@@ -7,9 +7,22 @@ abstract class Method implements MethodInterface
 {
 
     /**
+     * @var integer $id
+     */
+    protected $id;
+
+    /**
      * @var string $name
      */
     protected $name;
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 
     /**
      * @param string $name

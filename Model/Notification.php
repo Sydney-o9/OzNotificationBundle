@@ -15,6 +15,12 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 abstract class Notification implements NotificationInterface
 {
+
+    /**
+     * @var integer $id
+     */
+    protected $id;
+
     /**
      * @var \Symfony\Component\Security\Core\User\UserInterface
      */
@@ -68,6 +74,15 @@ abstract class Notification implements NotificationInterface
     }
 
     abstract public function getType();
+
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 
     /**
      * @param string $message

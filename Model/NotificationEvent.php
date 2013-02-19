@@ -22,6 +22,11 @@ use DateTime;
 abstract class NotificationEvent implements NotificationEventInterface
 {
     /**
+     * @var integer $id
+     */
+    protected $id;
+
+    /**
      * @var string $notificationKey
      */
     protected $notificationKey;
@@ -62,6 +67,15 @@ abstract class NotificationEvent implements NotificationEventInterface
         $this->setActor($actor);
         $this->setSubject($subject);
     }
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
 
     /**
      * Returns the user that caused the event.

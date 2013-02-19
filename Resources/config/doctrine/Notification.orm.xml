@@ -6,6 +6,10 @@
 
     <mapped-superclass name="merk\NotificationBundle\Entity\Notification">
 
+        <id name="id" column="id" type="integer">
+            <generator strategy="AUTO" />
+        </id>
+
         <field name="subject" column="subject" type="string" nullable="true" />
         <field name="message" column="message" type="text" />
 
