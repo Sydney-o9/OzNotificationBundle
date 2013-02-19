@@ -94,12 +94,14 @@ class NotificationEventManager extends BaseNotificationEventManager
     /**
      * Converts the persisted subject string into a reference
      * object, or queries for the appropriate object.
+     *
      * @param NotificationEvent $event
      * @param bool $reference
      */
     public function replaceSubject(NotificationEvent $event, $reference = true)
     {
         if ($reference) {
+
             $subject = $this->em->getReference(
                 $event->getSubjectClass(),
                 $event->getSubjectIdentifiers()
