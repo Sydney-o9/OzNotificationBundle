@@ -54,16 +54,22 @@ class SMSAgent implements AgentInterface
      * Sends a group of notifications.
      *
      * @param array $notifications
+     * @param bool $useMessageBroker
      */
-    public function sendBulk(array $notifications)
+    public function sendBulk(array $notifications, $useMessageBroker = true)
     {
         foreach ($notifications as $notification) {
 
-//            $this->send($notification);
-            //Implementation of RABBITMQ
-            $this->notificationSMSProducer->publish(serialize($notification));
-
+            if ($useMessageBroker){
+                //Implementation of Message Broker
+                $this->notificationSMSProducer->publish(serialize($notification));
+            }
+            else{
+                $this->send($notification);
+            }
 
         }
+
     }
+
 }

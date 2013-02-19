@@ -90,7 +90,9 @@ class Notifier implements NotifierInterface
         /** If the receiver has a filter (subscribed to that event) */
         if ($filter = $this->filterManager->getFilterForEventOwnedBySingleReceiver($event, $receiver)){
             echo "The user has a filter. <br /><br />";
-            $notifications = $this->notificationManager->createForEvent($event, $filter);
+
+            //TODO: Check error here.
+            $notifications = $this->notificationManager->createForCommittedUser($event, $filter);
         }
 
         /** If the receiver hasn't subscribed, generate default notification */
@@ -127,9 +129,7 @@ class Notifier implements NotifierInterface
 
         $event = $this->notificationEventManager->create($notificationKey, $subject, $verb, $actor, $createdAt);
 
-        $filters = $this->filterManager->getFiltersForEvent($event);
-
-        $notifications = $this->generateNotificationForAllUsers($event, $filters);
+        $notifications = $this->generateNotificationForAllUsers($event);
 
         $this->sender->send($notifications);
 
@@ -143,9 +143,9 @@ class Notifier implements NotifierInterface
      * Generate notifications for All Users: Committed and Uncommitted to a filter/Notification key
      *
      */
-    public function generateNotificationForAllUsers(NotificationEventInterface $event, $filters){
+    public function generateNotificationForAllUsers(NotificationEventInterface $event){
 
-        $committedNotifications = $this->generateNotificationForCommittedUsers($event, $filters);
+        $committedNotifications = $this->generateNotificationForCommittedUsers($event);
 
         $uncommittedNotifications = $this->generateNotificationForUncommittedUsers($event);
 
@@ -158,9 +158,11 @@ class Notifier implements NotifierInterface
      * Generate notifications for Users Committed to a filter/Notification key
      *
      */
-    public function generateNotificationForCommittedUsers(NotificationEventInterface $event, $filters){
+    public function generateNotificationForCommittedUsers(NotificationEventInterface $event){
 
-        $committedNotifications = $this->notificationManager->createForEvent($event, $filters);
+        $filters = $this->filterManager->getFiltersForEvent($event);
+
+        $committedNotifications = $this->notificationManager->createForCommittedUsers($event, $filters);
 
         return $committedNotifications;
 
@@ -168,26 +170,13 @@ class Notifier implements NotifierInterface
 
     /**
      * Generate notifications for Users Uncommitted to a filter/Notification key
-     * Todo: move the logic to notificationManager?
      *
      */
     public function generateNotificationForUncommittedUsers(NotificationEventInterface $event){
 
-
         $users = $this->filterManager->getUncommittedUsers($event->getNotificationKey());
 
-        $uncommittedNotifications = array();
-
-        foreach ($users as $user){
-            $notifications = $this->notificationManager->createForUncommittedUser($event, $user);
-
-            foreach ($notifications as $notification){
-
-                $uncommittedNotifications[] = $notification;
-            }
-
-
-        }
+        $uncommittedNotifications = $this->notificationManager->createForUncommittedUsers($event, $users);
 
         return $uncommittedNotifications;
     }

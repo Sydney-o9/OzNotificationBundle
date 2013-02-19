@@ -39,7 +39,6 @@ interface FilterManagerInterface
     public function getFilterForEventOwnedBySingleReceiver(NotificationEventInterface $event, UserInterface $receiver);
 
 
-
     /**
      * Obtain filter for a particular user that subscribed to a particular notification key
      *

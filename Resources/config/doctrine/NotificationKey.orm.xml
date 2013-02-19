@@ -14,6 +14,8 @@
 
         <field name="isBulkable" column="isBulkable" type="boolean" />
 
+        <field name="isSubscribable" column="isSubscribable" type="boolean" />
+
         <field name="subscriberRoles" column="subscriberRoles" type="array" />
 
         <field name="description" column="description" type="string" />

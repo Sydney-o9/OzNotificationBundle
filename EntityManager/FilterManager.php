@@ -117,7 +117,6 @@ class FilterManager extends BaseFilterManager
      * Generate ArrayCollection of the default methods
      * for a particular filter
      *
-     *
      * @param FilterInterface $filter
      * @return \merk\NotificationBundle\Model\Method[]
      */
@@ -176,7 +175,7 @@ class FilterManager extends BaseFilterManager
             ->setParameter('key', (string)$event->getNotificationKey())
             ->setParameter('username', $receiver->getUsername());
 
-        return $qb->getQuery()->getResult();
+        return $qb->getQuery()->getOneOrNullResult();
     }
 
 

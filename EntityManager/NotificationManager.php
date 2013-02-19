@@ -47,48 +47,11 @@ class NotificationManager extends BaseNotificationManager
         $this->notificationDiscriminator = $notificationDiscriminator;
     }
 
-    /**
-     * Persists and flushes a notification to persistent storage.
-     *
-     * @param \merk\NotificationBundle\Model\NotificationInterface $notification
-     * @param bool $flush
-     */
-    public function update(NotificationInterface $notification, $flush = true)
-    {
-        $this->em->persist($notification);
-
-        if ($flush) {
-            $this->em->flush();
-        }
-    }
 
     /**
-     * Persists and flushes multiple notifications to persistent storage.
-     *
-     * @param array $notifications
-     * @param bool $flush
+     * {@inheritDoc}
      */
-    public function updateBulk(array $notifications, $flush = true)
-    {
-        foreach ($notifications AS $notification) {
-
-            $this->update($notification, false);
-        }
-
-        if ($flush) {
-            $this->em->flush();
-        }
-    }
-
-    /**
-     * Create a single notification using the event triggered
-     * and a unique filter selected for that event
-     *
-     * @param NotificationEventInterface $event
-     * @param FilterInterface $filter
-     * @return NotificationInterface
-     */
-    public function create(NotificationEventInterface $event, FilterInterface $filter)
+    public function createForCommittedUser(NotificationEventInterface $event, FilterInterface $filter)
     {
         /** If user hasn't access to that event, no notifications are created */
         if (!$this->CanUserAccessToEvent($event, $filter->getUserPreferences()->getUser())){return array();}
@@ -124,21 +87,16 @@ class NotificationManager extends BaseNotificationManager
     }
 
     /**
-     * Create all notifications using the event triggered
-     * and the array of filters selected for that event
-     *
-     * @param NotificationEventInterface $event
-     * @param array $filters
-     * @return array Notification[]
+     * {@inheritDoc}
      */
-    public function createForEvent(NotificationEventInterface $event, array $filters)
+    public function createForCommittedUsers(NotificationEventInterface $event, array $filters)
     {
         $notificationsForEvent = array();
 
         /** Iterate through each filter */
         foreach ($filters AS $filter) {
 
-            $notifications = $this->create($event, $filter);
+            $notifications = $this->createForCommittedUser($event, $filter);
 
             foreach ($notifications AS $notification){
 
@@ -151,12 +109,7 @@ class NotificationManager extends BaseNotificationManager
     }
 
     /**
-     * Create the default notifications using the event triggered
-     * and the user (uncommitted to the notificationKey)
-     *
-     * @param NotificationEventInterface $event
-     * @param UserInterface $user
-     * @return array NotificationInterface[]
+     * {@inheritDoc}
      */
     public function createForUncommittedUser(NotificationEventInterface $event, UserInterface $user)
     {
@@ -189,15 +142,40 @@ class NotificationManager extends BaseNotificationManager
         return $notifications;
     }
 
+
     /**
-     * Check if user has access to that notification key with his role.
-     *
-     * @param NotificationEventInterface $event
-     * @param userInterface $user
-     * @return boolean
+     * {@inheritDoc}
+     */
+    public function createForUncommittedUsers(NotificationEventInterface $event, array $users)
+    {
+        $uncommittedNotifications = array();
+
+        foreach ($users as $user){
+
+            $notifications = $this->createForUncommittedUser($event, $user);
+
+            foreach ($notifications as $notification){
+
+                $uncommittedNotifications[] = $notification;
+            }
+
+        }
+
+        return $uncommittedNotifications;
+    }
+
+
+    /**
+     * {@inheritDoc}
      */
     public function CanUserAccessToEvent(NotificationEventInterface $event, UserInterface $user){
 
+        /** If notification key is not subscribable, user can not access to that event */
+        if (false === $event->getNotificationKey()->isSubscribable() ){
+            return false;
+        }
+
+        /** If user does not have required roles, user can not access to that event */
         $requiredRoles = $event->getNotificationKey()->getSubscriberRoles();
         $roles = $user->getRoles();
 
@@ -212,5 +190,31 @@ class NotificationManager extends BaseNotificationManager
         return $canAccess;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public function update(NotificationInterface $notification, $flush = true)
+    {
+        $this->em->persist($notification);
+
+        if ($flush) {
+            $this->em->flush();
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function updateBulk(array $notifications, $flush = true)
+    {
+        foreach ($notifications AS $notification) {
+
+            $this->update($notification, false);
+        }
+
+        if ($flush) {
+            $this->em->flush();
+        }
+    }
 
 }

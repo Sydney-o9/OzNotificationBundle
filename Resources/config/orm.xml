@@ -59,7 +59,6 @@
             <argument>%merk_notification_types%</argument>
         </service>
 
-
     </services>
 
 </container>

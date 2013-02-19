@@ -88,7 +88,8 @@ class NotificationKeyManager extends BaseNotificationKeyManager
     }
 
     /**
-     * Fetch all objects that have the subscriberRoles
+     * Fetch all objects that are subscribable and have
+     * the subscriberRole $subscriberRole
      *
      * @param string $subscriberRole
      * @throws \InvalidArgumentException
@@ -102,9 +103,10 @@ class NotificationKeyManager extends BaseNotificationKeyManager
 
         $qb = $this->repository->createQueryBuilder('nek');
 
-        $qb->select(array('nek'))
-            ->where($qb->expr()->like('nek.subscriberRoles', ':subscriberRole')
-        )
+        $qb ->select(array('nek'))
+            ->where('nek.isSubscribable = :isSubscribable')
+            ->andWhere($qb->expr()->like('nek.subscriberRoles', ':subscriberRole'))
+            ->setParameter('isSubscribable', true)
             ->setParameter('subscriberRole',"%".$subscriberRole."%");
 
         return $qb->getQuery()->getResult();
@@ -112,7 +114,8 @@ class NotificationKeyManager extends BaseNotificationKeyManager
     }
 
     /**
-     * Fetch all objects that have the subscriberRoles
+     * Fetch all objects that are subscribable and have
+     * the subscriberRoles $subscriberRoles
      *
      * @param array $subscriberRoles
      * @throws \InvalidArgumentException
@@ -133,8 +136,11 @@ class NotificationKeyManager extends BaseNotificationKeyManager
 
             $identifier = ':subscriberRole'.$i;
 
-            $qb->orWhere($qb->expr()->like('nek.subscriberRoles', $identifier))
+            $qb ->andWhere('nek.isSubscribable = :isSubscribable')
+                ->orWhere($qb->expr()->like('nek.subscriberRoles', $identifier))
+                ->setParameter('isSubscribable', true)
                 ->setParameter($identifier,"%".$subscriberRole."%");
+
             $i++;
 
         }
