@@ -123,6 +123,7 @@ class NotificationKeyManager extends BaseNotificationKeyManager
      */
     public function findBySubscriberRoles($subscriberRoles)
     {
+
         if(!is_array($subscriberRoles)){
             throw new \InvalidArgumentException(sprintf('SubscriberRoles should be an array, %s given.', gettype($subscriberRoles)));
         }
@@ -136,14 +137,14 @@ class NotificationKeyManager extends BaseNotificationKeyManager
 
             $identifier = ':subscriberRole'.$i;
 
-            $qb ->andWhere('nek.isSubscribable = :isSubscribable')
-                ->orWhere($qb->expr()->like('nek.subscriberRoles', $identifier))
-                ->setParameter('isSubscribable', true)
-                ->setParameter($identifier,"%".$subscriberRole."%");
+            $qb->orWhere($qb->expr()->like('nek.subscriberRoles', $identifier))
+               ->setParameter($identifier,"%".$subscriberRole."%");
 
             $i++;
-
         }
+
+        $qb->andwhere('nek.isSubscribable = :isSubscribable')
+            ->setParameter('isSubscribable', true);
 
         return $qb->getQuery()->getResult();
 
