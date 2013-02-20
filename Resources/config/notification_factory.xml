@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+
+        <service id="merk_notification.notification.factory.default" class="merk\NotificationBundle\NotificationFactory\NotificationFactory">
+            <tag name="merk_notification.notification.factory" alias="default" />
+            <argument type="service" id="merk_notification.renderer.default" /> <!-- Renderer -->
+        </service>
+
+        <service id="merk_notification.notification.factory.email" class="merk\NotificationBundle\NotificationFactory\EmailNotificationFactory">
+            <tag name="merk_notification.notification.factory" alias="email" />
+            <argument type="service" id="merk_notification.renderer.default" /> <!-- Renderer -->
+        </service>
+
+        <service id="merk_notification.notification.factory.sms" class="merk\NotificationBundle\NotificationFactory\SMSNotificationFactory">
+            <tag name="merk_notification.notification.factory" alias="sms" />
+            <argument type="service" id="merk_notification.renderer.default" /> <!-- Renderer -->
+        </service>
+
+    </services>
+
+</container>

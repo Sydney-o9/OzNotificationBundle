@@ -22,8 +22,7 @@
         <service id="merk_notification.notification.manager.default" class="merk\NotificationBundle\EntityManager\NotificationManager">
             <argument type="service" id="merk_notification.entity_manager" />
             <argument>%merk_notification.notification.class%</argument>
-            <argument type="service" id="merk_notification.renderer" />
-            <argument type="service" id="merk_notification.notification.discriminator" />
+            <argument type="service" id="merk_notification.discriminator" />
         </service>
 
         <service id="merk_notification.user_preferences.manager.default" class="merk\NotificationBundle\EntityManager\UserPreferencesManager">
@@ -42,16 +41,6 @@
         <service id="merk_notification.method.manager.default" class="merk\NotificationBundle\EntityManager\MethodManager">
             <argument type="service" id="merk_notification.entity_manager" />
             <argument>%merk_notification.method.class%</argument>
-        </service>
-
-        <service id="merk_notification.unique_filter.validator" class="merk\NotificationBundle\Validator\Constraints\UniqueFilterValidator">
-            <argument type="service" id="security.context" />
-            <argument type="service" id="merk_notification.filter.manager" />
-            <tag name="validator.constraint_validator" alias="merk_notification.filter.validator" />
-        </service>
-
-        <service id="merk_notification.notification.discriminator.default" class="merk\NotificationBundle\ModelManager\NotificationDiscriminator">
-            <argument>%merk_notification_types%</argument>
         </service>
 
     </services>

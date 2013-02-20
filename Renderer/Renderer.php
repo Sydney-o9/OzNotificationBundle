@@ -12,7 +12,7 @@
 namespace merk\NotificationBundle\Renderer;
 
 use merk\NotificationBundle\Model\NotificationInterface;
-use Symfony\Component\Templating\EngineInterface;
+
 
 /**
  * Renders the template for a notification.
@@ -22,22 +22,17 @@ use Symfony\Component\Templating\EngineInterface;
 class Renderer implements RendererInterface
 {
     /**
-     * @var \Symfony\Component\Templating\EngineInterface
-     */
-    protected $engine;
-
-    /**
      * @var string
      */
     protected $nameTemplate;
 
     /**
-     * @param \Symfony\Component\Templating\EngineInterface $engine
+     * @param \Twig_Environment $twig
      * @param string $nameTemplate
      */
-    public function __construct(EngineInterface $engine, $nameTemplate)
+    public function __construct(\Twig_Environment $twig, $nameTemplate)
     {
-        $this->engine = $engine;
+        $this->twig    = $twig;
         $this->nameTemplate = $nameTemplate;
     }
 
@@ -49,22 +44,23 @@ class Renderer implements RendererInterface
      *
      * @return array(
      *             'subject' => // Subject to be used for the notification,
-     *             'body' => // Body of the notification
+     *             'body_txt' => // Body Txt of the notification
+     *             'body_html' => // Body Html of the notification
      *         )
      */
     public function render(NotificationInterface $notification)
     {
-        $templateName = $this->resolveTemplateName($notification);
+        $template = $this->resolveTemplateName($notification);
 
-        $rendered = $this->engine->render($templateName, array(
-            'notification' => $notification
-        ));
+        $subject = $this->twig->loadTemplate($template)
+            ->renderBlock('subject', array('notification' => $notification));
 
-        $firstNewline = strpos($rendered, "\n");
-        $subject = substr($rendered, 0, $firstNewline);
-        $body = substr($rendered, $firstNewline + 1);
+        $body = $this->twig->loadTemplate($template)
+            ->renderBlock('body', array('notification' => $notification));
+
 
         return compact('subject', 'body');
+
     }
 
     /**
@@ -93,7 +89,7 @@ class Renderer implements RendererInterface
                 'txt'
             );
 
-            if ($this->engine->exists($templateName)) {
+            if ($this->exists($templateName)) {
                 return $templateName;
             }
 
@@ -118,5 +114,21 @@ class Renderer implements RendererInterface
             $method,
             $format
         );
+    }
+
+    /**
+     * Checks if template exists
+     *
+     * @param $template
+     * @return bool
+     */
+    protected function exists($template){
+        try {
+            $this->twig->loadTemplate($template);
+        } catch (\Twig_Error_Loader $e) {
+            return false;
+        }
+        return true;
+
     }
 }

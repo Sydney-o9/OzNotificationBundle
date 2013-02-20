@@ -2,51 +2,10 @@
 
 namespace merk\NotificationBundle\NotificationFactory;
 
-use merk\NotificationBundle\NotificationFactory\NotificationFactoryInterface;
-use \merk\NotificationBundle\Renderer\RendererInterface;
-use merk\NotificationBundle\Model\NotificationInterface;
 
-class NotificationFactory implements NotificationFactoryInterface
+
+class EmailNotificationFactory extends NotificationFactory
 {
-
-    /**
-     * @var RendererInterface
-     */
-    protected $renderer;
-
-    /**
-     * @var string
-     */
-    protected $class;
-
-    public function __construct(RendererInterface $renderer){
-
-        $this->renderer = $renderer;
-
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setClass($class){
-
-        $this->class = $class;
-    }
-
-
-    /**
-     * {@inheritDoc}
-     */
-    public function build($class)
-    {
-        $notification = new $class;
-        if (!$notification instanceof NotificationInterface){
-            throw new \Exception('Should be an instance of NotificationInterface');
-        }
-
-        return $notification;
-    }
-
 
     /**
      * {@inheritDoc}
@@ -66,12 +25,11 @@ class NotificationFactory implements NotificationFactoryInterface
 
         $notification->setSubject($template['subject']);
 
-        $notification->setMessage($template['body']);
+        $notification->setMessage($template['body_html']);
 
         return $notification;
 
     }
-
 
     /**
      * {@inheritDoc}
@@ -88,10 +46,11 @@ class NotificationFactory implements NotificationFactoryInterface
 
         $template = $this->renderer->render($notification);
         $notification->setSubject($template['subject']);
-        $notification->setMessage($template['body']);
+        $notification->setMessage($template['body_html']);
 
         return $notification;
 
     }
+
 
 }

@@ -1,7 +1,7 @@
 {% extends "merkNotificationBundle:Notifications:base.txt.twig" %}
 
-{% block title %}A notification has been fired for {{ notification.event.notificationKey }}{% endblock title %}
+{% block subject %}A notification has been fired for {{ notification.event.notificationKey }}{% endblock subject %}
 
-{% block body %}
-Hello! Stuff happened.
-{% endblock body %}
+{% block body_text %}
+    Hello! Stuff happened.
+{% endblock body_text %}

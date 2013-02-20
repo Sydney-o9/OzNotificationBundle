@@ -16,9 +16,9 @@ use merk\NotificationBundle\Model\FilterInterface;
 use merk\NotificationBundle\Model\NotificationEventInterface;
 use merk\NotificationBundle\Model\NotificationInterface;
 use merk\NotificationBundle\ModelManager\NotificationManager as BaseNotificationManager;
-use merk\NotificationBundle\Renderer\RendererInterface;
+use merk\NotificationBundle\Discriminator\Discriminator;
 use Symfony\Component\Security\Core\User\UserInterface;
-use merk\NotificationBundle\ModelManager\NotificationDiscriminator;
+
 
 
 /**
@@ -31,20 +31,18 @@ class NotificationManager extends BaseNotificationManager
     protected $em;
     protected $repository;
     protected $class;
-    protected $renderer;
-    protected $notificationDiscriminator;
+    protected $discriminator;
 
-    public function __construct(EntityManager $em, $class, RendererInterface $renderer, NotificationDiscriminator $notificationDiscriminator)
+    public function __construct(EntityManager $em, $class, Discriminator $discriminator)
     {
         $this->em = $em;
         $this->repository = $em->getRepository($class);
 
-        $this->renderer = $renderer;
-
         $metadata = $em->getClassMetadata($class);
         $this->class = $metadata->name;
 
-        $this->notificationDiscriminator = $notificationDiscriminator;
+        $this->discriminator = $discriminator;
+
     }
 
 
@@ -65,17 +63,10 @@ class NotificationManager extends BaseNotificationManager
         while($method = $iterator->current()){
 
             /** @var NotificationInterface $notification  */
-            $notification = $this->notificationDiscriminator->createNotification($method->getName());
+            $notificationFactory = $this->discriminator->getNotificationFactory($method->getName());
 
-            $notification->setEvent($event);
-
-            $notification->setUser($filter->getUserPreferences()->getUser());
-            $notification->setRecipientName($filter->getRecipientName());
-            $notification->setRecipientData($filter->getRecipientData());
-
-            $template = $this->renderer->render($notification);
-            $notification->setSubject($template['subject']);
-            $notification->setMessage($template['body']);
+            $notification = $notificationFactory
+                ->createNotificationFromFilter($event, $filter);
 
             $notifications[] = $notification;
 
@@ -124,16 +115,10 @@ class NotificationManager extends BaseNotificationManager
         foreach($methods as $method){
 
             /** @var NotificationInterface $notification  */
-            $notification = $this->notificationDiscriminator->createNotification($method->getName());
-            $notification->setEvent($event);
+            $notificationFactory = $this->discriminator->getNotificationFactory($method->getName());
 
-            $notification->setUser($user);
-            $notification->setRecipientName($user->getUsername());
-            $notification->setRecipientData($user->getEmail());
-
-            $template = $this->renderer->render($notification);
-            $notification->setSubject($template['subject']);
-            $notification->setMessage($template['body']);
+            $notification = $notificationFactory
+                ->createNotificationFromUser($event, $user);
 
             $notifications[] = $notification;
 

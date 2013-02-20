@@ -131,12 +131,11 @@ class Notifier implements NotifierInterface
 
         $notifications = $this->generateNotificationForAllUsers($event);
 
-        $this->sender->send($notifications);
-
         $this->notificationEventManager->update($event, false);
 
         $this->notificationManager->updateBulk($notifications);
 
+        $this->sender->send($notifications);
     }
 
     /**

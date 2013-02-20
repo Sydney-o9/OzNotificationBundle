@@ -97,10 +97,10 @@ class NotificationEventManager extends BaseNotificationEventManager
      *
      * @param NotificationEvent $event
      * @param bool $reference
+     * @return null
      */
     public function replaceSubject(NotificationEvent $event, $reference = true)
     {
-
         if ($reference) {
 
             $subject = $this->em->getReference(
@@ -116,7 +116,7 @@ class NotificationEventManager extends BaseNotificationEventManager
         }
 
         $event->setSubject($subject);
-    }
+   }
 
 
     /**

@@ -44,6 +44,8 @@ class SMSAgent implements AgentInterface
      * Sends a single notification.
      *
      * @param \merk\NotificationBundle\Model\NotificationInterface $notification
+     * @throws \Exception
+     * @return void
      */
     public function send(NotificationInterface $notification)
     {

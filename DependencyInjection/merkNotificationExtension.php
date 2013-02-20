@@ -44,17 +44,17 @@ class merkNotificationExtension extends Extension
         }
         $loader->load(sprintf('%s.xml', $config['db_driver']));
 
-        foreach (array('form', 'notifier', 'renderer', 'sender', 'consumer', 'logger', 'listener') as $basename) {
+        foreach (array('form', 'notifier', 'renderer', 'sender', 'consumer', 'logger', 'listener', 'validator', 'discriminator', 'notification_factory') as $basename) {
             $loader->load(sprintf('%s.xml', $basename));
         }
-
+        //Managers
         $container->setAlias('merk_notification.filter.manager', 'merk_notification.filter.manager.default');
         $container->setAlias('merk_notification.notification.manager', 'merk_notification.notification.manager.default');
         $container->setAlias('merk_notification.notification_event.manager', 'merk_notification.notification_event.manager.default');
         $container->setAlias('merk_notification.notification_key.manager', 'merk_notification.notification_key.manager.default');
         $container->setAlias('merk_notification.user_preferences.manager', 'merk_notification.user_preferences.manager.default');
         $container->setAlias('merk_notification.method.manager', 'merk_notification.method.manager.default');
-        $container->setAlias('merk_notification.notification.discriminator', 'merk_notification.notification.discriminator.default');
+
 
         $container->setParameter('merk_notification.model_manager_name', $config['model_manager_name']);
         $container->setParameter('merk_notification.user.class', $config['class']['user']);
