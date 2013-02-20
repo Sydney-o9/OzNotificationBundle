@@ -60,9 +60,11 @@ class SMSAgent implements AgentInterface
     {
         foreach ($notifications as $notification) {
 
+            $message = array('class'=> get_class($notification),'id'=> $notification->getId());
+
             if ($useMessageBroker){
                 //Implementation of Message Broker
-                $this->notificationSMSProducer->publish(serialize($notification));
+                $this->notificationSMSProducer->publish(serialize($message));
             }
             else{
                 $this->send($notification);

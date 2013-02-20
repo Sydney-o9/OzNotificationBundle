@@ -105,6 +105,7 @@ class Notifier implements NotifierInterface
         $this->notificationManager->updateBulk($notifications);
 
         $this->sender->send($notifications);
+
     }
 
 

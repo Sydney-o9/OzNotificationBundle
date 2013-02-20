@@ -44,11 +44,6 @@
             <argument>%merk_notification.method.class%</argument>
         </service>
 
-        <service id="merk_notification.notification_event.listener" class="merk\NotificationBundle\EventListener\NotificationEventListener" public="false">
-            <tag name="doctrine.event_subscriber" />
-            <argument type="service" id="service_container" />
-        </service>
-
         <service id="merk_notification.unique_filter.validator" class="merk\NotificationBundle\Validator\Constraints\UniqueFilterValidator">
             <argument type="service" id="security.context" />
             <argument type="service" id="merk_notification.filter.manager" />

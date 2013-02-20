@@ -71,11 +71,15 @@ class EmailAgent implements AgentInterface
      */
     public function sendBulk(array $notifications, $useMessageBroker = true)
     {
+
         foreach ($notifications as $notification) {
 
+            $message = array('class'=> get_class($notification),'id'=> $notification->getId());
+
             if ($useMessageBroker){
+
                 //Implementation of Message Broker
-                $this->notificationEmailProducer->publish(serialize($notification));
+                $this->notificationEmailProducer->publish(serialize($message));
             }
             else{
                 $this->send($notification);

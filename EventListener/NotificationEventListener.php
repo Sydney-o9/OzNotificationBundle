@@ -17,6 +17,7 @@ use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use merk\NotificationBundle\Model\NotificationEventInterface as BaseNotificationEventInterface;
 use merk\NotificationBundle\ModelManager\NotificationEventManager as BaseNotificationEventManager;
+use merk\NotificationBundle\Model\NotificationInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -69,17 +70,17 @@ class NotificationEventListener implements EventSubscriber
 
     public function postLoad(LifecycleEventArgs $args)
     {
-
         $entity = $args->getEntity();
-        ladybug_dump($entity);
+
         if ($entity instanceof BaseNotificationEventInterface) {
-            echo "I work";
+
             if (null === $this->notificationEventManager) {
                 $this->notificationEventManager = $this->container->get('merk_notification.notification_event.manager');
             }
 
             $this->notificationEventManager->replaceSubject($entity);
         }
+
     }
 
     private function handlePersistEvents(LifecycleEventArgs $args)

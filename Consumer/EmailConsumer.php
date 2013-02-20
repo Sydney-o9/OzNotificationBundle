@@ -42,50 +42,46 @@ class EmailConsumer implements ConsumerInterface
     public function execute(AMQPMessage $msg)
     {
 
-        try{
-        /**  1- Send email */
+        try
+        {
+            //Time start
+            $time_start = microtime(true);
 
-        //Time start
-        $time_start = microtime(true);
+            /**  1- Decode message */
+            $message = unserialize($msg->body);
+            $class = $message['class'];
+            $id = $message['id'];
 
+            /**  2- Fetch notification */
+            $notification = $this->em->find($class, $id);
 
-        $this->logger->info('---->Sending an Email......');
+            /**  3- Send email */
+            $this->send($notification);
 
-        echo "Email";
-
-        $notification = unserialize($msg->body);
-
-        $this->send($notification);
-
-
-        /**  2- Update the object in the database. */
-
-
-            $class = get_class($notification);
-
-            $id = $notification->getId();
-
-            $notificationToUpdate = $this->em->find($class, $id);
-
-            $notificationToUpdate->markSent();
-
+            /**  4- Update notification */
+            $notification->markSent();
             $this->em->flush();
 
+            /**  5- Write into log files */
+            $this->logger->info('---->Sending an Email......');
+            echo "Email";
 
-        //Time end
-        $time_end = microtime(true);
-        $time = $time_end - $time_start;
+            //Time end
+            $time_end = microtime(true);
+            $time = $time_end - $time_start;
 
-        $this->logger->info("Email to ".$notification->getRecipientData()." in ".$time." seconds.");
-        $this->logger->info("Notification id ".$id);
-        $this->logger->info("Class is ".$class);
+            $this->logger->info("Email to ".$notification->getRecipientData()." in ".$time." seconds.");
+            $this->logger->info("Notification id ".$id);
+            $this->logger->info("Class is ".$class);
 
-        $this->logger->info("Class of subject is ".$notificationToUpdate->getEvent()->getSubjectClass());
-        $this->logger->info("Identifiers of subject is ".$notificationToUpdate->getEvent()->getSubjectIdentifiers());
+            $this->logger->info("Class of subject is ".$notification->getEvent()->getSubjectClass());
+            $this->logger->info("Identifiers of subject is ".$notification->getEvent()->getSubjectIdentifiers());
+
         }
-        catch(\Exception $e){
+        catch(\Exception $e)
+        {
 
-        $this->logger->err('Message: '.$e->getMessage());
+            $this->logger->err('Message: '.$e->getMessage());
 
         }
         //Process notification.
