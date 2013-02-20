@@ -44,8 +44,7 @@ class EmailConsumer implements ConsumerInterface
 
         try
         {
-            //Time start
-            $time_start = microtime(true);
+
 
             /**  1- Decode message */
             $message = unserialize($msg->body);
@@ -55,8 +54,12 @@ class EmailConsumer implements ConsumerInterface
             /**  2- Fetch notification */
             $notification = $this->em->find($class, $id);
 
+            //Time start
+            $time_start = microtime(true);
             /**  3- Send email */
             $this->send($notification);
+            $time_end = microtime(true);
+
 
             /**  4- Update notification */
             $notification->markSent();
@@ -67,15 +70,10 @@ class EmailConsumer implements ConsumerInterface
             echo "Email";
 
             //Time end
-            $time_end = microtime(true);
+
             $time = $time_end - $time_start;
 
             $this->logger->info("Email to ".$notification->getRecipientData()." in ".$time." seconds.");
-            $this->logger->info("Notification id ".$id);
-            $this->logger->info("Class is ".$class);
-
-            $this->logger->info("Class of subject is ".$notification->getEvent()->getSubjectClass());
-            $this->logger->info("Identifiers of subject is ".$notification->getEvent()->getSubjectIdentifiers());
 
         }
         catch(\Exception $e)
@@ -107,7 +105,13 @@ class EmailConsumer implements ConsumerInterface
      */
     public function send(NotificationInterface $notification)
     {
-        /** @var \Swift_Message $message  */
+        /* @var $mailer \Swift_Mailer */
+//        if(!$this->mailer->getTransport()->isStarted()){
+//            $this->mailer->getTransport()->start();
+//        }
+
+
+        /* @var $message \Swift_Message */
         $message = $this->mailer->createMessage();
         $message->setSubject($notification->getSubject());
         $message->addPart($notification->getMessage(), 'text/plain', 'UTF8');
@@ -116,6 +120,9 @@ class EmailConsumer implements ConsumerInterface
         $message->setFrom('test@test.com', 'Test Sending');
 
         $this->mailer->send($message);
+//        $this->mailer->getTransport()->stop();
+
+
     }
 
 
