@@ -3,5 +3,9 @@
 {% block subject %}A notification has been fired for {{ notification.event.notificationKey }}{% endblock subject %}
 
 {% block body_text %}
-    Hello! Stuff happened.
+    I am stuck inside a plain text block.
 {% endblock body_text %}
+
+{% block body_html %}
+    <h1>I am stuck inside an HTML block.</h1>
+{% endblock body_html %}

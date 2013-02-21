@@ -76,7 +76,10 @@ class EmailConsumer implements ConsumerInterface
             echo "Email";
             $time_end = microtime(true);
             $time = $time_end - $time_start;
-            $this->logger->info("Email to ".$notification->getRecipientData()." in ".$time." seconds.");
+            $this->logger->info("Email to ".$notification->getRecipientEmail()." in ".$time." seconds.");
+            $this->logger->info($notification->getSubject());
+            $this->logger->info($notification->getBodyText());
+            $this->logger->info($notification->getBodyHtml());
         }catch(\Exception $e){
             $this->logger->err('Message: '.$e->getMessage());
             //If we can't send the message, we send the message back in the queue for later processing
@@ -111,15 +114,16 @@ class EmailConsumer implements ConsumerInterface
             $this->mailer->getTransport()->start();
         }
 
-
         /* @var $message \Swift_Message */
         $message = $this->mailer->createMessage();
         $message->setSubject($notification->getSubject());
-//        $message->addPart($notification->getMessage(), 'text/plain', 'UTF8');
-        $message->addPart($notification->getMessage(), 'text/html');
 
-        $message->addTo($notification->getRecipientData(), $notification->getRecipientName());
+        $message->setBody($notification->getBodyHtml(), 'text/html');
+        $message->addPart($notification->getBodyText(), 'text/plain', 'UTF8');
+
+        $message->addTo($notification->getRecipientEmail(), $notification->getRecipientName());
         $message->setFrom('test@test.com', 'Test Sending');
+
 
         $this->mailer->send($message);
         $this->mailer->getTransport()->stop();

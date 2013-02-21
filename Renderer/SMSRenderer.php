@@ -28,15 +28,12 @@ class SMSRenderer extends Renderer
     }
 
     /**
-     * Renders the template required for the notification
-     * TODO: consider caching the result of a render
+     * Renders SMS notification template
      *
      * @param \merk\NotificationBundle\Model\NotificationInterface $notification
      *
      * @return array(
-     *             'subject' => // Subject to be used for the notification,
-     *             'body_txt' => // Body Txt of the notification
-     *             'body_html' => // Body Html of the notification
+     *             'subject' => // Subject of the SMS notification,
      *         )
      */
     public function render(NotificationInterface $notification)

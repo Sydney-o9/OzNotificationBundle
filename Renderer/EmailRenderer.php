@@ -29,13 +29,12 @@ class EmailRenderer extends Renderer
 
     /**
      * Renders the template required for the notification
-     * TODO: consider caching the result of a render
      *
      * @param \merk\NotificationBundle\Model\NotificationInterface $notification
      *
      * @return array(
      *             'subject' => // Subject to be used for the notification,
-     *             'body_txt' => // Body Txt of the notification
+     *             'body_txt' => // Body Text of the notification
      *             'body_html' => // Body Html of the notification
      *         )
      */
@@ -52,11 +51,8 @@ class EmailRenderer extends Renderer
         $body_html = $this->twig->loadTemplate($template)
             ->renderBlock('body_html', array('notification' => $notification));
 
-
         return compact('subject', 'body_text', 'body_html');
 
     }
-
-
 
 }

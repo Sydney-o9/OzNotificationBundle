@@ -31,42 +31,5 @@ interface NotificationInterface
     public function getEvent();
     public function setEvent(NotificationEventInterface $event);
 
-    /**
-     * Returns the subject for the notification.
-     *
-     * Some agents will ignore this subject (such as
-     * SMS, which has no subject).
-     *
-     * @return string
-     */
-    public function getSubject();
-    public function setSubject($subject);
 
-    /**
-     * Returns the message body of the notification.
-     *
-     * @return string
-     */
-    public function getMessage();
-    public function setMessage($message);
-
-    /**
-     * Returns the name of the recipient used for the
-     * notification.
-     *
-     * @return string
-     */
-    public function getRecipientName();
-    public function setRecipientName($recipientName);
-
-    /**
-     * Returns the contact information used to send the
-     * notification. For example, for email notifications,
-     * this will be an email address, and for SMS notifications
-     * this will be a phone number that can recieve SMS messages.
-     *
-     * @return string
-     */
-    public function getRecipientData();
-    public function setRecipientData($recipientData);
 }

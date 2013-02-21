@@ -15,10 +15,17 @@ interface NotificationFactoryInterface
 
     /**
      * Set class for notification
-     * TODO: is this the best strategy?
+     *
      * @param $class
      */
     public function setClass($class);
+
+    /**
+     * Set the renderer
+     *
+     * @param \merk\NotificationBundle\Renderer\RendererInterface $renderer
+     */
+    public function setRenderer($renderer);
 
     /**
      * Create notification using the filter used by the user

@@ -13,6 +13,10 @@ namespace merk\NotificationBundle\Model;
 
 use Symfony\Component\Security\Core\User\UserInterface;
 
+/**
+ * To let the notification customizable, only a subject field
+ * is
+ */
 abstract class Notification implements NotificationInterface
 {
 
@@ -34,6 +38,13 @@ abstract class Notification implements NotificationInterface
     protected $event;
 
     /**
+     * What the notification is about.
+     *
+     * @var string
+     */
+    protected $subject;
+
+    /**
      * When the notification was created.
      *
      * @var \DateTime
@@ -46,26 +57,6 @@ abstract class Notification implements NotificationInterface
      * @var \DateTime
      */
     protected $sentAt;
-
-    /**
-     * The message sent to the user.
-     *
-     * @var string
-     */
-    protected $message;
-
-    /**
-     *
-     * @var string
-     */
-    protected $subject;
-
-
-
-    protected $recipientName;
-
-
-    protected $recipientData;
 
 
     public function __construct()
@@ -85,22 +76,6 @@ abstract class Notification implements NotificationInterface
     }
 
     /**
-     * @param string $message
-     */
-    public function setMessage($message)
-    {
-        $this->message = $message;
-    }
-
-    /**
-     * @return string
-     */
-    public function getMessage()
-    {
-        return $this->message;
-    }
-
-    /**
      * @param \Symfony\Component\Security\Core\User\UserInterface $user
      */
     public function setUser(UserInterface $user)
@@ -117,6 +92,22 @@ abstract class Notification implements NotificationInterface
     }
 
     /**
+     * @return string
+     */
+    public function getSubject()
+    {
+        return $this->subject;
+    }
+
+    /**
+     * @param string $subject
+     */
+    public function setSubject($subject)
+    {
+        $this->subject = $subject;
+    }
+
+    /**
      * @return \DateTime
      */
     public function getCreatedAt()
@@ -124,55 +115,38 @@ abstract class Notification implements NotificationInterface
         return $this->createdAt;
     }
 
+    /**
+     * @param NotificationEventInterface $event
+     */
     public function setEvent(NotificationEventInterface $event)
     {
         $this->event = $event;
     }
 
+    /**
+     * @return NotificationEvent|NotificationEventInterface
+     */
     public function getEvent()
     {
         return $this->event;
     }
 
-    public function setRecipientData($recipientData)
-    {
-        $this->recipientData = $recipientData;
-    }
-
-    public function getRecipientData()
-    {
-        return $this->recipientData;
-    }
-
-    public function setRecipientName($recipientName)
-    {
-        $this->recipientName = $recipientName;
-    }
-
-    public function getRecipientName()
-    {
-        return $this->recipientName;
-    }
-
+    /**
+     * @return \DateTime
+     */
     public function getSentAt()
     {
         return $this->sentAt;
     }
 
-    public function setSubject($subject)
-    {
-        $this->subject = $subject;
-    }
 
-    public function getSubject()
-    {
-        return $this->subject;
-    }
-
+    /**
+     * Mark the message as sent.
+     *
+     */
     public function markSent()
     {
         $this->sentAt = new \DateTime();
     }
-
 
 }

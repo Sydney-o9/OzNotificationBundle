@@ -44,8 +44,6 @@ class Renderer implements RendererInterface
      *
      * @return array(
      *             'subject' => // Subject to be used for the notification,
-     *             'body_txt' => // Body Txt of the notification
-     *             'body_html' => // Body Html of the notification
      *         )
      */
     public function render(NotificationInterface $notification)
@@ -55,11 +53,7 @@ class Renderer implements RendererInterface
         $subject = $this->twig->loadTemplate($template)
             ->renderBlock('subject', array('notification' => $notification));
 
-        $body = $this->twig->loadTemplate($template)
-            ->renderBlock('body', array('notification' => $notification));
-
-
-        return compact('subject', 'body');
+        return compact('subject');
 
     }
 
