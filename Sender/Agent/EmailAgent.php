@@ -19,7 +19,7 @@ use merk\NotificationBundle\Model\NotificationInterface;
  *
  * @author Tim Nagel <tim@nagel.com.au>
  */
-class EmailAgent implements AgentInterface
+class EmailAgent extends Agent implements AgentInterface
 {
     /**
      * @var \Swift_Mailer
@@ -46,9 +46,7 @@ class EmailAgent implements AgentInterface
     }
 
     /**
-     * Sends a single notification.
-     *
-     * @param \merk\NotificationBundle\Model\NotificationInterface $notification
+     * {@inheritDoc}
      */
     public function send(NotificationInterface $notification)
     {
@@ -64,10 +62,7 @@ class EmailAgent implements AgentInterface
     }
 
     /**
-     * Sends a group of notifications.
-     *
-     * @param array $notifications
-     * @param bool $useMessageBroker
+     * {@inheritDoc}
      */
     public function sendBulk(array $notifications, $useMessageBroker = true)
     {

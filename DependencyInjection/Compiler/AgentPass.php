@@ -23,6 +23,7 @@ use InvalidArgumentException;
  */
 class AgentPass implements CompilerPassInterface
 {
+
     /**
      * {@inheritDoc}
      */
@@ -33,14 +34,18 @@ class AgentPass implements CompilerPassInterface
         }
 
         $senders = array();
-        foreach ($container->findTaggedServiceIds('merk_notification.sender.agent') as $id => $tags) {
-            foreach ($tags as $tag) {
-                if (empty($tag['alias'])) {
-                    throw new InvalidArgumentException(sprintf('The Sending Agent "%s" must have an alias', $id));
-                }
 
-                $senders[$tag['alias']] = new Reference($id);
+        $notificationTypes = $container->getParameter('merk_notification_types');
+
+        foreach($notificationTypes as $method => $conf){
+
+            if (!$container->hasDefinition($conf['sender_agent'])) {
+                throw new InvalidArgumentException(sprintf('The Sending Agent service "%s" does not exist', $conf['sender_agent']));
             }
+
+            $senderAgent = new Reference($conf['sender_agent']);
+
+            $senders[$method] = $senderAgent;
         }
 
         $container->getDefinition('merk_notification.sender')->replaceArgument(0, $senders);

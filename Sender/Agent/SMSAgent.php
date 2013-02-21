@@ -21,7 +21,7 @@ use Symfony\Component\HttpKernel\Log\LoggerInterface;
  *
  * @author Tim Nagel <tim@nagel.com.au>
  */
-class SMSAgent implements AgentInterface
+class SMSAgent extends Agent implements AgentInterface
 {
 
     /**
@@ -36,27 +36,19 @@ class SMSAgent implements AgentInterface
      */
     public function __construct($notificationSMSProducer)
     {
-
         $this->notificationSMSProducer = $notificationSMSProducer;
     }
 
     /**
-     * Sends a single notification.
-     *
-     * @param \merk\NotificationBundle\Model\NotificationInterface $notification
-     * @throws \Exception
-     * @return void
+     * {@inheritDoc}
      */
     public function send(NotificationInterface $notification)
     {
-        throw new \Exception('Not implemented');
+        return true;
     }
 
     /**
-     * Sends a group of notifications.
-     *
-     * @param array $notifications
-     * @param bool $useMessageBroker
+     * {@inheritDoc}
      */
     public function sendBulk(array $notifications, $useMessageBroker = true)
     {

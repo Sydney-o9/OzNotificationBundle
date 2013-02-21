@@ -71,54 +71,10 @@ class NotificationDiscriminatorPass implements CompilerPassInterface
 
         }
 
-//        ladybug_dump($container->getDefinition('merk_notification.notification.factory.email')); //Different service
-//        ladybug_dump($container->getDefinition('merk_notification.notification.factory.email')->getMethodCalls());
-//        ladybug_dump($container->getDefinition('merk_notification.notification.factory.sms')); //Different service
-//        ladybug_dump($container->getDefinition('merk_notification.notification.factory.sms')->getMethodCalls());
-//        ladybug_dump($container->getDefinition('merk_notification.notification.factory.internal')); //Different service
-//        ladybug_dump($container->getDefinition('merk_notification.notification.factory.internal')->getMethodCalls());
-//        ladybug_dump($container->getDefinition('merk_notification.notification.factory.facebook')); //Different service
-//        ladybug_dump($container->getDefinition('merk_notification.notification.factory.facebook')->getMethodCalls());
-
-
         $container->getDefinition('merk_notification.notification.discriminator')->replaceArgument(0, $output);
 
 
     }
-
-
-
-
-
-
-
-
-//    /**
-//     * Returns true if it exists a notification method defined in the configuration file
-//     * with the alias $alias
-//     *
-//     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
-//     * @param $alias
-//     * @return bool
-//     */
-//    public function existsNotificationMethod(ContainerBuilder $container, $alias){
-//
-//        $notificationMethods = $container->getParameter('merk_notification_types');
-//
-//        foreach ($notificationMethods as $method => $conf) {
-//
-//            if ($method === $alias) {
-//                return true;
-//            } else{
-//                continue;
-//            }
-//        }
-//
-//        return false;
-//
-//    }
-
-
 
 }
 

@@ -20,7 +20,6 @@ use merk\NotificationBundle\Discriminator\NotificationDiscriminator;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 
-
 /**
  * Doctrine ORM implementation of the NotificationManager class.
  *
@@ -48,7 +47,6 @@ class NotificationManager extends BaseNotificationManager
 
     }
 
-
     /**
      * {@inheritDoc}
      */
@@ -71,7 +69,6 @@ class NotificationManager extends BaseNotificationManager
                 ->createNotificationFromFilter($event, $filter);
 
             $notifications[] = $notification;
-
 
         }
 

@@ -11,8 +11,6 @@
 
 namespace merk\NotificationBundle\Sender;
 
-use merk\NotificationBundle\Model\NotificationEventInterface;
-use merk\NotificationBundle\ModelManager\UserPreferencesManagerInterface;
 use merk\NotificationBundle\Sender\Agent\AgentInterface;
 
 /**
@@ -23,7 +21,7 @@ use merk\NotificationBundle\Sender\Agent\AgentInterface;
 class Sender implements SenderInterface
 {
     /**
-     * An array of sending agents. Key is the alias.
+     * An array of sending agents.
      *
      * @var array
      */
@@ -35,6 +33,7 @@ class Sender implements SenderInterface
      */
     public function __construct(array $agents)
     {
+
         foreach ($agents as $agent) {
             if (!$agent instanceof AgentInterface) {
                 throw new \InvalidArgumentException(sprintf('Agent %s must implement AgentInterface', get_class($agent)));

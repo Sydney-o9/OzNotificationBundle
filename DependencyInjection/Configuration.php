@@ -50,6 +50,7 @@ class Configuration implements ConfigurationInterface
 //                        ->scalarNode('fixture')->isRequired()->cannotBeEmpty()->end()
                         ->scalarNode('renderer')->defaultValue('merk_notification.renderer.default')->end()
                         ->scalarNode('notification_factory')->defaultValue('merk_notification.notification.factory.default')->end()
+                        ->scalarNode('sender_agent')->isRequired()->cannotBeEmpty()->end()
 
                         ->end()
                     ->end()
