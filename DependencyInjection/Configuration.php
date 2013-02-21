@@ -48,6 +48,9 @@ class Configuration implements ConfigurationInterface
                     ->children()
                         ->scalarNode('entity')->isRequired()->cannotBeEmpty()->end()
 //                        ->scalarNode('fixture')->isRequired()->cannotBeEmpty()->end()
+                        ->scalarNode('renderer')->defaultValue('merk_notification.renderer.default')->end()
+                        ->scalarNode('notification_factory')->defaultValue('merk_notification.notification.factory.default')->end()
+
                         ->end()
                     ->end()
                 ->end()

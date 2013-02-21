@@ -10,19 +10,34 @@ class NotificationFactory implements NotificationFactoryInterface
 {
 
     /**
+     * The renderer to use for the notification
+     *
      * @var RendererInterface
      */
     protected $renderer;
 
     /**
+     * Notification class
+     *
      * @var string
      */
     protected $class;
 
-    public function __construct(RendererInterface $renderer){
 
+    /**
+     * @param \merk\NotificationBundle\Renderer\RendererInterface $renderer
+     */
+    public function setRenderer($renderer)
+    {
         $this->renderer = $renderer;
+    }
 
+    /**
+     * @return \merk\NotificationBundle\Renderer\RendererInterface
+     */
+    public function getRenderer()
+    {
+        return $this->renderer;
     }
 
     /**
@@ -31,6 +46,14 @@ class NotificationFactory implements NotificationFactoryInterface
     public function setClass($class){
 
         $this->class = $class;
+    }
+
+    /**
+     * @return string
+     */
+    public function getClass()
+    {
+        return $this->class;
     }
 
 

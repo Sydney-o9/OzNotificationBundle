@@ -12,7 +12,7 @@
 namespace merk\NotificationBundle;
 
 use merk\NotificationBundle\DependencyInjection\Compiler\AgentPass;
-use merk\NotificationBundle\DependencyInjection\Compiler\DiscriminatorPass;
+use merk\NotificationBundle\DependencyInjection\Compiler\NotificationDiscriminatorPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
@@ -34,6 +34,6 @@ class merkNotificationBundle extends Bundle
 
         $container->addCompilerPass(new AgentPass());
 
-        $container->addCompilerPass(new DiscriminatorPass());
+        $container->addCompilerPass(new NotificationDiscriminatorPass());
     }
 }

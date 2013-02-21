@@ -5,11 +5,8 @@
 
     <services>
 
-        <service id="merk_notification.discriminator" class="merk\NotificationBundle\Discriminator\Discriminator">
-            <argument>%merk_notification_types%</argument>
-            <argument type="collection" /> <!-- NotificationFactories -->
-            <argument type="collection" /> <!-- Renderers -->
-
+        <service id="merk_notification.notification.discriminator" class="merk\NotificationBundle\Discriminator\NotificationDiscriminator">
+            <argument type="collection" /> <!-- Injected by the NotificationDiscriminatorPass -->
         </service>
 
     </services>

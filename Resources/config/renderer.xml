@@ -6,19 +6,16 @@
     <services>
 
         <service id="merk_notification.renderer.default" class="merk\NotificationBundle\Renderer\Renderer">
-            <tag name="merk_notification.notification.renderer" alias="default" />
             <argument type="service" id="twig" />
             <argument>merkNotificationBundle:Notifications:%%s.%%s.%%s.twig</argument>
         </service>
 
         <service id="merk_notification.renderer.email" class="merk\NotificationBundle\Renderer\EmailRenderer">
-            <tag name="merk_notification.notification.renderer" alias="email" />
             <argument type="service" id="twig" />
             <argument>merkNotificationBundle:Notifications:%%s.%%s.%%s.twig</argument>
         </service>
 
         <service id="merk_notification.renderer.sms" class="merk\NotificationBundle\Renderer\SMSRenderer">
-            <tag name="merk_notification.notification.renderer" alias="sms" />
             <argument type="service" id="twig" />
             <argument>merkNotificationBundle:Notifications:%%s.%%s.%%s.twig</argument>
         </service>
