@@ -65,7 +65,8 @@ class AddMethodFieldSubscriber implements EventSubscriberInterface
                     'query_builder' => function(EntityRepository $er) use ($data) {
                         $query = $er->createQueryBuilder('met')
                             ->select(array('met'))
-                            ->leftJoin('met.notificationKeys', 'nk')
+                            ->leftJoin('met.methodNotificationKey', 'mnk')
+                            ->leftJoin('mnk.notificationKey', 'nk')
                             ->andWhere('nk.notificationKey = :key')
                             ->setParameter('key', (string)$data->getNotificationKey());
 
