@@ -14,6 +14,9 @@
         <service id="merk_notification.notification.factory.sms" class="merk\NotificationBundle\NotificationFactory\SMSNotificationFactory">
         </service>
 
+        <service id="merk_notification.notification.factory.internal" class="merk\NotificationBundle\NotificationFactory\InternalNotificationFactory">
+        </service>
+
     </services>
 
 </container>

@@ -47,9 +47,7 @@ class FilterType extends AbstractType
 
         $builder->addEventSubscriber($subscriber);
 
-        $builder->add('notificationKey', null);
-
-//          $builder->add('notificationKey', 'entity', array('class'=>'AcmeNotificationBundle:NotificationKey'));
+        $builder->add('notificationKey', 'entity', array('class'=>'AcmeNotificationBundle:NotificationKey'));
 
 
 

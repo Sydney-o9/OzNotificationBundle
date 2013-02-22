@@ -57,13 +57,27 @@ class NotificationManager extends BaseNotificationManager
 
         $notifications = array();
 
-        $methods = $filter->getMethods()->toArray();
+        $votedMethods = $filter->getMethods()->toArray();
+
+        $compulsoryMethods = $event->getNotificationKey()->getCompulsoryMethods()->toArray();
+
+        $allMethods = array_merge($votedMethods,$compulsoryMethods);
+
+        $methods = array();
+
+        foreach($allMethods as $met){
+            $methods[] = $met->getName();
+        }
+
+        $methods = array_unique($methods);
+
+        $notifications = array();
 
         /** Iterate through each method and create a notification */
         foreach($methods as $method){
 
             /** @var NotificationInterface $notification  */
-            $notificationFactory = $this->notificationDiscriminator->getNotificationFactory($method->getName());
+            $notificationFactory = $this->notificationDiscriminator->getNotificationFactory($method);
 
             $notification = $notificationFactory
                 ->createNotificationFromFilter($event, $filter);
@@ -106,7 +120,19 @@ class NotificationManager extends BaseNotificationManager
         if (!$this->CanUserAccessToEvent($event, $user)){return array();}
 
         /** Start generating notifications. */
-        $methods = $event->getNotificationKey()->getDefaultMethods()->toArray();
+        $defaultMethods = $event->getNotificationKey()->getDefaultMethods()->toArray();
+
+        $compulsoryMethods = $event->getNotificationKey()->getCompulsoryMethods()->toArray();
+
+        $allMethods = array_merge($defaultMethods,$compulsoryMethods);
+
+        $methods = array();
+
+        foreach($allMethods as $met){
+            $methods[] = $met->getName();
+        }
+
+        $methods = array_unique($methods);
 
         $notifications = array();
 

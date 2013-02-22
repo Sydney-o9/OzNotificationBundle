@@ -178,7 +178,6 @@ class FilterManager extends BaseFilterManager
         return $qb->getQuery()->getOneOrNullResult();
     }
 
-
     /**
      * Obtain filter for a particular user that subscribed to a particular notification key
      *
