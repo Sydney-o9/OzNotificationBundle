@@ -220,4 +220,70 @@ class NotificationManager extends BaseNotificationManager
 
     }
 
+    /**
+     * Get Notifications by type
+     *
+     * @param \Symfony\Component\Security\Core\User\UserInterface $user
+     * @param string $type
+     * @param array $order
+     * @return array
+     */
+    public function findNotificationsForUserByType(UserInterface $user, $type, array $order = array("createdAt" => "DESC"))
+    {
+        $criteria = array(
+            "user" => $user->getId()
+        );
+        return $this->getLocalizedRepository($type)->findBy($criteria, $order);
+    }
+
+    /*
+     * Get repository
+     *
+     * @param string $type
+     */
+    public function getLocalizedRepository($type){
+
+        $class = $this->notificationDiscriminator->getClass($type);
+
+        $repository = $this->em->getRepository($class);
+
+        return $repository;
+    }
+
+    /*
+     * Get query builder for child classes
+     *
+     *  'email'    => EmailQueryBuilder
+     *  'sms'      => SMSQueryBuilder
+     *  'internal' => InternalQueryBuilder
+     *
+     * @param string $type
+     */
+    public function getLocalizedQueryBuilder($type){
+
+        $repository = $this->getLocalizedRepository($type);
+
+        return $repository->createQueryBuilder($type);
+
+    }
+
+//    public function markNotificationAsRead($notification)
+//    {
+//        $queryBuilder = $this->repository->createQueryBuilder("notification");
+//
+//        $queryBuilder
+//            ->update()
+//            ->set("synth_notification.read", '?1')
+//            ->Where("synth_notification.owner = {$owner->getId()}")
+//            ->setParameter(1, true);
+//
+//        if ($type) {
+//            $queryBuilder
+//                ->andWhere("synth_notification.type = {$type}");
+//        }
+//
+//        $queryBuilder->getQuery()->getResult();
+//    }
+
+
 }
