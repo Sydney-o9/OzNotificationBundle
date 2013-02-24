@@ -1,3 +1,16 @@
 {#Email: {{ email_notifications|ladybug_dump }} <br /><br />#}
 {#SMS: {{ sms_notifications|ladybug_dump }} <br /><br />#}
-Internal: {{ internal_notifications|ladybug_dump }} <br /><br />
+{#Internal: {{ internal_notifications|ladybug_dump }} <br /><br />#}
+
+{% for notification in internal_notifications %}
+    <li>
+        <a>
+            <b>
+                {{ time_diff(notification.createdAt) }}
+                {#{{ notification.createdAt|date("F jS \\a\\t g:ia")  }}#}
+            </b> <br />
+            {{ notification.subject }}
+        </a>
+    </li>
+
+{% endfor %}

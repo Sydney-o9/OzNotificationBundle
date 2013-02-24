@@ -252,15 +252,35 @@ class NotificationManager extends BaseNotificationManager
      * @param \Symfony\Component\Security\Core\User\UserInterface $user
      * @param string $type
      * @param array $order
+     * @param int $limit
+     * @param int $offset
      * @return array
      */
-    public function findNotificationsForUserByType(UserInterface $user, $type, array $order = array("createdAt" => "DESC"))
+    public function findNotificationsForUserByType(UserInterface $user, $type, array $order = array("createdAt" => "DESC"),$limit = null, $offset = null)
+    {
+        $criteria = array(
+            "user" => $user->getId()
+        );
+        return $this->getLocalizedRepository($type)->findBy($criteria, $order, $limit, $offset);
+    }
+
+
+    /**
+     * Get Notifications by type
+     *
+     * @param \Symfony\Component\Security\Core\User\UserInterface $user
+     * @param string $type
+     * @param array $order
+     * @return array
+     */
+    public function Get(UserInterface $user, $type, array $order = array("createdAt" => "DESC"))
     {
         $criteria = array(
             "user" => $user->getId()
         );
         return $this->getLocalizedRepository($type)->findBy($criteria, $order);
     }
+
 
     /*
      * Get repository

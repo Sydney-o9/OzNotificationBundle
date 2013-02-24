@@ -64,7 +64,7 @@ class UserNotificationsController extends ContainerAware
 
         $smsNotifications = $this->getNotificationManager()->findNotificationsForUserByType($user, 'sms');
 
-        $internalNotifications = $this->getNotificationManager()->findNotificationsForUserByType($user, 'internal');
+        $internalNotifications = $this->getNotificationManager()->findNotificationsForUserByType($user, 'internal', array("createdAt" => "DESC"), 5);
 
         return $this->container->get('templating')->renderResponse('merkNotificationBundle:UserNotifications:show.html.twig', array(
             'email_notifications' => $emailNotifications,
