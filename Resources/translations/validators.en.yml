@@ -5,3 +5,5 @@ merk_notification:
         blank: Please enter a notification key
         short: "[-Inf,Inf]The notification key is too short"
         long: "[-Inf,Inf]The notification key is too long"
+    method:
+        unique: This method already exists

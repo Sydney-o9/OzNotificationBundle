@@ -39,6 +39,16 @@ http://symfony.com/schema/dic/constraint-mapping/constraint-mapping-1.0.xsd">
     </class>
 
 
+    <class name="merk\NotificationBundle\Model\Method">
+
+        <constraint name="Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity">
+            <option name="fields">name</option>
+            <option name="message">merk_notification.method.unique</option>
+        </constraint>
+
+
+    </class>
+
     <class name="merk\NotificationBundle\Model\UserPreferences">
         <property name="filters">
             <constraint name="Valid" />
