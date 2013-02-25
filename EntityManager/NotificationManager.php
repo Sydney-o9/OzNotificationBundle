@@ -265,21 +265,21 @@ class NotificationManager extends BaseNotificationManager
     }
 
 
-    /**
-     * Get Notifications by type
-     *
-     * @param \Symfony\Component\Security\Core\User\UserInterface $user
-     * @param string $type
-     * @param array $order
-     * @return array
-     */
-    public function Get(UserInterface $user, $type, array $order = array("createdAt" => "DESC"))
-    {
-        $criteria = array(
-            "user" => $user->getId()
-        );
-        return $this->getLocalizedRepository($type)->findBy($criteria, $order);
-    }
+//    /**
+//     * Get Notifications by type
+//     *
+//     * @param \Symfony\Component\Security\Core\User\UserInterface $user
+//     * @param string $type
+//     * @param array $order
+//     * @return array
+//     */
+//    public function Get(UserInterface $user, $type, array $order = array("createdAt" => "DESC"))
+//    {
+//        $criteria = array(
+//            "user" => $user->getId()
+//        );
+//        return $this->getLocalizedRepository($type)->findBy($criteria, $order);
+//    }
 
 
     /*
