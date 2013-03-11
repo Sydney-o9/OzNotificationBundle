@@ -21,6 +21,8 @@ use merk\NotificationBundle\Model\NotificationInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
+ * TODO: rename to Subscriber.
+ *
  * Doctrine ORM listener updating the NotificationEvent subject.
  *
  * @author Tim Nagel <tim@nagel.com.au>
