@@ -31,12 +31,13 @@ class FilterType extends AbstractType
     /**
      * @param string $class
      * @param string $methodClass
+     * @param string $notificationKeyClass
      */
-    public function __construct($class, $methodClass)
+    public function __construct($class, $methodClass, $notificationKeyClass)
     {
         $this->class = $class;
-
         $this->methodClass = $methodClass;
+        $this->notificationKeyClass = $notificationKeyClass;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -47,7 +48,7 @@ class FilterType extends AbstractType
 
         $builder->addEventSubscriber($subscriber);
 
-        $builder->add('notificationKey', 'entity', array('class'=>'AcmeNotificationBundle:NotificationKey'));
+        $builder->add('notificationKey', 'entity', array('class'=>$this->notificationKeyClass));
 
 
 

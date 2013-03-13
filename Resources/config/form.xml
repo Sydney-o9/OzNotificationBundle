@@ -17,6 +17,7 @@
 
             <argument>%merk_notification.filter.class%</argument>
             <argument>%merk_notification.method.class%</argument>
+            <argument>%merk_notification.notification_key.class%</argument>
         </service>
 
     </services>

@@ -56,10 +56,9 @@ class AddMethodFieldSubscriber implements EventSubscriberInterface
         }
 
         if ($data) {
-
             //Retrieve methods to the particular Filter <----> NotificationKey
             $form->add($this->factory->createNamed('methods', 'entity', null, array(
-                    'class' => 'AcmeNotificationBundle:Method',
+                    'class' => $this->methodClass,
                     'multiple' => true,
                     'expanded' => true,
                     'query_builder' => function(EntityRepository $er) use ($data) {

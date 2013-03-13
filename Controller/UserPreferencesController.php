@@ -152,7 +152,7 @@ class UserPreferencesController extends ContainerAware
 
         $notificationKey = 'job.created';
         $actor =$user;
-        $subject = new \Acme\JobBundle\Entity\Job();
+        $subject = new \Jbh\JobBundle\Entity\Job();
         $verb = 'patata';
 
         $event = $this->getNotificationEventManager()->create($notificationKey, $subject, $verb, $actor);

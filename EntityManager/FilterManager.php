@@ -302,7 +302,7 @@ class FilterManager extends BaseFilterManager
 
         $uncommitted = $query
             ->select('user')
-            ->from('AcmeUserBundle:User','user')
+            ->from('JbhUserBundle:User','user')
             ->where($query->expr()->notIn('user.id', $committed))
             ->setParameter('key', (string)$notificationKey);
 
