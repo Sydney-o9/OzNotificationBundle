@@ -43,6 +43,16 @@
             <argument>%merk_notification.method.class%</argument>
         </service>
 
+        <service id="merk_notification.user.provider.default" class="merk\NotificationBundle\Security\UserProvider">
+            <argument type="service" id="security.context" />
+        </service>
+
+        <service id="merk_notification.notification.provider.default" class="merk\NotificationBundle\Provider\NotificationProvider">
+            <argument type="service" id="merk_notification.notification.manager" />
+            <argument type="service" id="merk_notification.user.provider.default" />
+        </service>
+
+
     </services>
 
 </container>

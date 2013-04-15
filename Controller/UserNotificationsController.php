@@ -1,7 +1,4 @@
 <?php
-
-
-
 namespace merk\NotificationBundle\Controller;
 
 use Symfony\Component\DependencyInjection\ContainerAware;
@@ -18,36 +15,14 @@ class UserNotificationsController extends ContainerAware
 {
 
     /**
-     * Returns the currently logged in user.
+     * Get Notification Provider
      *
-     *
-     * @throws \RuntimeException
-     * @return \merk\NotificationBundle\Model\UserPreferencesInterface
+     * @return \merk\NotificationBundle\Provider\ProviderInterface
      */
-    protected function getUser()
+    protected function getProvider()
     {
-
-        $token = $this->container->get('security.context')->getToken();
-
-        if (!$token->getUser() instanceof UserInterface) {
-            throw new \RuntimeException('No user found in the security context');
-        }
-
-        $user = $token->getUser();
-
-        return $user;
+        return $this->container->get('merk_notification.notification.provider');
     }
-
-    /**
-     * Get Notification Manager
-     *
-     * @return \merk\NotificationBundle\ModelManager\NotificationManagerInterface
-     */
-    protected function getNotificationManager()
-    {
-        return $this->container->get('merk_notification.notification.manager');
-    }
-
 
     /**
      * Show all notifications to user.
@@ -58,13 +33,11 @@ class UserNotificationsController extends ContainerAware
      */
     public function showAction(Request $request)
     {
-        $user = $this->getUser();
+        $emailNotifications = $this->getProvider()->getEmailNotifications(30);
 
-        $emailNotifications = $this->getNotificationManager()->findNotificationsForUserByType($user, 'email');
+        $smsNotifications = $this->getProvider()->getSMSNotifications(30);
 
-        $smsNotifications = $this->getNotificationManager()->findNotificationsForUserByType($user, 'sms');
-
-        $internalNotifications = $this->getNotificationManager()->findNotificationsForUserByType($user, 'internal', array("createdAt" => "DESC"), 5);
+        $internalNotifications = $this->getProvider()->getInternalNotifications(30);
 
         return $this->container->get('templating')->renderResponse('merkNotificationBundle:UserNotifications:show.html.twig', array(
             'email_notifications' => $emailNotifications,
