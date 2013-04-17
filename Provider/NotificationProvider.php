@@ -53,7 +53,7 @@ class NotificationProvider implements NotificationProviderInterface
      */
     public function getNbUnreadInternalNotifications()
     {
-        return $this->notificationManager->getNbUnreadNotifications($this->getAuthenticatedUser());
+        return $this->notificationManager->getNbUnreadInternalNotifications($this->getAuthenticatedUser());
     }
 
     /**
@@ -66,6 +66,8 @@ class NotificationProvider implements NotificationProviderInterface
         $user = $this->getAuthenticatedUser();
 
         $internalNotifications = $this->notificationManager->findNotificationsForUserByType($user, 'internal', array("createdAt" => "DESC"), $limit);
+
+        $this->notificationManager->markInternalNotificationAsReadByUser($user);
 
         return $internalNotifications;
     }

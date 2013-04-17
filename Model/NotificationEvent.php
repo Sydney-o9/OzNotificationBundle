@@ -63,7 +63,6 @@ abstract class NotificationEvent implements NotificationEventInterface
         $this->notificationKey = $notificationKey;
         $this->verb            = $verb;
         $this->createdAt       = $createdAt ?: new DateTime;
-
         $this->setActor($actor);
         $this->setSubject($subject);
     }

@@ -39,10 +39,13 @@ class UserNotificationsController extends ContainerAware
 
         $internalNotifications = $this->getProvider()->getInternalNotifications(30);
 
+        $nbUnreadInternalNotifications = $this->getProvider()->getNbUnreadInternalNotifications();
+
         return $this->container->get('templating')->renderResponse('merkNotificationBundle:UserNotifications:show.html.twig', array(
             'email_notifications' => $emailNotifications,
             'sms_notifications' => $smsNotifications,
             'internal_notifications' => $internalNotifications,
+            'nb_internal_notifications'=> $nbUnreadInternalNotifications
         ));
     }
 

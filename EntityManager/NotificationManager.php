@@ -264,25 +264,30 @@ class NotificationManager extends BaseNotificationManager
         return $this->getLocalizedRepository($type)->findBy($criteria, $order, $limit, $offset);
     }
 
+    /**
+     * Get the number of unread internal notifications
+     *
+     * @return int
+     */
+    public function getNbUnreadInternalNotifications($user){
 
-//    /**
-//     * Get Notifications by type
-//     *
-//     * @param \Symfony\Component\Security\Core\User\UserInterface $user
-//     * @param string $type
-//     * @param array $order
-//     * @return array
-//     */
-//    public function Get(UserInterface $user, $type, array $order = array("createdAt" => "DESC"))
-//    {
-//        $criteria = array(
-//            "user" => $user->getId()
-//        );
-//        return $this->getLocalizedRepository($type)->findBy($criteria, $order);
-//    }
+        $queryBuilder = $this->getLocalizedQueryBuilder('internal');
 
+        return (int)$queryBuilder
+            ->select($queryBuilder->expr()->count('internal.id'))
+            ->innerJoin('internal.user', 'u')
 
-    /*
+            ->where('u.id = :user_id')
+            ->setParameter('user_id',$user->getId())
+
+            ->andWhere('internal.isRead = :isRead')
+            ->setParameter('isRead', false, \PDO::PARAM_BOOL)
+
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    /**
      * Get repository
      *
      * @param string $type
@@ -296,7 +301,7 @@ class NotificationManager extends BaseNotificationManager
         return $repository;
     }
 
-    /*
+    /**
      * Get query builder for child classes
      *
      *  'email'    => EmailQueryBuilder
@@ -313,23 +318,31 @@ class NotificationManager extends BaseNotificationManager
 
     }
 
-//    public function markNotificationAsRead($notification)
-//    {
-//        $queryBuilder = $this->repository->createQueryBuilder("notification");
-//
-//        $queryBuilder
-//            ->update()
-//            ->set("synth_notification.read", '?1')
-//            ->Where("synth_notification.owner = {$owner->getId()}")
-//            ->setParameter(1, true);
-//
-//        if ($type) {
-//            $queryBuilder
-//                ->andWhere("synth_notification.type = {$type}");
-//        }
-//
-//        $queryBuilder->getQuery()->getResult();
-//    }
+    //public function markInternalNotificationAsReadByUser(UserInterface $user ){
+        //$type = 'internal';
+        //$class = $this->notificationDiscriminator->getClass($type);
+        //$queryBuilder = $this->getLocalizedQueryBuilder($type);
 
+        //$queryBuilder
+            //->update('n')
+            //->set("n.isRead", '?1')
+            //->Where("n.user = {$user->getId()}")
+            //->setParameter(1, true);
+
+        //$queryBuilder->getQuery()->getResult();
+    //}
+
+    public function markInternalNotificationAsReadByUser(UserInterface $user ){
+
+        $queryBuilder = $this->getLocalizedQueryBuilder('internal');
+
+        $queryBuilder
+            ->update()
+            ->set("internal.isRead", '?1')
+            ->Where("internal.user = {$user->getId()}")
+            ->setParameter(1, true);
+
+        $queryBuilder->getQuery()->getResult();
+    }
 
 }

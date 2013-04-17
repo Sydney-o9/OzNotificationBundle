@@ -30,7 +30,7 @@ interface NotificationProviderInterface
     function getSMSNotifications($limit);
 
     /**
-     * Tells how many unread notifications the authenticated user has
+     * Tells how many unread internal notifications the authenticated user has
      *
      * @return int the number of unread notifications
      */
