@@ -1,11 +1,10 @@
 <?php
 
-namespace merk\NotificationBundle\Security;
+namespace merk\NotificationBundle\Provider;
 
 /**
  * Provides the authenticated participant
  *
- * @author Thibault Duplessis <thibault.duplessis@gmail.com>
  */
 interface UserProviderInterface
 {

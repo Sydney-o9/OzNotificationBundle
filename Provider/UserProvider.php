@@ -1,6 +1,6 @@
 <?php
 
-namespace merk\NotificationBundle\Security;
+namespace merk\NotificationBundle\Provider;
 
 use Symfony\Component\Security\Core\SecurityContextInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;

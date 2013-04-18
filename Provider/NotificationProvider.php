@@ -7,7 +7,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 //Interfaces
 use Symfony\Component\Security\Core\User\UserInterface;
-use merk\NotificationBundle\Security\UserProviderInterface;
+use merk\NotificationBundle\Provider\UserProviderInterface;
 use merk\NotificationBundle\ModelManager\NotificationManagerInterface;
 //use FOS\MessageBundle\Reader\ReaderInterface;
 

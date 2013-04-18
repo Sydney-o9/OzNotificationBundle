@@ -34,9 +34,9 @@ class merkNotificationExtension extends Extension
     {
         $processor = new Processor();
         $configuration = new Configuration();
-
         $config = $processor->processConfiguration($configuration, $configs);
 
+        /** Load XML files */
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
 
         if (!in_array(strtolower($config['db_driver']), array('orm'))) {
@@ -44,22 +44,44 @@ class merkNotificationExtension extends Extension
         }
         $loader->load(sprintf('%s.xml', $config['db_driver']));
 
-        foreach (array('form', 'notifier', 'renderer', 'sender', 'consumer', 'logger', 'listener', 'validator', 'discriminator', 'notification_factory') as $basename) {
-            $loader->load(sprintf('%s.xml', $basename));
+        $xmlFiles = array(
+            'form',
+            'notifier',
+            'renderer',
+            'sender',
+            'consumer',
+            'logger',
+            'listener',
+            'validator',
+            'discriminator',
+            'notification_factory',
+            'provider');
+
+        foreach ($xmlFiles as $xmlFile) {
+            $loader->load(sprintf('%s.xml', $xmlFile));
         }
-        //Managers
-        $container->setAlias('merk_notification.filter.manager', 'merk_notification.filter.manager.default');
-        $container->setAlias('merk_notification.notification.manager', 'merk_notification.notification.manager.default');
-        $container->setAlias('merk_notification.notification_event.manager', 'merk_notification.notification_event.manager.default');
-        $container->setAlias('merk_notification.notification_key.manager', 'merk_notification.notification_key.manager.default');
-        $container->setAlias('merk_notification.user_preferences.manager', 'merk_notification.user_preferences.manager.default');
-        $container->setAlias('merk_notification.method.manager', 'merk_notification.method.manager.default');
 
-        //Providers
-        $container->setAlias('merk_notification.user.provider', 'merk_notification.user.provider.default');
-        $container->setAlias('merk_notification.notification.provider', 'merk_notification.notification.provider.default');
+        /** Load validation files */
+        $xmlMappingFiles = $container->getParameter('validator.mapping.loader.xml_files_loader.mapping_files');
+        $xmlMappingFiles[] = __DIR__.'/../Resources/config/validation/orm.xml';
+        $container->setParameter('validator.mapping.loader.xml_files_loader.mapping_files', $xmlMappingFiles);
 
+        /** Alias default managers */
+        $container->setAlias('merk_notification.notification.manager', $config['notification_manager']);
+        $container->setAlias('merk_notification.notification_event.manager', $config['notification_event_manager']);
+        $container->setAlias('merk_notification.notification_key.manager', $config['notification_key_manager']);
+        $container->setAlias('merk_notification.filter.manager', $config['filter_manager']);
+        $container->setAlias('merk_notification.method.manager', $config['method_manager']);
+        $container->setAlias('merk_notification.user_preferences.manager', $config['user_preferences_manager']);
+
+        /** Alias default providers */
+        $container->setAlias('merk_notification.user.provider', $config['user_provider']);
+        $container->setAlias('merk_notification.notification.provider', $config['notification_provider']);
+
+        /** Model manager name */
         $container->setParameter('merk_notification.model_manager_name', $config['model_manager_name']);
+
+        /** Entity classes */
         $container->setParameter('merk_notification.user.class', $config['class']['user']);
         $container->setParameter('merk_notification.notification_key.class', $config['class']['notification_key']);
         $container->setParameter('merk_notification.notification_event.class', $config['class']['notification_event']);
@@ -68,12 +90,8 @@ class merkNotificationExtension extends Extension
         $container->setParameter('merk_notification.filter.class', $config['class']['filter']);
         $container->setParameter('merk_notification.method.class', $config['class']['method']);
 
-        //Validation files
-        $xmlMappingFiles = $container->getParameter('validator.mapping.loader.xml_files_loader.mapping_files');
-        $xmlMappingFiles[] = __DIR__.'/../Resources/config/validation/orm.xml';
-        $container->setParameter('validator.mapping.loader.xml_files_loader.mapping_files', $xmlMappingFiles);
 
-        //Load the notification types
+        /** Load notification types */
         $notificationTypes = $config['notification_types'];
         $container->setParameter('merk_notification_types', $notificationTypes);
     }
