@@ -11,7 +11,12 @@
 
         <service id="merk_notification.notification.provider.default" class="merk\NotificationBundle\Provider\NotificationProvider">
             <argument type="service" id="merk_notification.notification.manager" />
-            <argument type="service" id="merk_notification.user.provider.default" />
+            <argument type="service" id="merk_notification.user.provider" />
+        </service>
+
+        <service id="merk_notification.user_preferences.provider.default" class="merk\NotificationBundle\Provider\UserPreferencesProvider">
+            <argument type="service" id="merk_notification.user_preferences.manager" />
+            <argument type="service" id="merk_notification.user.provider" />
         </service>
 
     </services>

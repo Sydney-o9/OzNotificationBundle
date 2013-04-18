@@ -76,6 +76,7 @@ class merkNotificationExtension extends Extension
 
         /** Alias default providers */
         $container->setAlias('merk_notification.user.provider', $config['user_provider']);
+        $container->setAlias('merk_notification.user_preferences.provider', $config['user_preferences_provider']);
         $container->setAlias('merk_notification.notification.provider', $config['notification_provider']);
 
         /** Model manager name */

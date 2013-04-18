@@ -67,6 +67,7 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
                 ->scalarNode('user_provider')->defaultValue('merk_notification.user.provider.default')->end()
+                ->scalarNode('user_preferences_provider')->defaultValue('merk_notification.user_preferences.provider.default')->end()
                 ->scalarNode('notification_provider')->defaultValue('merk_notification.notification.provider.default')->end()
             ->end();
 

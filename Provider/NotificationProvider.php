@@ -5,11 +5,9 @@ namespace merk\NotificationBundle\Provider;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
-//Interfaces
 use Symfony\Component\Security\Core\User\UserInterface;
 use merk\NotificationBundle\Provider\UserProviderInterface;
 use merk\NotificationBundle\ModelManager\NotificationManagerInterface;
-//use FOS\MessageBundle\Reader\ReaderInterface;
 
 /**
  * Provides notifications for the current authenticated user
@@ -25,24 +23,15 @@ class NotificationProvider implements NotificationProviderInterface
     protected $notificationManager;
 
     /**
-     * The reader used to mark notifications as read
+     * The user provider instance
      *
-     * @var ReaderInterface
-     */
-    protected $notificationReader;
-
-    /**
-     * The participant provider instance
-     *
-     * @var ParticipantProviderInterface
+     * @var UserProviderInterface
      */
     protected $userProvider;
 
-//, ReaderInterface $notificationReader
     public function __construct(NotificationManagerInterface $notificationManager, UserProviderInterface $userProvider)
     {
         $this->notificationManager = $notificationManager;
-        //$this->notificationReader = $notificationReader;
         $this->userProvider = $userProvider;
     }
 
