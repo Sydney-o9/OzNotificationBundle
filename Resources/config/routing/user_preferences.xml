@@ -9,9 +9,4 @@
         <requirement key="_method">GET|POST</requirement>
     </route>
 
-    <route id="merk_notification_user_preferences_test" pattern="/test">
-        <default key="_controller">merkNotificationBundle:UserPreferences:test</default>
-        <requirement key="_method">GET</requirement>
-    </route>
-
 </routes>

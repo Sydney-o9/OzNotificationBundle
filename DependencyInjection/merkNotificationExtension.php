@@ -92,6 +92,12 @@ class merkNotificationExtension extends Extension
         $container->setParameter('merk_notification.method.class', $config['class']['method']);
 
 
+        /** UserPreferences form */
+        $container->setAlias('merk_notification.user_preferences.form.factory', $config['user_preferences_form']['factory']);
+        $container->setAlias('merk_notification.user_preferences.form.type', $config['user_preferences_form']['type']);
+        $container->setParameter('merk_notification.user_preferences.form.name', $config['user_preferences_form']['name']);
+        $container->setAlias('merk_notification.user_preferences.form.handler', $config['user_preferences_form']['handler']);
+
         /** Load notification types */
         $notificationTypes = $config['notification_types'];
         $container->setParameter('merk_notification_types', $notificationTypes);

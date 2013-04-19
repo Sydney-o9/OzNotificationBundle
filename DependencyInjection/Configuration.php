@@ -87,6 +87,25 @@ class Configuration implements ConfigurationInterface
             ->end()
         ;
 
+       /** FormType, FormFactory, FormHandler, FormName */
+        $rootNode
+            ->children()
+                ->arrayNode('user_preferences_form')
+                ->addDefaultsIfNotSet()
+                    ->children()
+                        ->scalarNode('factory')->defaultValue('merk_notification.user_preferences.form.factory.default')->cannotBeEmpty()->end()
+                        ->scalarNode('type')->defaultValue('merk_notification.user_preferences.form.type.default')->cannotBeEmpty()->end()
+                        ->scalarNode('name')->defaultValue('user_preferences')->cannotBeEmpty()->end()
+                        ->scalarNode('handler')->defaultValue('merk_notification.user_preferences.form.handler.default')->cannotBeEmpty()->end()
+
+                        ->end()
+                    ->end()
+                ->end()
+            ->end()
+        ;
+
+
+
         return $treeBuilder;
     }
 }

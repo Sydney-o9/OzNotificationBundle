@@ -29,17 +29,6 @@ class UserPreferencesController extends ContainerAware
 {
 
     /**
-     * Returns the user preferences provider
-     *
-     * @return \merk\NotificationBundle\Provider\UserPreferencesProviderInterface
-     */
-    protected function getUserPreferencesProvider()
-    {
-        return $this->container->get('merk_notification.user_preferences.provider');
-    }
-
-
-    /**
      * Provides editing capability for users to edit their notification
      * preferences.
      *
@@ -48,117 +37,21 @@ class UserPreferencesController extends ContainerAware
      */
     public function editAction(Request $request)
     {
-        $preferences = $this->getUserPreferencesProvider()->getUserPreferences();
 
-        /** @var \Symfony\Component\Form\FormFactory $formBuilder  */
-        $formBuilder = $this->container->get('form.factory');
-        $form = $formBuilder->createNamed('merk_notification_user_preferences', 'merk_notification_user_preferences', $preferences);
+        $form = $this->container->get('merk_notification.user_preferences.form.factory')->create();
+        $formHandler = $this->container->get('merk_notification.user_preferences.form.handler');
 
-        if ('POST' === $request->getMethod()) {
-            $form->bind($request);
+        if ($userPreferences = $formHandler->process($form)) {
 
-            if ($form->isValid()) {
+            $this->container->get('session')->setFlash('merk_notification_success', 'user_preferences.flash.updated');
+            $redirectUrl = $this->container->get('router')->generate('merk_notification_user_preferences');
+            return new RedirectResponse($redirectUrl);
 
-                $this->getUserPreferencesManager()->update($preferences);
-
-                $this->container->get('session')->setFlash('merk_notification_success', 'user_preferences.flash.updated');
-                $redirectUrl = $this->container->get('router')->generate('merk_notification_user_preferences');
-
-                return new RedirectResponse($redirectUrl);
-            }
         }
 
         return $this->container->get('templating')->renderResponse('merkNotificationBundle:UserPreferences:edit.html.twig', array(
-            'form' => $form->createView(),
-            'preferences' => $preferences,
+            'form' => $form->createView()
         ));
     }
 
-
-
-
-
-
-    /**
-     * Returns the user preferences manager.
-     *
-     * @return \merk\NotificationBundle\ModelManager\UserPreferencesManagerInterface
-     */
-    protected function getUserPreferencesManager()
-    {
-        return $this->container->get('merk_notification.user_preferences.manager');
-    }
-
-
-    /**
-     * TODO: delete before commit
-     */
-    protected function getFilterManager()
-    {
-        return $this->container->get('merk_notification.filter.manager');
-    }
-
-    /**
-     * TODO: delete before commit
-     */
-    protected function getNotificationKeyManager()
-    {
-        return $this->container->get('merk_notification.notification_key.manager');
-    }
-
-    /**
-     * TODO: delete before commit
-     */
-    protected function getNotificationEventManager()
-    {
-        return $this->container->get('merk_notification.notification_event.manager');
-    }
-
-    /**
-     * TODO: delete before commit
-     */
-    protected function getNotificationManager()
-    {
-        return $this->container->get('merk_notification.notification.manager');
-    }
-    /**
-     * Just for tests
-     */
-    public function testAction()
-    {
-
-        $user = $this->container->get('security.context')->getToken()->getUser();
-
-        //ladybug_dump_die($this->getUserPreferences($user));
-
-        $notificationKey = 'job.created';
-        $actor =$user;
-        $subject = new \Jbh\JobBundle\Entity\Job();
-        $verb = 'patata';
-
-        $event = $this->getNotificationEventManager()->create($notificationKey, $subject, $verb, $actor);
-//        $this->getNotificationEventManager()->update($event);
-
-        ladybug_dump_die($event);
-
-
-//        $PreferencesManager = $this->getUserPreferencesManager()->getUserPreferences($user);
-
-        $filterManager = $this->getFilterManager();
-
-        $filters = $filterManager->findByUser($user);
-
-        ladybug_dump($filters);
-
-        $preferences = $this->getUserPreferencesManager()->create();
-
-        $user = $this->container->get('security.context')->getToken()->getUser();
-
-        $preferences->setUser($user);
-
-
-        return $this->container->get('templating')->renderResponse('merkNotificationBundle:UserPreferences:test.html.twig', array(
-            'preferences' => $preferences,
-        ));
-    }
 }

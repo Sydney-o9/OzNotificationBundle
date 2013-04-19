@@ -5,7 +5,8 @@
 
     <services>
 
-        <service id="merk_notification.user_preferences.form.type" class="merk\NotificationBundle\Form\Type\UserPreferencesType">
+        <!-- Form Type -->
+        <service id="merk_notification.user_preferences.form.type.default" class="merk\NotificationBundle\Form\Type\UserPreferencesType">
             <tag name="form.type" alias="merk_notification_user_preferences" />
 
             <argument>%merk_notification.user_preferences.class%</argument>
@@ -18,6 +19,20 @@
             <argument>%merk_notification.filter.class%</argument>
             <argument>%merk_notification.method.class%</argument>
             <argument>%merk_notification.notification_key.class%</argument>
+        </service>
+
+        <!-- Form Factory -->
+        <service id="merk_notification.user_preferences.form.factory.default" class="merk\NotificationBundle\FormFactory\UserPreferencesFormFactory" public="false">
+            <argument type="service" id="form.factory" />
+            <argument type="service" id="merk_notification.user_preferences.form.type" />
+            <argument>%merk_notification.user_preferences.form.name%</argument>
+            <argument type="service" id="merk_notification.user_preferences.provider" />
+        </service>
+
+        <!-- Form Handler -->
+        <service id="merk_notification.user_preferences.form.handler.default" class="merk\NotificationBundle\FormHandler\UserPreferencesFormHandler" public="false" scope="request">
+            <argument type="service" id="request" />
+            <argument type="service" id="merk_notification.user_preferences.manager" />
         </service>
 
     </services>
