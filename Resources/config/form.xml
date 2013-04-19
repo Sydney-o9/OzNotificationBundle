@@ -6,14 +6,13 @@
     <services>
 
         <!-- Form Type -->
-        <service id="merk_notification.user_preferences.form.type.default" class="merk\NotificationBundle\Form\Type\UserPreferencesType">
+        <service id="merk_notification.user_preferences.form.type.default" class="merk\NotificationBundle\FormType\UserPreferencesType">
             <tag name="form.type" alias="merk_notification_user_preferences" />
-
             <argument>%merk_notification.user_preferences.class%</argument>
             <argument type="service" id="merk_notification.sender" />
         </service>
 
-        <service id="merk_notification.filter.form.type" class="merk\NotificationBundle\Form\Type\FilterType">
+        <service id="merk_notification.filter.form.type" class="merk\NotificationBundle\FormType\FilterType">
             <tag name="form.type" alias="merk_notification_user_preferences_filter" />
 
             <argument>%merk_notification.filter.class%</argument>

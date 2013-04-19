@@ -9,11 +9,11 @@
  * file that was distributed with this source code.
  */
 
-namespace merk\NotificationBundle\Form\Type;
+namespace merk\NotificationBundle\FormType;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use merk\NotificationBundle\Form\EventListener\AddMethodFieldSubscriber;
+use merk\NotificationBundle\FormEvent\EventSubscriber\AddMethodFieldSubscriber;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class FilterType extends AbstractType

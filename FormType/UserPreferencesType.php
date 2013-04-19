@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace merk\NotificationBundle\Form\Type;
+namespace merk\NotificationBundle\FormType;
 
 use merk\NotificationBundle\Sender\SenderInterface;
 use Symfony\Component\Form\AbstractType;
