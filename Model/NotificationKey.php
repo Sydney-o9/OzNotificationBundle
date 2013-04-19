@@ -1,11 +1,20 @@
 <?php
 
+/*
+ * This file is part of the merkNotificationBundle package.
+ *
+ * (c) Sydney-o9 <https://github.com/Sydney-o9/>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace merk\NotificationBundle\Model;
 
 
 /**
-* Contains all the notification events accessible to users
-* so that they can subscribe to it.
+ * Contains all the notification keys accessible to users
+ * so that they can subscribe to it.
  */
 abstract class NotificationKey implements NotificationKeyInterface
 {
@@ -15,54 +24,146 @@ abstract class NotificationKey implements NotificationKeyInterface
     protected $id;
 
     /**
+     * Key of the notification (e.g newsletter.of.the.week)
+     *
      * @var string $notificationKey
      */
     protected $notificationKey;
 
     /**
+     * Description of the notification (e.g Inform users on the latest news)
+     *
      * @var string $description
      */
     protected $description;
 
     /**
-     * Can this notification be sent in mass?
+     * Capacity for the notification to be sent to more than one user at a time
      *
      * @var boolean $isBulkable
      */
     protected $isBulkable;
 
     /**
-     * Can users subscribe to that notificationKey?
+     * Capacity for a user to subscribe to that notification key
      *
      * @var boolean $isSubscribable
      */
     protected $isSubscribable;
 
     /**
-     * A notification key is meant to be used by a subscriber
-     * with specific roles.
+     * A subscriber needs to have specific roles to access to that notification key.
      *
      * @var array
      */
     protected $subscriberRoles;
 
-
-    public function addSubscriberRole($subscriberRole)
+    public function __construct()
     {
-        $subscriberRole = strtoupper($subscriberRole);
-
-        if (!in_array($subscriberRole, $this->subscriberRoles, true)) {
-            $this->subscriberRoles[] = $subscriberRole;
-        }
-
-        return $this;
+        $this->subscriberRoles = array();
     }
 
     /**
-     * Returns the roles a subscriber needs to have to
-     * access to this notificationKey
+     * @return string The notification key
+     */
+    public function __toString()
+    {
+        return $this->notificationKey;
+    }
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNotificationKey()
+    {
+        return $this->notificationKey;
+    }
+
+    /**
+     * @param string $notificationKey
+     */
+    public function setNotificationKey($notificationKey)
+    {
+        $this->notificationKey = $notificationKey;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param string $description
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getIsBulkable()
+    {
+        return $this->isBulkable;
+    }
+
+    /**
+     * @param boolean $isBulkable
+     */
+    public function setIsBulkable($isBulkable)
+    {
+        $this->isBulkable = $isBulkable;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isBulkable()
+    {
+        return ($this->getIsBulkable() === true) ? true :false;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getIsSubscribable()
+    {
+        return $this->isSubscribable;
+    }
+
+    /**
+     * @param boolean $isSubscribable
+     */
+    public function setIsSubscribable($isSubscribable)
+    {
+        $this->isSubscribable = $isSubscribable;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isSubscribable()
+    {
+        return ($this->getIsSubscribable() === true) ? true :false;
+    }
+
+    /**
+     * Get subscriber roles
      *
-     * @return array The roles
+     * @return array The roles a subscriber needs to have to
+     * access to this notification key
      */
     public function getSubscriberRoles()
     {
@@ -90,7 +191,23 @@ abstract class NotificationKey implements NotificationKeyInterface
     }
 
     /**
-     * Check if the the notificationKey has the role $subscriberRole
+     * Add a subscriber role to the notification key
+     *
+     * @param string
+     */
+    public function addSubscriberRole($subscriberRole)
+    {
+        $subscriberRole = strtoupper($subscriberRole);
+
+        if (!in_array($subscriberRole, $this->subscriberRoles, true)) {
+            $this->subscriberRoles[] = $subscriberRole;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Check if the notification key has the role $subscriberRole
      *
      * @param string $subscriberRole
      *
@@ -102,8 +219,7 @@ abstract class NotificationKey implements NotificationKeyInterface
     }
 
     /**
-     * Removes a role that the subscriber needs to have
-     * access to the notificationKey.
+     * Removes subscriber role
      *
      * @param string $subscriberRole
      *
@@ -117,109 +233,6 @@ abstract class NotificationKey implements NotificationKeyInterface
         }
 
         return $this;
-    }
-
-    /**
-     * @param boolean $isBulkable
-     */
-    public function setIsBulkable($isBulkable)
-    {
-        $this->isBulkable = $isBulkable;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function getIsBulkable()
-    {
-        return $this->isBulkable;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isBulkable()
-    {
-        return ($this->getIsBulkable() === true) ? true :false;
-    }
-
-    /**
-     * @param boolean $isSubscribable
-     */
-    public function setIsSubscribable($isSubscribable)
-    {
-        $this->isSubscribable = $isSubscribable;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function getIsSubscribable()
-    {
-        return $this->isSubscribable;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isSubscribable()
-    {
-        return ($this->getIsSubscribable() === true) ? true :false;
-    }
-
-    /**
-     * @param string $description
-     */
-    public function setDescription($description)
-    {
-        $this->description = $description;
-    }
-
-    /**
-     * @return string
-     */
-    public function getDescription()
-    {
-        return $this->description;
-    }
-
-    /**
-     * Returns the event key.
-     *
-     * @return string
-     */
-    public function getNotificationKey()
-    {
-        return $this->notificationKey;
-    }
-
-    /**
-     * Set the event key.
-     *
-     * @param string $notificationKey
-     */
-    public function setNotificationKey($notificationKey)
-    {
-        $this->notificationKey = $notificationKey;
-    }
-
-    public function __toString(){
-
-        return $this->notificationKey;
-
-    }
-
-    public function __construct()
-    {
-        $this->subscriberRoles = array();
-    }
-
-    /**
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
     }
 
 }

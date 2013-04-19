@@ -4,6 +4,7 @@
  * This file is part of the merkNotificationBundle package.
  *
  * (c) Tim Nagel <tim@nagel.com.au>
+ * (c) Sydney-o9 <https://github.com/Sydney-o9/>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -14,8 +15,8 @@ namespace merk\NotificationBundle\Model;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * To let the notification customizable, only a subject field
- * is
+ * Abstract Notification model
+ *
  */
 abstract class Notification implements NotificationInterface
 {
@@ -64,6 +65,11 @@ abstract class Notification implements NotificationInterface
         $this->createdAt = new \DateTime();
     }
 
+    /**
+     * The type of notification
+     *
+     * @return string
+     */
     abstract public function getType();
 
 
@@ -139,9 +145,8 @@ abstract class Notification implements NotificationInterface
         return $this->sentAt;
     }
 
-
     /**
-     * Mark the message as sent.
+     * Mark the notification as sent.
      *
      */
     public function markSent()
