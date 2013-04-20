@@ -23,9 +23,9 @@ As an ADMIN, you can:
 - Choose the roles the user needs to have to receive a particular notification.
   (e.g you might want your admin people with [ROLE_ADMIN] to receive notifications in
   a different way to your normal users with [ROLE_USER])
-- Decide whether you would like to use a queuing system (RABBIT MQ) or not.
+- Decide whether you would like to use a queuing system (e.g RABBIT MQ) or not.
 - Send notifications from the backend of your application to a particular user.
-- Send notifications to a many users at a time (Bulk notifications)
+- Send notifications to many users at a time (Bulk notifications)
   (e.g Send this notification to all users that subscribed to newsletter.of.the.week)
 
 As a USER of the application, you can:
@@ -34,12 +34,19 @@ As a USER of the application, you can:
 - Manage all your notifications in your preferences
   (e.g decide whether you would like to receive an email, an internal notification or
   nothing at all for a particular notification, like a newsletter, or an event order.processed)
+- View your internal notifications
+- View number of unread notifications
 
 Features yet to be added include:
+--------------------------------
+
  * Setting NotificationBundle to listen for events sent with Symfony2's Event Dispatcher
  * Metadata (annotations, yml, xml) definitions on objects that will automatically trigger notification events
- * Additional sending methods, besides email (twitter, sms, etc)
- * A method of defining notification events that will occur in runtime (so that users can preselect event keys)
+ * Additional sending methods, besides email and internal notifications (twitter, sms, etc)
+
+
+Please stop reading here, the README file is not up to date yet.
+
 
 ## Basic Usage
 
