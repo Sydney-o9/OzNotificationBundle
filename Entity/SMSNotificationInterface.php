@@ -1,6 +1,6 @@
 <?php
 
-namespace merk\NotificationBundle\Entity;
+namespace Oz\NotificationBundle\Entity;
 
 interface SMSNotificationInterface
 {

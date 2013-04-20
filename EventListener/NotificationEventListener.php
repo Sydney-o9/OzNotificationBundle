@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the merkNotificationBundle package.
+ * This file is part of the OzNotificationBundle package.
  *
  * (c) Tim Nagel <tim@nagel.com.au>
  *
@@ -9,15 +9,15 @@
  * file that was distributed with this source code.
  */
 
-namespace merk\NotificationBundle\EventListener;
+namespace Oz\NotificationBundle\EventListener;
 
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Events;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
-use merk\NotificationBundle\Model\NotificationEventInterface as BaseNotificationEventInterface;
-use merk\NotificationBundle\ModelManager\NotificationEventManager as BaseNotificationEventManager;
-use merk\NotificationBundle\Model\NotificationInterface;
+use Oz\NotificationBundle\Model\NotificationEventInterface as BaseNotificationEventInterface;
+use Oz\NotificationBundle\ModelManager\NotificationEventManager as BaseNotificationEventManager;
+use Oz\NotificationBundle\Model\NotificationInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -77,7 +77,7 @@ class NotificationEventListener implements EventSubscriber
         if ($entity instanceof BaseNotificationEventInterface) {
 
             if (null === $this->notificationEventManager) {
-                $this->notificationEventManager = $this->container->get('merk_notification.notification_event.manager');
+                $this->notificationEventManager = $this->container->get('oz_notification.notification_event.manager');
             }
 
             $this->notificationEventManager->replaceSubject($entity);
@@ -90,7 +90,7 @@ class NotificationEventListener implements EventSubscriber
         $entity = $args->getEntity();
         if ($entity instanceof BaseNotificationEventInterface) {
             if (null === $this->notificationEventManager) {
-                $this->notificationEventManager = $this->container->get('merk_notification.notification_event.manager');
+                $this->notificationEventManager = $this->container->get('oz_notification.notification_event.manager');
             }
 
             $this->notificationEventManager->updateSubject($entity);

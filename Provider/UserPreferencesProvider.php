@@ -1,13 +1,13 @@
 <?php
 
-namespace merk\NotificationBundle\Provider;
+namespace Oz\NotificationBundle\Provider;
 
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 use Symfony\Component\Security\Core\User\UserInterface;
-use merk\NotificationBundle\Provider\UserProviderInterface;
-use merk\NotificationBundle\ModelManager\UserPreferencesManagerInterface;
+use Oz\NotificationBundle\Provider\UserProviderInterface;
+use Oz\NotificationBundle\ModelManager\UserPreferencesManagerInterface;
 
 /**
  * Provides notification preferences for the current authenticated user
@@ -39,7 +39,7 @@ class UserPreferencesProvider implements UserPreferencesProviderInterface
      * Returns the user preferences object for the authenticated user
      *
      * @param null|\Symfony\Component\Security\Core\User\UserInterface $user
-     * @return \merk\NotificationBundle\Model\UserPreferencesInterface
+     * @return \Oz\NotificationBundle\Model\UserPreferencesInterface
      */
     public function getUserPreferences()
     {

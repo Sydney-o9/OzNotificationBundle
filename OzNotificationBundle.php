@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the merkNotificationBundle package.
+ * This file is part of the OzNotificationBundle package.
  *
  * (c) Tim Nagel <tim@nagel.com.au>
  *
@@ -9,19 +9,19 @@
  * file that was distributed with this source code.
  */
 
-namespace merk\NotificationBundle;
+namespace Oz\NotificationBundle;
 
-use merk\NotificationBundle\DependencyInjection\Compiler\AgentPass;
-use merk\NotificationBundle\DependencyInjection\Compiler\NotificationDiscriminatorPass;
+use Oz\NotificationBundle\DependencyInjection\Compiler\AgentPass;
+use Oz\NotificationBundle\DependencyInjection\Compiler\NotificationDiscriminatorPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
- * merkNotificationBundle
+ * OzNotificationBundle
  *
  * @author Tim Nagel <tim@nagel.com.au>
  */
-class merkNotificationBundle extends Bundle
+class OzNotificationBundle extends Bundle
 {
     /**
      * Adds a compiler pass to the container builder.

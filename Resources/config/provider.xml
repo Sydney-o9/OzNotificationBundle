@@ -5,18 +5,18 @@
 
     <services>
 
-        <service id="merk_notification.user.provider.default" class="merk\NotificationBundle\Provider\UserProvider">
+        <service id="oz_notification.user.provider.default" class="Oz\NotificationBundle\Provider\UserProvider">
             <argument type="service" id="security.context" />
         </service>
 
-        <service id="merk_notification.notification.provider.default" class="merk\NotificationBundle\Provider\NotificationProvider">
-            <argument type="service" id="merk_notification.notification.manager" />
-            <argument type="service" id="merk_notification.user.provider" />
+        <service id="oz_notification.notification.provider.default" class="Oz\NotificationBundle\Provider\NotificationProvider">
+            <argument type="service" id="oz_notification.notification.manager" />
+            <argument type="service" id="oz_notification.user.provider" />
         </service>
 
-        <service id="merk_notification.user_preferences.provider.default" class="merk\NotificationBundle\Provider\UserPreferencesProvider">
-            <argument type="service" id="merk_notification.user_preferences.manager" />
-            <argument type="service" id="merk_notification.user.provider" />
+        <service id="oz_notification.user_preferences.provider.default" class="Oz\NotificationBundle\Provider\UserPreferencesProvider">
+            <argument type="service" id="oz_notification.user_preferences.manager" />
+            <argument type="service" id="oz_notification.user.provider" />
         </service>
 
     </services>

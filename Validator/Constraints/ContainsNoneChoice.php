@@ -1,6 +1,6 @@
 <?php
 
-namespace merk\NotificationBundle\Validator\Constraints;
+namespace Oz\NotificationBundle\Validator\Constraints;
 
 use Symfony\Component\Validator\Constraint;
 

@@ -1,8 +1,8 @@
 <?php
 
-namespace merk\NotificationBundle\Entity;
+namespace Oz\NotificationBundle\Entity;
 
-use merk\NotificationBundle\Model\Method as BaseMethod;
+use Oz\NotificationBundle\Model\Method as BaseMethod;
 
 
 abstract class Method extends BaseMethod

@@ -6,13 +6,13 @@
     <body>
         {% for key, message in app.session.getFlashes() %}
         <div class="{{ key }}">
-            {{ message|trans({}, 'merkNotificationBundle') }}
+            {{ message|trans({}, 'OzNotificationBundle') }}
         </div>
         {% endfor %}
 
         <div>
-            {% block merk_notification_content %}
-            {% endblock merk_notification_content %}
+            {% block oz_notification_content %}
+            {% endblock oz_notification_content %}
         </div>
     </body>
 </html>

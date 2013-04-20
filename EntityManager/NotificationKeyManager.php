@@ -1,10 +1,10 @@
 <?php
 
-namespace merk\NotificationBundle\EntityManager;
+namespace Oz\NotificationBundle\EntityManager;
 
 use Doctrine\ORM\EntityManager;
 
-use merk\NotificationBundle\ModelManager\NotificationKeyManager as BaseNotificationKeyManager;
+use Oz\NotificationBundle\ModelManager\NotificationKeyManager as BaseNotificationKeyManager;
 
 class NotificationKeyManager extends BaseNotificationKeyManager
 {
@@ -38,7 +38,7 @@ class NotificationKeyManager extends BaseNotificationKeyManager
     /**
      * @param $id
      * @throws \Exception
-     * @return \merk\NotificationBundle\Model\notificationKey
+     * @return \Oz\NotificationBundle\Model\notificationKey
      */
     public function find($id)
     {
@@ -58,7 +58,7 @@ class NotificationKeyManager extends BaseNotificationKeyManager
     /**
      * Fetch all objects
      *
-     * @return \merk\NotificationBundle\Model\notificationKey[]
+     * @return \Oz\NotificationBundle\Model\notificationKey[]
      */
     public function findAll()
     {
@@ -71,7 +71,7 @@ class NotificationKeyManager extends BaseNotificationKeyManager
      *
      * @param string $notificationKey
      * @throws \InvalidArgumentException
-     * @return \merk\NotificationBundle\Model\NotificationKey
+     * @return \Oz\NotificationBundle\Model\NotificationKey
      */
     public function findByNotificationKey($notificationKey)
     {
@@ -93,7 +93,7 @@ class NotificationKeyManager extends BaseNotificationKeyManager
      *
      * @param string $subscriberRole
      * @throws \InvalidArgumentException
-     * @return \merk\NotificationBundle\Model\notificationKey[]
+     * @return \Oz\NotificationBundle\Model\notificationKey[]
      */
     public function findBySubscriberRole($subscriberRole)
     {
@@ -119,7 +119,7 @@ class NotificationKeyManager extends BaseNotificationKeyManager
      *
      * @param array $subscriberRoles
      * @throws \InvalidArgumentException
-     * @return \merk\NotificationBundle\Model\notificationKey[]
+     * @return \Oz\NotificationBundle\Model\notificationKey[]
      */
     public function findBySubscriberRoles($subscriberRoles)
     {

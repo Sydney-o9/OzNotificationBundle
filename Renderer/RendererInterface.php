@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the merkNotificationBundle package.
+ * This file is part of the OzNotificationBundle package.
  *
  * (c) Tim Nagel <tim@nagel.com.au>
  *
@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace merk\NotificationBundle\Renderer;
+namespace Oz\NotificationBundle\Renderer;
 
-use merk\NotificationBundle\Model\NotificationInterface;
+use Oz\NotificationBundle\Model\NotificationInterface;
 
 /**
  * Describes the interface that a Renderer service must implement.
@@ -25,7 +25,7 @@ interface RendererInterface
      *
      * TODO: consider caching the result of a render
      *
-     * @param \merk\NotificationBundle\Model\NotificationInterface $notification
+     * @param \Oz\NotificationBundle\Model\NotificationInterface $notification
      * @return array(
      *             'subject' => // Subject to be used for the notification,
      *             'body' => // Body of the notification

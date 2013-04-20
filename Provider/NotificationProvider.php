@@ -1,13 +1,13 @@
 <?php
 
-namespace merk\NotificationBundle\Provider;
+namespace Oz\NotificationBundle\Provider;
 
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 use Symfony\Component\Security\Core\User\UserInterface;
-use merk\NotificationBundle\Provider\UserProviderInterface;
-use merk\NotificationBundle\ModelManager\NotificationManagerInterface;
+use Oz\NotificationBundle\Provider\UserProviderInterface;
+use Oz\NotificationBundle\ModelManager\NotificationManagerInterface;
 
 /**
  * Provides notifications for the current authenticated user

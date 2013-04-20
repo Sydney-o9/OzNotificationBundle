@@ -1,4 +1,4 @@
-merk_notification:
+oz_notification:
     notificationKey:
         already_used: The notification key is already used
         blank: Please enter a notification key

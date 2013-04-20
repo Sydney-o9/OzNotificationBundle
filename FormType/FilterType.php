@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the merkNotificationBundle package.
+ * This file is part of the OzNotificationBundle package.
  *
  * (c) Tim Nagel <tim@nagel.com.au>
  *
@@ -9,11 +9,11 @@
  * file that was distributed with this source code.
  */
 
-namespace merk\NotificationBundle\FormType;
+namespace Oz\NotificationBundle\FormType;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use merk\NotificationBundle\FormEvent\EventSubscriber\AddMethodFieldSubscriber;
+use Oz\NotificationBundle\FormEvent\EventSubscriber\AddMethodFieldSubscriber;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class FilterType extends AbstractType
@@ -63,6 +63,6 @@ class FilterType extends AbstractType
 
     public function getName()
     {
-        return 'merk_notification_user_preferences_filter';
+        return 'oz_notification_user_preferences_filter';
     }
 }

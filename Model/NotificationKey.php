@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the merkNotificationBundle package.
+ * This file is part of the OzNotificationBundle package.
  *
  * (c) Sydney-o9 <https://github.com/Sydney-o9/>
  *
@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace merk\NotificationBundle\Model;
+namespace Oz\NotificationBundle\Model;
 
 
 /**
@@ -177,7 +177,7 @@ abstract class NotificationKey implements NotificationKeyInterface
      * notification key
      *
      * @param array $subscriberRoles
-     * @return \merk\NotificationBundle\Model\NotificationKey
+     * @return \Oz\NotificationBundle\Model\NotificationKey
      */
     public function setSubscriberRoles(array $subscriberRoles)
     {

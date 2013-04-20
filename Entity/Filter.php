@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the merkNotificationBundle package.
+ * This file is part of the OzNotificationBundle package.
  *
  * (c) Tim Nagel <tim@nagel.com.au>
  *
@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace merk\NotificationBundle\Entity;
+namespace Oz\NotificationBundle\Entity;
 
-use merk\NotificationBundle\Model\Filter as BaseFilter;
+use Oz\NotificationBundle\Model\Filter as BaseFilter;
 
 /**
  * Doctrine ORM implementation of the Filter class

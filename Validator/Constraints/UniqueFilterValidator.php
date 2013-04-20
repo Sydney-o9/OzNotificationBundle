@@ -1,12 +1,12 @@
 <?php
 
-namespace merk\NotificationBundle\Validator\Constraints;
+namespace Oz\NotificationBundle\Validator\Constraints;
 
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 
 use Symfony\Component\Security\Core\SecurityContextInterface;
-use merk\NotificationBundle\modelManager\FilterManagerInterface;
+use Oz\NotificationBundle\modelManager\FilterManagerInterface;
 
 /**
  * Validator on the hole entity Filter.

@@ -1,8 +1,8 @@
 <?php
 
-namespace merk\NotificationBundle\ModelManager;
+namespace Oz\NotificationBundle\ModelManager;
 
-use merk\NotificationBundle\ModelManager\MethodManagerInterface as BaseMethodManagerInterface;
+use Oz\NotificationBundle\ModelManager\MethodManagerInterface as BaseMethodManagerInterface;
 
 abstract class MethodManager implements MethodManagerInterface
 {

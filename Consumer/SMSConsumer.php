@@ -1,6 +1,6 @@
 <?php
 
-namespace merk\NotificationBundle\Consumer;
+namespace Oz\NotificationBundle\Consumer;
 
 use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
 use PhpAmqpLib\Message\AMQPMessage;

@@ -1,8 +1,8 @@
 <?php
 
-namespace merk\NotificationBundle\Sender\Agent;
+namespace Oz\NotificationBundle\Sender\Agent;
 
-use merk\NotificationBundle\Model\NotificationInterface;
+use Oz\NotificationBundle\Model\NotificationInterface;
 
 
 class InternalAgent extends Agent implements AgentInterface

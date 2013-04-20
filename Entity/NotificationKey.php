@@ -1,8 +1,8 @@
 <?php
 
-namespace merk\NotificationBundle\Entity;
+namespace Oz\NotificationBundle\Entity;
 
-use merk\NotificationBundle\Model\NotificationKey as BaseNotificationKey;
+use Oz\NotificationBundle\Model\NotificationKey as BaseNotificationKey;
 
 /**
  * {@inheritDoc}

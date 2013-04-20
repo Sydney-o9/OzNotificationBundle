@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the merkNotificationBundle package.
+ * This file is part of the OzNotificationBundle package.
  *
  * (c) Tim Nagel <tim@nagel.com.au>
  *
@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace merk\NotificationBundle\DependencyInjection\Compiler;
+namespace Oz\NotificationBundle\DependencyInjection\Compiler;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
@@ -29,13 +29,13 @@ class AgentPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition('merk_notification.sender')) {
+        if (!$container->hasDefinition('oz_notification.sender')) {
             return;
         }
 
         $senders = array();
 
-        $notificationTypes = $container->getParameter('merk_notification_types');
+        $notificationTypes = $container->getParameter('oz_notification_types');
 
         foreach($notificationTypes as $method => $conf){
 
@@ -48,7 +48,7 @@ class AgentPass implements CompilerPassInterface
             $senders[$method] = $senderAgent;
         }
 
-        $container->getDefinition('merk_notification.sender')->replaceArgument(0, $senders);
+        $container->getDefinition('oz_notification.sender')->replaceArgument(0, $senders);
     }
 }
 

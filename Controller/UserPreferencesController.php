@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the merkNotificationBundle package.
+ * This file is part of the OzNotificationBundle package.
  *
  * (c) Tim Nagel <tim@nagel.com.au>
  *
@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace merk\NotificationBundle\Controller;
+namespace Oz\NotificationBundle\Controller;
 
 use Symfony\Component\DependencyInjection\ContainerAware;
 use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
@@ -38,18 +38,18 @@ class UserPreferencesController extends ContainerAware
     public function editAction(Request $request)
     {
 
-        $form = $this->container->get('merk_notification.user_preferences.form.factory')->create();
-        $formHandler = $this->container->get('merk_notification.user_preferences.form.handler');
+        $form = $this->container->get('oz_notification.user_preferences.form.factory')->create();
+        $formHandler = $this->container->get('oz_notification.user_preferences.form.handler');
 
         if ($userPreferences = $formHandler->process($form)) {
 
-            $this->container->get('session')->setFlash('merk_notification_success', 'user_preferences.flash.updated');
-            $redirectUrl = $this->container->get('router')->generate('merk_notification_user_preferences');
+            $this->container->get('session')->setFlash('oz_notification_success', 'user_preferences.flash.updated');
+            $redirectUrl = $this->container->get('router')->generate('oz_notification_user_preferences');
             return new RedirectResponse($redirectUrl);
 
         }
 
-        return $this->container->get('templating')->renderResponse('merkNotificationBundle:UserPreferences:edit.html.twig', array(
+        return $this->container->get('templating')->renderResponse('OzNotificationBundle:UserPreferences:edit.html.twig', array(
             'form' => $form->createView()
         ));
     }

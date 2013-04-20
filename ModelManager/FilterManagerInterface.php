@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the merkNotificationBundle package.
+ * This file is part of the OzNotificationBundle package.
  *
  * (c) Tim Nagel <tim@nagel.com.au>
  *
@@ -9,11 +9,11 @@
  * file that was distributed with this source code.
  */
 
-namespace merk\NotificationBundle\ModelManager;
+namespace Oz\NotificationBundle\ModelManager;
 
 use Symfony\Component\Security\Core\User\UserInterface;
-use merk\NotificationBundle\Model\NotificationEventInterface;
-use merk\NotificationBundle\Model\FilterInterface;
+use Oz\NotificationBundle\Model\NotificationEventInterface;
+use Oz\NotificationBundle\Model\FilterInterface;
 
 
 
@@ -44,8 +44,8 @@ interface FilterManagerInterface
      * Obtain filter for a particular user that subscribed to a particular notification key
      *
      * @param UserInterface $user
-     * @param string | \merk\NotificationBundle\Model\NotificationKeyInterface $notificationKey
-     * @return \merk\NotificationBundle\Model\Filter |null
+     * @param string | \Oz\NotificationBundle\Model\NotificationKeyInterface $notificationKey
+     * @return \Oz\NotificationBundle\Model\Filter |null
      */
     public function getUserFilterByNotificationKey(UserInterface $user, $notificationKey);
 
@@ -57,7 +57,7 @@ interface FilterManagerInterface
      * (USERS THAT DID NOT UPDATE THEIR PREFERENCES AND THEREFORE DO NOT
      *  HAVE A FILTER YET.)
      *
-     * @param string|\merk\NotificationBundle\Model\NotificationKeyInterface $notificationKey
+     * @param string|\Oz\NotificationBundle\Model\NotificationKeyInterface $notificationKey
      * @return UserInterface[]
      */
     public function getUncommittedUsers($notificationKey);

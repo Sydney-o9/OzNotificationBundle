@@ -1,10 +1,10 @@
 <?php
 
-namespace merk\NotificationBundle\EntityManager;
+namespace Oz\NotificationBundle\EntityManager;
 
 use Doctrine\ORM\EntityManager;
-use merk\NotificationBundle\Model\FilterInterface;
-use merk\NotificationBundle\ModelManager\MethodManager as BaseMethodManager;
+use Oz\NotificationBundle\Model\FilterInterface;
+use Oz\NotificationBundle\ModelManager\MethodManager as BaseMethodManager;
 
 
 /**

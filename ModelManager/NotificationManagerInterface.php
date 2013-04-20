@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the merkNotificationBundle package.
+ * This file is part of the OzNotificationBundle package.
  *
  * (c) Tim Nagel <tim@nagel.com.au>
  *
@@ -9,11 +9,11 @@
  * file that was distributed with this source code.
  */
 
-namespace merk\NotificationBundle\ModelManager;
+namespace Oz\NotificationBundle\ModelManager;
 
-use merk\NotificationBundle\Model\NotificationEventInterface;
-use merk\NotificationBundle\Model\FilterInterface;
-use merk\NotificationBundle\Model\NotificationInterface;
+use Oz\NotificationBundle\Model\NotificationEventInterface;
+use Oz\NotificationBundle\Model\FilterInterface;
+use Oz\NotificationBundle\Model\NotificationInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 interface NotificationManagerInterface

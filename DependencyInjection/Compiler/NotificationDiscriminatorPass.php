@@ -1,6 +1,6 @@
 <?php
 
-namespace merk\NotificationBundle\DependencyInjection\Compiler;
+namespace Oz\NotificationBundle\DependencyInjection\Compiler;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
@@ -16,12 +16,12 @@ class NotificationDiscriminatorPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition('merk_notification.notification.discriminator')) {
+        if (!$container->hasDefinition('oz_notification.notification.discriminator')) {
 
             return;
         }
 
-        $notificationTypes = $container->getParameter('merk_notification_types');
+        $notificationTypes = $container->getParameter('oz_notification_types');
 
         $output = $notificationTypes;
 
@@ -39,10 +39,10 @@ class NotificationDiscriminatorPass implements CompilerPassInterface
             //at the moment.
 
             /**   Update container with the definition   */
-            $container->setDefinition(sprintf('merk_notification.notification.renderer.%s', $method), $rendererDefinition);
+            $container->setDefinition(sprintf('oz_notification.notification.renderer.%s', $method), $rendererDefinition);
 
             //We can have a reference for it
-            $renderer = new Reference(sprintf('merk_notification.notification.renderer.%s', $method));
+            $renderer = new Reference(sprintf('oz_notification.notification.renderer.%s', $method));
 
             //Or use the original one
             //$renderer = new Reference($conf['renderer']);
@@ -58,10 +58,10 @@ class NotificationDiscriminatorPass implements CompilerPassInterface
                 ->addMethodCall('setRenderer', array($renderer));;
 
             /**   Update container with the definition   */
-            $container->setDefinition(sprintf('merk_notification.notification.factory.%s', $method), $factoryDefinition);
+            $container->setDefinition(sprintf('oz_notification.notification.factory.%s', $method), $factoryDefinition);
 
             //We can have a reference for it
-            $notificationFactory = new Reference(sprintf('merk_notification.notification.factory.%s', $method));
+            $notificationFactory = new Reference(sprintf('oz_notification.notification.factory.%s', $method));
             //Or use the original one
             //$notificationFactory = new Reference($conf['notification_factory']);
 
@@ -71,7 +71,7 @@ class NotificationDiscriminatorPass implements CompilerPassInterface
 
         }
 
-        $container->getDefinition('merk_notification.notification.discriminator')->replaceArgument(0, $output);
+        $container->getDefinition('oz_notification.notification.discriminator')->replaceArgument(0, $output);
 
 
     }

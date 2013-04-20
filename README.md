@@ -3,7 +3,7 @@ OzNotificationBundle
 
 Preliminary Note:
 
-OzNotificationBundle is originally a fork from the amazing merkNotificationBundle, initiated by Merk.
+OzNotificationBundle is originally a fork from the amazing OzNotificationBundle, initiated by Merk.
 See [here](https://github.com/merk/merkNotificationBundle/issues/13) for more infos.
 
 This bundle provides notification services for your application. You
@@ -30,7 +30,7 @@ To fire an event:
     // $actor -- UserInterface object
     // $subject -- An object managed by the Doctrine ORM
 
-    $this->container->get('merk_notification.notifier')->trigger('event.key', $subject, 'viewed', $actor);
+    $this->container->get('oz_notification.notifier')->trigger('event.key', $subject, 'viewed', $actor);
 ```
 
 ## Prerequisites
@@ -42,12 +42,12 @@ notifications and requires Swift Mailer to be set up appropriately.
 
 ## Installation
 
-1. Download merkNotificationBundle
+1. Download OzNotificationBundle
 2. Configure the Autoloader
 3. Enable the Bundle
 4. Create the needed classes in your Application
-5. Configure the merkNotificationBundle
-6. Import merkNotificationBundle routing
+5. Configure the OzNotificationBundle
+6. Import OzNotificationBundle routing
 7. Update your database schema
 
 ### Step 1: Download merkNotificationBundle
@@ -342,7 +342,7 @@ the only configuration is database driver and FQCN of the classes you defined
 above.
 
 ``` yaml
-merk_notification:
+oz_notification:
     db_driver: orm
     class:
         filter: Company\AppBundle\Entity\Filter
@@ -359,7 +359,7 @@ In YAML:
 
 ``` yaml
 # app/config/routing.yml
-merk_notification:
+oz_notification:
     resource: "@merkNotificationBundle/Resources/config/routing/user_preferences.xml"
 ```
 

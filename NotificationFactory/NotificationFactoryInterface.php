@@ -1,6 +1,6 @@
 <?php
 
-namespace merk\NotificationBundle\NotificationFactory;
+namespace Oz\NotificationBundle\NotificationFactory;
 
 interface NotificationFactoryInterface
 {
@@ -8,7 +8,7 @@ interface NotificationFactoryInterface
      *
      * @param string $class
      * @throws \Exception
-     * @return \merk\NotificationBundle\Model\Notification (a child of)
+     * @return \Oz\NotificationBundle\Model\Notification (a child of)
      */
     public function build($class);
 
@@ -23,7 +23,7 @@ interface NotificationFactoryInterface
     /**
      * Set the renderer
      *
-     * @param \merk\NotificationBundle\Renderer\RendererInterface $renderer
+     * @param \Oz\NotificationBundle\Renderer\RendererInterface $renderer
      */
     public function setRenderer($renderer);
 
@@ -32,7 +32,7 @@ interface NotificationFactoryInterface
      *
      * @param $event
      * @param $filter
-     * @return \merk\NotificationBundle\Model\Notification
+     * @return \Oz\NotificationBundle\Model\Notification
      */
     public function createNotificationFromFilter($event, $filter);
 
@@ -41,7 +41,7 @@ interface NotificationFactoryInterface
      *
      * @param $event
      * @param $user
-     * @return \merk\NotificationBundle\Model\Notification
+     * @return \Oz\NotificationBundle\Model\Notification
      */
     public function createNotificationFromUser($event, $user);
 

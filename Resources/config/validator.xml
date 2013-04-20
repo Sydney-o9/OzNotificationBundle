@@ -5,10 +5,10 @@
 
     <services>
 
-        <service id="merk_notification.unique_filter.validator" class="merk\NotificationBundle\Validator\Constraints\UniqueFilterValidator">
+        <service id="oz_notification.unique_filter.validator" class="Oz\NotificationBundle\Validator\Constraints\UniqueFilterValidator">
             <argument type="service" id="security.context" />
-            <argument type="service" id="merk_notification.filter.manager" />
-            <tag name="validator.constraint_validator" alias="merk_notification.filter.validator" />
+            <argument type="service" id="oz_notification.filter.manager" />
+            <tag name="validator.constraint_validator" alias="oz_notification.filter.validator" />
         </service>
 
     </services>

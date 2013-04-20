@@ -4,7 +4,7 @@
                   xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                   http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
-    <mapped-superclass name="merk\NotificationBundle\Entity\Method">
+    <mapped-superclass name="Oz\NotificationBundle\Entity\Method">
 
         <id name="id" column="id" type="integer">
             <generator strategy="AUTO" />

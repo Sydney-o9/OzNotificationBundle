@@ -1,6 +1,6 @@
 <?php
 
-namespace merk\NotificationBundle\Model;
+namespace Oz\NotificationBundle\Model;
 
 
 interface MethodInterface

@@ -1,6 +1,6 @@
 <?php
 
-namespace merk\NotificationBundle\FormEvent\EventSubscriber;
+namespace Oz\NotificationBundle\FormEvent\EventSubscriber;
 
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;

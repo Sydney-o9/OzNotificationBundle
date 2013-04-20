@@ -1,8 +1,8 @@
 <?php
 
-namespace merk\NotificationBundle\Renderer;
+namespace Oz\NotificationBundle\Renderer;
 
-use merk\NotificationBundle\Model\NotificationInterface;
+use Oz\NotificationBundle\Model\NotificationInterface;
 
 
 /**
@@ -30,7 +30,7 @@ class InternalRenderer extends Renderer
     /**
      * Renders the template required for the notification
      *
-     * @param \merk\NotificationBundle\Model\NotificationInterface $notification
+     * @param \Oz\NotificationBundle\Model\NotificationInterface $notification
      *
      * @return array(
      *             'subject' => // Subject to be used for the notification,

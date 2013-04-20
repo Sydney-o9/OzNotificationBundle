@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the merkNotificationBundle package.
+ * This file is part of the OzNotificationBundle package.
  *
  * (c) Tim Nagel <tim@nagel.com.au>
  *
@@ -9,14 +9,14 @@
  * file that was distributed with this source code.
  */
 
-namespace merk\NotificationBundle\EntityManager;
+namespace Oz\NotificationBundle\EntityManager;
 
 use Doctrine\ORM\EntityManager;
-use merk\NotificationBundle\Model\FilterInterface;
-use merk\NotificationBundle\ModelManager\FilterManager as BaseFilterManager;
-use merk\NotificationBundle\ModelManager\NotificationKeyManagerInterface;
-use merk\NotificationBundle\Model\NotificationEventInterface;
-use merk\NotificationBundle\Model\NotificationKeyInterface;
+use Oz\NotificationBundle\Model\FilterInterface;
+use Oz\NotificationBundle\ModelManager\FilterManager as BaseFilterManager;
+use Oz\NotificationBundle\ModelManager\NotificationKeyManagerInterface;
+use Oz\NotificationBundle\Model\NotificationEventInterface;
+use Oz\NotificationBundle\Model\NotificationKeyInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -89,7 +89,7 @@ class FilterManager extends BaseFilterManager
      * 1 filter <----> 1 particular event / 1 notification key
      *
      * @param $user
-     * @return \merk\NotificationBundle\Model\Filter[]
+     * @return \Oz\NotificationBundle\Model\Filter[]
      */
     public function generateDefaultFilters($user){
 
@@ -118,7 +118,7 @@ class FilterManager extends BaseFilterManager
      * for a particular filter
      *
      * @param FilterInterface $filter
-     * @return \merk\NotificationBundle\Model\Method[]
+     * @return \Oz\NotificationBundle\Model\Method[]
      */
     public function generateDefaultMethods(FilterInterface $filter){
 
@@ -130,7 +130,7 @@ class FilterManager extends BaseFilterManager
      * Find Filters By User
      *
      * @param UserInterface $user
-     * @return \merk\NotificationBundle\Model\Filter[]
+     * @return \Oz\NotificationBundle\Model\Filter[]
      */
     public function findByUser(UserInterface $user)
     {
@@ -183,7 +183,7 @@ class FilterManager extends BaseFilterManager
      *
      * @param UserInterface $user
      * @param string | NotificationKeyInterface $notificationKey
-     * @return \merk\NotificationBundle\Model\Filter|null
+     * @return \Oz\NotificationBundle\Model\Filter|null
      */
     public function getUserFilterByNotificationKey(UserInterface $user, $notificationKey)
     {

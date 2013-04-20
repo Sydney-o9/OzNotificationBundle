@@ -5,15 +5,15 @@
 
     <services>
 
-        <service id="merk_notification.notifier" class="merk\NotificationBundle\Notifier\Notifier">
-            <argument type="service" id="merk_notification.notification_key.manager" />
-            <argument type="service" id="merk_notification.notification_event.manager" />
-            <argument type="service" id="merk_notification.filter.manager" />
-            <argument type="service" id="merk_notification.notification.manager" />
-            <argument type="service" id="merk_notification.sender" />
+        <service id="oz_notification.notifier" class="Oz\NotificationBundle\Notifier\Notifier">
+            <argument type="service" id="oz_notification.notification_key.manager" />
+            <argument type="service" id="oz_notification.notification_event.manager" />
+            <argument type="service" id="oz_notification.filter.manager" />
+            <argument type="service" id="oz_notification.notification.manager" />
+            <argument type="service" id="oz_notification.sender" />
         </service>
 
-        <service id="notifier" alias="merk_notification.notifier" />
+        <service id="notifier" alias="oz_notification.notifier" />
 
     </services>
 

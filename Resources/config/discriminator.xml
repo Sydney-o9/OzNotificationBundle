@@ -5,7 +5,7 @@
 
     <services>
 
-        <service id="merk_notification.notification.discriminator" class="merk\NotificationBundle\Discriminator\NotificationDiscriminator">
+        <service id="oz_notification.notification.discriminator" class="Oz\NotificationBundle\Discriminator\NotificationDiscriminator">
             <argument type="collection" /> <!-- Injected by the NotificationDiscriminatorPass -->
         </service>
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace merk\NotificationBundle\Validator\Constraints;
+namespace Oz\NotificationBundle\Validator\Constraints;
 
 use Symfony\Component\Validator\Constraint;
 
@@ -13,7 +13,7 @@ class UniqueFilter extends Constraint
 
     public function validatedBy()
     {
-        return 'merk_notification.filter.validator';
+        return 'oz_notification.filter.validator';
     }
 
 

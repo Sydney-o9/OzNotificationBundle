@@ -1,8 +1,8 @@
 <?php
 
-namespace merk\NotificationBundle\ModelManager;
+namespace Oz\NotificationBundle\ModelManager;
 
-use merk\NotificationBundle\ModelManager\NotificationKeyManagerInterface;
+use Oz\NotificationBundle\ModelManager\NotificationKeyManagerInterface;
 
 
 abstract class NotificationKeyManager implements NotificationKeyManagerInterface

@@ -1,6 +1,6 @@
 <?php
 
-namespace merk\NotificationBundle\ModelManager;
+namespace Oz\NotificationBundle\ModelManager;
 
 
 interface NotificationKeyManagerInterface
@@ -9,14 +9,14 @@ interface NotificationKeyManagerInterface
     /**
      * @param $id
      * @throws \Exception
-     * @return \merk\NotificationBundle\Model\notificationKey
+     * @return \Oz\NotificationBundle\Model\notificationKey
      */
     public function find($id);
 
     /**
      * Fetch all objects
      *
-     * @return \merk\NotificationBundle\Model\notificationKey[]
+     * @return \Oz\NotificationBundle\Model\notificationKey[]
      */
     public function findAll();
 
@@ -24,7 +24,7 @@ interface NotificationKeyManagerInterface
      * Fetch object by notification key
      *
      * @param string $notificationKey
-     * @return \merk\NotificationBundle\Model\NotificationKey
+     * @return \Oz\NotificationBundle\Model\NotificationKey
      */
     public function findByNotificationKey($notificationKey);
 
@@ -34,7 +34,7 @@ interface NotificationKeyManagerInterface
      *
      * @param string $subscriberRole
      * @throws \InvalidArgumentException
-     * @return \merk\NotificationBundle\Model\notificationKey[]
+     * @return \Oz\NotificationBundle\Model\notificationKey[]
      */
     public function findBySubscriberRole($subscriberRole);
 
@@ -44,7 +44,7 @@ interface NotificationKeyManagerInterface
      *
      * @param array $subscriberRoles
      * @throws \InvalidArgumentException
-     * @return \merk\NotificationBundle\Model\notificationKey[]
+     * @return \Oz\NotificationBundle\Model\notificationKey[]
      */
     public function findBySubscriberRoles($subscriberRoles);
 

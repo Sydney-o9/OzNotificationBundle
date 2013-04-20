@@ -6,32 +6,32 @@
     <services>
 
         <!-- Form Type -->
-        <service id="merk_notification.user_preferences.form.type.default" class="merk\NotificationBundle\FormType\UserPreferencesType">
-            <tag name="form.type" alias="merk_notification_user_preferences" />
-            <argument>%merk_notification.user_preferences.class%</argument>
-            <argument type="service" id="merk_notification.sender" />
+        <service id="oz_notification.user_preferences.form.type.default" class="Oz\NotificationBundle\FormType\UserPreferencesType">
+            <tag name="form.type" alias="oz_notification_user_preferences" />
+            <argument>%oz_notification.user_preferences.class%</argument>
+            <argument type="service" id="oz_notification.sender" />
         </service>
 
-        <service id="merk_notification.filter.form.type" class="merk\NotificationBundle\FormType\FilterType">
-            <tag name="form.type" alias="merk_notification_user_preferences_filter" />
+        <service id="oz_notification.filter.form.type" class="Oz\NotificationBundle\FormType\FilterType">
+            <tag name="form.type" alias="oz_notification_user_preferences_filter" />
 
-            <argument>%merk_notification.filter.class%</argument>
-            <argument>%merk_notification.method.class%</argument>
-            <argument>%merk_notification.notification_key.class%</argument>
+            <argument>%oz_notification.filter.class%</argument>
+            <argument>%oz_notification.method.class%</argument>
+            <argument>%oz_notification.notification_key.class%</argument>
         </service>
 
         <!-- Form Factory -->
-        <service id="merk_notification.user_preferences.form.factory.default" class="merk\NotificationBundle\FormFactory\UserPreferencesFormFactory" public="false">
+        <service id="oz_notification.user_preferences.form.factory.default" class="Oz\NotificationBundle\FormFactory\UserPreferencesFormFactory" public="false">
             <argument type="service" id="form.factory" />
-            <argument type="service" id="merk_notification.user_preferences.form.type" />
-            <argument>%merk_notification.user_preferences.form.name%</argument>
-            <argument type="service" id="merk_notification.user_preferences.provider" />
+            <argument type="service" id="oz_notification.user_preferences.form.type" />
+            <argument>%oz_notification.user_preferences.form.name%</argument>
+            <argument type="service" id="oz_notification.user_preferences.provider" />
         </service>
 
         <!-- Form Handler -->
-        <service id="merk_notification.user_preferences.form.handler.default" class="merk\NotificationBundle\FormHandler\UserPreferencesFormHandler" public="false" scope="request">
+        <service id="oz_notification.user_preferences.form.handler.default" class="Oz\NotificationBundle\FormHandler\UserPreferencesFormHandler" public="false" scope="request">
             <argument type="service" id="request" />
-            <argument type="service" id="merk_notification.user_preferences.manager" />
+            <argument type="service" id="oz_notification.user_preferences.manager" />
         </service>
 
     </services>

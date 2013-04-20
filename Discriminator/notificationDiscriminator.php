@@ -1,9 +1,9 @@
 <?php
 
-namespace merk\NotificationBundle\Discriminator;
+namespace Oz\NotificationBundle\Discriminator;
 
-use merk\NotificationBundle\Renderer\RendererInterface;
-use merk\NotificationBundle\NotificationFactory\NotificationFactoryInterface;
+use Oz\NotificationBundle\Renderer\RendererInterface;
+use Oz\NotificationBundle\NotificationFactory\NotificationFactoryInterface;
 
 /**
  * The discriminator helps choosing the right notification, notificationFactory, renderer
@@ -84,7 +84,7 @@ class NotificationDiscriminator
      * If no alias is mentioned, the renderer by default will be used
      *
      * @param string $method
-     * @return \merk\NotificationBundle\Sender\Agent\AgentInterface
+     * @return \Oz\NotificationBundle\Sender\Agent\AgentInterface
      * @throws \InvalidArgumentException when the alias doesnt exist
      */
     public function getNotificationFactory($method)

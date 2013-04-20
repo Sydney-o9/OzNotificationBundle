@@ -1,8 +1,8 @@
 <?php
 
-namespace merk\NotificationBundle\Sender\Agent;
+namespace Oz\NotificationBundle\Sender\Agent;
 
-use merk\NotificationBundle\Model\NotificationInterface;
+use Oz\NotificationBundle\Model\NotificationInterface;
 
 
 abstract class Agent implements AgentInterface
@@ -11,7 +11,7 @@ abstract class Agent implements AgentInterface
     /**
      * Sends a single notification.
      *
-     * @param \merk\NotificationBundle\Model\NotificationInterface $notification
+     * @param \Oz\NotificationBundle\Model\NotificationInterface $notification
      * @return bool
      */
     public function send(NotificationInterface $notification)

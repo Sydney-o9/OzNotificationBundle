@@ -1,6 +1,6 @@
 <?php
 
-namespace merk\NotificationBundle\Provider;
+namespace Oz\NotificationBundle\Provider;
 
 /**
  * Provides notifications for the current authenticated user

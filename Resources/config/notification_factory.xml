@@ -5,16 +5,16 @@
 
     <services>
 
-        <service id="merk_notification.notification.factory.default" class="merk\NotificationBundle\NotificationFactory\NotificationFactory">
+        <service id="oz_notification.notification.factory.default" class="Oz\NotificationBundle\NotificationFactory\NotificationFactory">
         </service>
 
-        <service id="merk_notification.notification.factory.email" class="merk\NotificationBundle\NotificationFactory\EmailNotificationFactory">
+        <service id="oz_notification.notification.factory.email" class="Oz\NotificationBundle\NotificationFactory\EmailNotificationFactory">
         </service>
 
-        <service id="merk_notification.notification.factory.sms" class="merk\NotificationBundle\NotificationFactory\SMSNotificationFactory">
+        <service id="oz_notification.notification.factory.sms" class="Oz\NotificationBundle\NotificationFactory\SMSNotificationFactory">
         </service>
 
-        <service id="merk_notification.notification.factory.internal" class="merk\NotificationBundle\NotificationFactory\InternalNotificationFactory">
+        <service id="oz_notification.notification.factory.internal" class="Oz\NotificationBundle\NotificationFactory\InternalNotificationFactory">
         </service>
 
     </services>

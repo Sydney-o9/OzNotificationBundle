@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the merkNotificationBundle package.
+ * This file is part of the OzNotificationBundle package.
  *
  * (c) Tim Nagel <tim@nagel.com.au>
  *
@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace merk\NotificationBundle\FormType;
+namespace Oz\NotificationBundle\FormType;
 
-use merk\NotificationBundle\Sender\SenderInterface;
+use Oz\NotificationBundle\Sender\SenderInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 
@@ -24,7 +24,7 @@ class UserPreferencesType extends AbstractType
 
     /**
      * @param string $class
-     * @param \merk\NotificationBundle\Sender\SenderInterface $sender
+     * @param \Oz\NotificationBundle\Sender\SenderInterface $sender
      */
     public function __construct($class, SenderInterface $sender)
     {
@@ -41,7 +41,7 @@ class UserPreferencesType extends AbstractType
         ));
 
         $builder->add('filters', 'collection', array(
-            'type' => 'merk_notification_user_preferences_filter',
+            'type' => 'oz_notification_user_preferences_filter',
             'allow_add' => true,
             'allow_delete' => true,
             'prototype' => true,
@@ -64,6 +64,6 @@ class UserPreferencesType extends AbstractType
 
     public function getName()
     {
-        return 'merk_notification_user_preferences';
+        return 'oz_notification_user_preferences';
     }
 }

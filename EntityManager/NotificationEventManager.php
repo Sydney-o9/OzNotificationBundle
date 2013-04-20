@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the merkNotificationBundle package.
+ * This file is part of the OzNotificationBundle package.
  *
  * (c) Tim Nagel <tim@nagel.com.au>
  *
@@ -9,14 +9,14 @@
  * file that was distributed with this source code.
  */
 
-namespace merk\NotificationBundle\EntityManager;
+namespace Oz\NotificationBundle\EntityManager;
 
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Security\Core\User\UserInterface;
-use merk\NotificationBundle\Model\NotificationEventInterface;
-use merk\NotificationBundle\Entity\NotificationEvent;
-use \merk\NotificationBundle\Model\NotificationKeyInterface;
-use merk\NotificationBundle\ModelManager\NotificationEventManager as BaseNotificationEventManager;
+use Oz\NotificationBundle\Model\NotificationEventInterface;
+use Oz\NotificationBundle\Entity\NotificationEvent;
+use \Oz\NotificationBundle\Model\NotificationKeyInterface;
+use Oz\NotificationBundle\ModelManager\NotificationEventManager as BaseNotificationEventManager;
 use DateTime;
 /**
  * Doctrine ORM implementation of the NotificationEventManager class.
@@ -57,7 +57,7 @@ class NotificationEventManager extends BaseNotificationEventManager
     /**
      * Persists and flushes the event to the persistent storage.
      *
-     * @param \merk\NotificationBundle\Model\NotificationEventInterface $event
+     * @param \Oz\NotificationBundle\Model\NotificationEventInterface $event
      * @param bool $flush
      */
     public function update(NotificationEventInterface $event, $flush = true)

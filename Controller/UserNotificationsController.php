@@ -1,5 +1,15 @@
 <?php
-namespace merk\NotificationBundle\Controller;
+
+/*
+ * This file is part of the OzNotificationBundle package.
+ *
+ * (c) Sydney-o9 <http://github.com/Sydney-o9>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+namespace Oz\NotificationBundle\Controller;
 
 use Symfony\Component\DependencyInjection\ContainerAware;
 use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
@@ -17,11 +27,11 @@ class UserNotificationsController extends ContainerAware
     /**
      * Get Notification Provider
      *
-     * @return \merk\NotificationBundle\Provider\ProviderInterface
+     * @return \Oz\NotificationBundle\Provider\ProviderInterface
      */
     protected function getProvider()
     {
-        return $this->container->get('merk_notification.notification.provider');
+        return $this->container->get('oz_notification.notification.provider');
     }
 
     /**
@@ -41,7 +51,7 @@ class UserNotificationsController extends ContainerAware
 
         $nbUnreadInternalNotifications = $this->getProvider()->getNbUnreadInternalNotifications();
 
-        return $this->container->get('templating')->renderResponse('merkNotificationBundle:UserNotifications:show.html.twig', array(
+        return $this->container->get('templating')->renderResponse('OzNotificationBundle:UserNotifications:show.html.twig', array(
             'email_notifications' => $emailNotifications,
             'sms_notifications' => $smsNotifications,
             'internal_notifications' => $internalNotifications,

@@ -4,52 +4,52 @@
                     xsi:schemaLocation="http://symfony.com/schema/dic/constraint-mapping
 http://symfony.com/schema/dic/constraint-mapping/constraint-mapping-1.0.xsd">
 
-    <class name="merk\NotificationBundle\Model\NotificationKey">
+    <class name="Oz\NotificationBundle\Model\NotificationKey">
         <property name="notificationKey">
             <constraint name="NotBlank">
-                <option name="message">merk_notification.notificationKey.blank</option>
+                <option name="message">oz_notification.notificationKey.blank</option>
             </constraint>
             <constraint name="Length">
                 <option name="min">5</option>
-                <option name="minMessage">merk_notification.notificationKey.short</option>
+                <option name="minMessage">oz_notification.notificationKey.short</option>
                 <option name="max">100</option>
             </constraint>
         </property>
 
         <constraint name="Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity">
             <option name="fields">notificationKey</option>
-            <option name="message">merk_notification.notificationKey.already_used</option>
+            <option name="message">oz_notification.notificationKey.already_used</option>
         </constraint>
 
     </class>
 
 
-    <class name="merk\NotificationBundle\Model\Filter">
-        <constraint name="merk\NotificationBundle\Validator\Constraints\UniqueFilter" />
+    <class name="Oz\NotificationBundle\Model\Filter">
+        <constraint name="Oz\NotificationBundle\Validator\Constraints\UniqueFilter" />
         <property name="notificationKey">
             <constraint name="NotBlank">
-                <option name="message">merk_notification.notificationKey.blank</option>
+                <option name="message">oz_notification.notificationKey.blank</option>
             </constraint>
             <constraint name="NotNull">
-                <option name="message">merk_notification.notificationKey.null</option>
+                <option name="message">oz_notification.notificationKey.null</option>
             </constraint>
-            <!--<constraint name="merk\NotificationBundle\Validator\Constraints\UniqueFilter" />-->
+            <!--<constraint name="Oz\NotificationBundle\Validator\Constraints\UniqueFilter" />-->
         </property>
 
     </class>
 
 
-    <class name="merk\NotificationBundle\Model\Method">
+    <class name="Oz\NotificationBundle\Model\Method">
 
         <constraint name="Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity">
             <option name="fields">name</option>
-            <option name="message">merk_notification.method.unique</option>
+            <option name="message">oz_notification.method.unique</option>
         </constraint>
 
 
     </class>
 
-    <class name="merk\NotificationBundle\Model\UserPreferences">
+    <class name="Oz\NotificationBundle\Model\UserPreferences">
         <property name="filters">
             <constraint name="Valid" />
         </property>

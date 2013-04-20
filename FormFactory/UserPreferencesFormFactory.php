@@ -1,10 +1,10 @@
 <?php
 
-namespace merk\NotificationBundle\FormFactory;
+namespace Oz\NotificationBundle\FormFactory;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormFactoryInterface;
-use merk\NotificationBundle\Provider\UserPreferencesProviderInterface;
+use Oz\NotificationBundle\Provider\UserPreferencesProviderInterface;
 
 /**
  * Instanciates user preferences form

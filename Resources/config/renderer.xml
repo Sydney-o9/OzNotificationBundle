@@ -5,24 +5,24 @@
 
     <services>
 
-        <service id="merk_notification.renderer.default" class="merk\NotificationBundle\Renderer\Renderer">
+        <service id="oz_notification.renderer.default" class="Oz\NotificationBundle\Renderer\Renderer">
             <argument type="service" id="twig" />
-            <argument>merkNotificationBundle:Notifications:%%s.%%s.%%s.twig</argument>
+            <argument>OzNotificationBundle:Notifications:%%s.%%s.%%s.twig</argument>
         </service>
 
-        <service id="merk_notification.renderer.email" class="merk\NotificationBundle\Renderer\EmailRenderer">
+        <service id="oz_notification.renderer.email" class="Oz\NotificationBundle\Renderer\EmailRenderer">
             <argument type="service" id="twig" />
-            <argument>merkNotificationBundle:Notifications:%%s.%%s.%%s.twig</argument>
+            <argument>OzNotificationBundle:Notifications:%%s.%%s.%%s.twig</argument>
         </service>
 
-        <service id="merk_notification.renderer.sms" class="merk\NotificationBundle\Renderer\SMSRenderer">
+        <service id="oz_notification.renderer.sms" class="Oz\NotificationBundle\Renderer\SMSRenderer">
             <argument type="service" id="twig" />
-            <argument>merkNotificationBundle:Notifications:%%s.%%s.%%s.twig</argument>
+            <argument>OzNotificationBundle:Notifications:%%s.%%s.%%s.twig</argument>
         </service>
 
-        <service id="merk_notification.renderer.internal" class="merk\NotificationBundle\Renderer\InternalRenderer">
+        <service id="oz_notification.renderer.internal" class="Oz\NotificationBundle\Renderer\InternalRenderer">
             <argument type="service" id="twig" />
-            <argument>merkNotificationBundle:Notifications:%%s.%%s.%%s.twig</argument>
+            <argument>OzNotificationBundle:Notifications:%%s.%%s.%%s.twig</argument>
         </service>
 
     </services>

@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the merkNotificationBundle package.
+ * This file is part of the OzNotificationBundle package.
  *
  * (c) Tim Nagel <tim@nagel.com.au>
  *
@@ -9,14 +9,14 @@
  * file that was distributed with this source code.
  */
 
-namespace merk\NotificationBundle\EntityManager;
+namespace Oz\NotificationBundle\EntityManager;
 
 use Doctrine\ORM\EntityManager;
-use merk\NotificationBundle\Model\FilterInterface;
-use merk\NotificationBundle\Model\NotificationEventInterface;
-use merk\NotificationBundle\Model\NotificationInterface;
-use merk\NotificationBundle\ModelManager\NotificationManager as BaseNotificationManager;
-use merk\NotificationBundle\Discriminator\NotificationDiscriminator;
+use Oz\NotificationBundle\Model\FilterInterface;
+use Oz\NotificationBundle\Model\NotificationEventInterface;
+use Oz\NotificationBundle\Model\NotificationInterface;
+use Oz\NotificationBundle\ModelManager\NotificationManager as BaseNotificationManager;
+use Oz\NotificationBundle\Discriminator\NotificationDiscriminator;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 
@@ -229,7 +229,7 @@ class NotificationManager extends BaseNotificationManager
     /**
      * @param $id
      * @throws \InvalidArgumentException
-     * @return \merk\NotificationBundle\Model\Notification
+     * @return \Oz\NotificationBundle\Model\Notification
      */
     public function find($id)
     {

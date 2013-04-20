@@ -28,7 +28,7 @@ $loader->register();
 set_include_path($vendorDir.'/phing/classes'.PATH_SEPARATOR.get_include_path());
 
 spl_autoload_register(function($class) {
-    if (0 === strpos($class, 'merk\\NotificationBundle\\')) {
+    if (0 === strpos($class, 'Oz\\NotificationBundle\\')) {
         $path = __DIR__.'/../'.implode('/', array_slice(explode('\\', $class), 2)).'.php';
         if (!stream_resolve_include_path($path)) {
             return false;

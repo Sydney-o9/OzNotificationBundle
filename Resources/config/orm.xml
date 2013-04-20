@@ -5,42 +5,42 @@
 
     <services>
 
-        <service id="merk_notification.entity_manager" factory-service="doctrine" factory-method="getEntityManager" class="Doctrine\ORM\EntityManager" public="false">
-            <argument>%merk_notification.model_manager_name%</argument>
+        <service id="oz_notification.entity_manager" factory-service="doctrine" factory-method="getEntityManager" class="Doctrine\ORM\EntityManager" public="false">
+            <argument>%oz_notification.model_manager_name%</argument>
         </service>
 
-        <service id="merk_notification.notification_key.manager.default" class="merk\NotificationBundle\EntityManager\NotificationKeyManager">
-            <argument type="service" id="merk_notification.entity_manager" />
-            <argument>%merk_notification.notification_key.class%</argument>
+        <service id="oz_notification.notification_key.manager.default" class="Oz\NotificationBundle\EntityManager\NotificationKeyManager">
+            <argument type="service" id="oz_notification.entity_manager" />
+            <argument>%oz_notification.notification_key.class%</argument>
         </service>
 
-        <service id="merk_notification.notification_event.manager.default" class="merk\NotificationBundle\EntityManager\NotificationEventManager">
-            <argument type="service" id="merk_notification.entity_manager" />
-            <argument>%merk_notification.notification_event.class%</argument>
+        <service id="oz_notification.notification_event.manager.default" class="Oz\NotificationBundle\EntityManager\NotificationEventManager">
+            <argument type="service" id="oz_notification.entity_manager" />
+            <argument>%oz_notification.notification_event.class%</argument>
         </service>
 
-        <service id="merk_notification.notification.manager.default" class="merk\NotificationBundle\EntityManager\NotificationManager">
-            <argument type="service" id="merk_notification.entity_manager" />
-            <argument>%merk_notification.notification.class%</argument>
-            <argument type="service" id="merk_notification.notification.discriminator" />
+        <service id="oz_notification.notification.manager.default" class="Oz\NotificationBundle\EntityManager\NotificationManager">
+            <argument type="service" id="oz_notification.entity_manager" />
+            <argument>%oz_notification.notification.class%</argument>
+            <argument type="service" id="oz_notification.notification.discriminator" />
         </service>
 
-        <service id="merk_notification.user_preferences.manager.default" class="merk\NotificationBundle\EntityManager\UserPreferencesManager">
-            <argument type="service" id="merk_notification.entity_manager" />
-            <argument>%merk_notification.user_preferences.class%</argument>
-            <argument type="service" id="merk_notification.filter.manager" />
+        <service id="oz_notification.user_preferences.manager.default" class="Oz\NotificationBundle\EntityManager\UserPreferencesManager">
+            <argument type="service" id="oz_notification.entity_manager" />
+            <argument>%oz_notification.user_preferences.class%</argument>
+            <argument type="service" id="oz_notification.filter.manager" />
         </service>
 
-        <service id="merk_notification.filter.manager.default" class="merk\NotificationBundle\EntityManager\FilterManager">
-            <argument type="service" id="merk_notification.entity_manager" />
-            <argument>%merk_notification.filter.class%</argument>
-            <argument>%merk_notification.user.class%</argument>
-            <argument type="service" id="merk_notification.notification_key.manager" />
+        <service id="oz_notification.filter.manager.default" class="Oz\NotificationBundle\EntityManager\FilterManager">
+            <argument type="service" id="oz_notification.entity_manager" />
+            <argument>%oz_notification.filter.class%</argument>
+            <argument>%oz_notification.user.class%</argument>
+            <argument type="service" id="oz_notification.notification_key.manager" />
         </service>
 
-        <service id="merk_notification.method.manager.default" class="merk\NotificationBundle\EntityManager\MethodManager">
-            <argument type="service" id="merk_notification.entity_manager" />
-            <argument>%merk_notification.method.class%</argument>
+        <service id="oz_notification.method.manager.default" class="Oz\NotificationBundle\EntityManager\MethodManager">
+            <argument type="service" id="oz_notification.entity_manager" />
+            <argument>%oz_notification.method.class%</argument>
         </service>
 
     </services>

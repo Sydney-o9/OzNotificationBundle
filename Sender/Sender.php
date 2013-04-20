@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the merkNotificationBundle package.
+ * This file is part of the OzNotificationBundle package.
  *
  * (c) Tim Nagel <tim@nagel.com.au>
  *
@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace merk\NotificationBundle\Sender;
+namespace Oz\NotificationBundle\Sender;
 
-use merk\NotificationBundle\Sender\Agent\AgentInterface;
+use Oz\NotificationBundle\Sender\Agent\AgentInterface;
 
 /**
  * Sender service.
@@ -59,7 +59,7 @@ class Sender implements SenderInterface
      * that agent does not exist.
      *
      * @param string $alias
-     * @return \merk\NotificationBundle\Sender\Agent\AgentInterface
+     * @return \Oz\NotificationBundle\Sender\Agent\AgentInterface
      * @throws \InvalidArgumentException when the alias doesnt exist
      */
     protected function getAgent($alias)

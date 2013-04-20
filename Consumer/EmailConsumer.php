@@ -1,12 +1,12 @@
 <?php
 
-namespace merk\NotificationBundle\Consumer;
+namespace Oz\NotificationBundle\Consumer;
 
 use Doctrine\ORM\EntityManager;
 use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
 use PhpAmqpLib\Message\AMQPMessage;
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
-use merk\NotificationBundle\Model\NotificationInterface;
+use Oz\NotificationBundle\Model\NotificationInterface;
 
 
 
@@ -105,7 +105,7 @@ class EmailConsumer implements ConsumerInterface
     /**
      * Sends a single notification.
      *
-     * @param \merk\NotificationBundle\Model\NotificationInterface $notification
+     * @param \Oz\NotificationBundle\Model\NotificationInterface $notification
      */
     public function send(NotificationInterface $notification)
     {

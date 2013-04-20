@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the merkNotificationBundle package.
+ * This file is part of the OzNotificationBundle package.
  *
  * (c) Tim Nagel <tim@nagel.com.au>
  *
@@ -9,16 +9,16 @@
  * file that was distributed with this source code.
  */
 
-namespace merk\NotificationBundle\Notifier;
+namespace Oz\NotificationBundle\Notifier;
 
-use merk\NotificationBundle\ModelManager\NotificationKeyManagerInterface;
-use merk\NotificationBundle\ModelManager\NotificationManagerInterface;
-use merk\NotificationBundle\ModelManager\NotificationEventManagerInterface;
-use merk\NotificationBundle\ModelManager\FilterManagerInterface;
-use merk\NotificationBundle\Sender\SenderInterface;
+use Oz\NotificationBundle\ModelManager\NotificationKeyManagerInterface;
+use Oz\NotificationBundle\ModelManager\NotificationManagerInterface;
+use Oz\NotificationBundle\ModelManager\NotificationEventManagerInterface;
+use Oz\NotificationBundle\ModelManager\FilterManagerInterface;
+use Oz\NotificationBundle\Sender\SenderInterface;
 
 use Symfony\Component\Security\Core\User\UserInterface;
-use merk\NotificationBundle\Model\NotificationEventInterface;
+use Oz\NotificationBundle\Model\NotificationEventInterface;
 
 use DateTime;
 

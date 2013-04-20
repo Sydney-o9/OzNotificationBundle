@@ -1,14 +1,14 @@
-{% extends "merkNotificationBundle::layout.html.twig" %}
+{% extends "OzNotificationBundle::layout.html.twig" %}
 
-{% block merk_notification_content %}
+{% block oz_notification_content %}
 
-<form action="{{ path('merk_notification_user_preferences_edit') }}" {{ form_enctype(form) }} method="POST" class="merk_notification_user_preferences">
+<form action="{{ path('oz_notification_user_preferences_edit') }}" {{ form_enctype(form) }} method="POST" class="oz_notification_user_preferences">
 
     {{ form_widget(form) }}
 
     <div>
-        <input type="submit" value="{{ 'user_preferences.edit.submit'|trans({}, 'merkNotificationBundle') }}" />
+        <input type="submit" value="{{ 'user_preferences.edit.submit'|trans({}, 'OzNotificationBundle') }}" />
     </div>
 </form>
 
-{% endblock merk_notification_content %}
+{% endblock oz_notification_content %}

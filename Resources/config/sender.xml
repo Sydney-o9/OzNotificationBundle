@@ -5,23 +5,23 @@
 
     <services>
 
-        <service id="merk_notification.sender" class="merk\NotificationBundle\Sender\Sender">
+        <service id="oz_notification.sender" class="Oz\NotificationBundle\Sender\Sender">
             <argument type="collection" /> <!-- Agents -->
         </service>
 
-        <service id="merk_notification.sender.agent.sms" class="merk\NotificationBundle\Sender\Agent\SMSAgent">
+        <service id="oz_notification.sender.agent.sms" class="Oz\NotificationBundle\Sender\Agent\SMSAgent">
             <argument type="service" id="old_sound_rabbit_mq.notification_sms_producer" />
         </service>
 
-        <service id="merk_notification.sender.agent.email" class="merk\NotificationBundle\Sender\Agent\EmailAgent">
+        <service id="oz_notification.sender.agent.email" class="Oz\NotificationBundle\Sender\Agent\EmailAgent">
             <argument type="service" id="mailer" />
             <argument type="service" id="old_sound_rabbit_mq.notification_email_producer" />
         </service>
 
-        <service id="merk_notification.sender.agent.internal" class="merk\NotificationBundle\Sender\Agent\InternalAgent">
+        <service id="oz_notification.sender.agent.internal" class="Oz\NotificationBundle\Sender\Agent\InternalAgent">
         </service>
 
-        <service id="merk_notification.sender.agent.facebook" class="merk\NotificationBundle\Sender\Agent\FacebookAgent">
+        <service id="oz_notification.sender.agent.facebook" class="Oz\NotificationBundle\Sender\Agent\FacebookAgent">
         </service>
 
     </services>

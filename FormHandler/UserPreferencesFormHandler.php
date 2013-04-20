@@ -1,10 +1,10 @@
 <?php
 
-namespace merk\NotificationBundle\FormHandler;
+namespace Oz\NotificationBundle\FormHandler;
 
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
-use merk\NotificationBundle\ModelManager\UserPreferencesManagerInterface;
+use Oz\NotificationBundle\ModelManager\UserPreferencesManagerInterface;
 
 /**
  * Handles user preferences forms, from binding request to updating the user preferences

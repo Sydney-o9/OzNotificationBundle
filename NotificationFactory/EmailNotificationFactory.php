@@ -1,6 +1,6 @@
 <?php
 
-namespace merk\NotificationBundle\NotificationFactory;
+namespace Oz\NotificationBundle\NotificationFactory;
 
 
 class EmailNotificationFactory extends NotificationFactory

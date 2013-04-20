@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the merkNotificationBundle package.
+ * This file is part of the OzNotificationBundle package.
  *
  * (c) Tim Nagel <tim@nagel.com.au>
  *
@@ -9,12 +9,12 @@
  * file that was distributed with this source code.
  */
 
-namespace merk\NotificationBundle\EntityManager;
+namespace Oz\NotificationBundle\EntityManager;
 
 use Doctrine\ORM\EntityManager;
-use merk\NotificationBundle\ModelManager\FilterManagerInterface;
-use merk\NotificationBundle\Model\UserPreferencesInterface;
-use merk\NotificationBundle\ModelManager\UserPreferencesManager as BaseUserPreferencesManager;
+use Oz\NotificationBundle\ModelManager\FilterManagerInterface;
+use Oz\NotificationBundle\Model\UserPreferencesInterface;
+use Oz\NotificationBundle\ModelManager\UserPreferencesManager as BaseUserPreferencesManager;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 
@@ -93,7 +93,7 @@ class UserPreferencesManager extends BaseUserPreferencesManager
      *  - if the user has one of these filters already, replace it
      *
      * @param UserInterface $user
-     * @return \merk\NotificationBundle\Model\UserPreferencesInterface|mixed
+     * @return \Oz\NotificationBundle\Model\UserPreferencesInterface|mixed
      */
     public function getUserPreferences($user){
 

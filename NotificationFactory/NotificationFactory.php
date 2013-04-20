@@ -1,10 +1,10 @@
 <?php
 
-namespace merk\NotificationBundle\NotificationFactory;
+namespace Oz\NotificationBundle\NotificationFactory;
 
-use merk\NotificationBundle\NotificationFactory\NotificationFactoryInterface;
-use \merk\NotificationBundle\Renderer\RendererInterface;
-use merk\NotificationBundle\Model\NotificationInterface;
+use Oz\NotificationBundle\NotificationFactory\NotificationFactoryInterface;
+use \Oz\NotificationBundle\Renderer\RendererInterface;
+use Oz\NotificationBundle\Model\NotificationInterface;
 
 class NotificationFactory implements NotificationFactoryInterface
 {
@@ -25,7 +25,7 @@ class NotificationFactory implements NotificationFactoryInterface
 
 
     /**
-     * @param \merk\NotificationBundle\Renderer\RendererInterface $renderer
+     * @param \Oz\NotificationBundle\Renderer\RendererInterface $renderer
      */
     public function setRenderer($renderer)
     {
@@ -33,7 +33,7 @@ class NotificationFactory implements NotificationFactoryInterface
     }
 
     /**
-     * @return \merk\NotificationBundle\Renderer\RendererInterface
+     * @return \Oz\NotificationBundle\Renderer\RendererInterface
      */
     public function getRenderer()
     {
