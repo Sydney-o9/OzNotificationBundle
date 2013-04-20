@@ -3,7 +3,7 @@ OzNotificationBundle
 
 Preliminary Note:
 
-OzNotificationBundle is originally a fork from the amazing OzNotificationBundle, initiated by Merk.
+OzNotificationBundle is originally a fork from the amazing [merkNotificationBundle](https://github.com/merk/merkNotificationBundle/), initiated by Merk.
 See [here](https://github.com/merk/merkNotificationBundle/issues/13) for more infos.
 
 This bundle provides notification services for your application. You
