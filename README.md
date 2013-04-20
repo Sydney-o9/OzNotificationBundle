@@ -23,6 +23,19 @@ As an ADMIN, you can:
 - Choose the roles the user needs to have to receive a particular notification.
   (e.g you might want your admin people with [ROLE_ADMIN] to receive notifications in
   a different way to your normal users with [ROLE_USER])
+- Create a new method of notification from the config file if you wish to:
+  (Allowing you to create multiple email notif types if you want, or create your own
+  sms notification system)
+
+````yml
+notification_types:
+    sms:
+        entity: Acme\NotificationBundle\Entity\SMSNotification
+        renderer: merk_notification.renderer.sms
+        notification_factory: merk_notification.notification.factory.sms
+        sender_agent: merk_notification.sender.agent.sms
+````
+
 - Decide whether you would like to use a queuing system (e.g RABBIT MQ) or not.
 - Send notifications from the backend of your application to a particular user.
 - Send notifications to many users at a time (Bulk notifications)
@@ -37,8 +50,13 @@ As a USER of the application, you can:
 - View your internal notifications
 - View number of unread notifications
 
+
+As a Programmer, helping us would improve this bundle a lot
+-----------------------------------------------------------
+
+* By opening an issue if you face a problem, complain about the existing code or simply propose new features
+
 Features yet to be added include:
---------------------------------
 
  * Setting NotificationBundle to listen for events sent with Symfony2's Event Dispatcher
  * Metadata (annotations, yml, xml) definitions on objects that will automatically trigger notification events
