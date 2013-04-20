@@ -1,8 +1,8 @@
 OzNotificationBundle - Contribute
-==============================
+=================================
 
 You can help us improve this bundle
------------------------------------
+------------------------------------
 
 * By opening an issue if you face a problem, complain about the existing code or simply propose new features
 
