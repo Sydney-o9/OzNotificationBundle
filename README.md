@@ -1,5 +1,10 @@
-Getting Started With merkNotificationBundle
+OzNotificationBundle
 ===========================================
+
+Preliminary Note:
+
+OzNotificationBundle is originally a fork from the amazing merkNotificationBundle, initiated by Merk.
+See [here](https://github.com/merk/merkNotificationBundle/issues/13) for more infos.
 
 This bundle provides notification services for your application. You
 are able to define specific events that will occur in your programs
