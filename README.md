@@ -1,15 +1,39 @@
 OzNotificationBundle
 ===========================================
 
-Preliminary Note:
+### Preliminary Note:
 
 OzNotificationBundle is originally a fork from the amazing [merkNotificationBundle](https://github.com/merk/merkNotificationBundle/), initiated by Merk.
 See [here](https://github.com/merk/merkNotificationBundle/issues/13) for more infos.
+
+## Description:
 
 This bundle provides notification services for your application. You
 are able to define specific events that will occur in your programs
 lifecycle that users will be able to subscribe to, and be notified
 when they occur.
+
+As an ADMIN, you can:
+----------------------
+
+- Create the notification keys a user of your app is able to subscribe to.
+  (e.g newsletter.of.the.week, ordered.processed, ordered.cancelled, etc..)
+- Choose the methods a user of your app is able to use for each notification key.
+  (e.g email notification, internal notification, sms notification). 
+- Choose the roles the user needs to have to receive a particular notification.
+  (e.g you might want your admin people with [ROLE_ADMIN] to receive notifications in
+  a different way to your normal users with [ROLE_USER])
+- Decide whether you would like to use a queuing system (RABBIT MQ) or not.
+- Send notifications from the backend of your application to a particular user.
+- Send notifications to a many users at a time (Bulk notifications)
+  (e.g Send this notification to all users that subscribed to newsletter.of.the.week)
+
+As a USER of the application, you can:
+--------------------------------------
+
+- Manage all your notifications in your preferences
+  (e.g decide whether you would like to receive an email, an internal notification or
+  nothing at all for a particular notification, like a newsletter, or an event order.processed)
 
 Features yet to be added include:
  * Setting NotificationBundle to listen for events sent with Symfony2's Event Dispatcher
