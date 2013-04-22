@@ -28,11 +28,22 @@ abstract class UserPreferences implements UserPreferencesInterface
      */
     protected $updatedAt;
 
+    /**
+     * @var \Oz\NotificationBundle\Entity\Filter[]
+     */
     protected $filters;
 
+    /**
+     * @var \Symfony\Component\Security\Core\User\UserInterface
+     */
     protected $user;
 
     protected $defaultMethod;
+
+    public function __construct()
+    {
+        $this->filters = new ArrayCollection;
+    }
 
     /**
      * @return \DateTime
@@ -48,6 +59,11 @@ abstract class UserPreferences implements UserPreferencesInterface
     public function getUser()
     {
         return $this->user;
+    }
+
+    public function setUser(User $user)
+    {
+        $this->user = $user;
     }
 
     /**

@@ -129,16 +129,15 @@ Create [MethodNotificationKey Entity](https://github.com/Sydney-o9/OzNotificatio
 
 #### Filter Entity
 
-- Filter; an object that is used to store user defined filters for notifications
+An object that is used to store user defined filters for notifications.
 
-Create a Filter entity based on the following file: [Filter](https://github.com/Sydney-o9/OzNotificationBundle/tree/master/Resources/doc/Entity/Filter.md).
-
+Create [Filter Entity](https://github.com/Sydney-o9/OzNotificationBundle/tree/master/Resources/doc/Entity/Filter.md).
 
 #### UserPreferences entity
 
-- UserPreferences; an object to hold default preferences for each user
+An object to hold default preferences for each user.
 
-Create a UserPreferences entity based on the following file: [UserPreferences](https://github.com/Sydney-o9/OzNotificationBundle/tree/master/Resources/doc/Entity/UserPreferences.md).
+Create [UserPreferences Entity](https://github.com/Sydney-o9/OzNotificationBundle/tree/master/Resources/doc/Entity/UserPreferences.md).
 
 ### Step 5: Configure the merkNotificationBundle
 
