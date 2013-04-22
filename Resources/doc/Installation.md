@@ -115,7 +115,17 @@ Create a [NotificationEvent Entity](https://github.com/Sydney-o9/OzNotificationB
 
 A NotificationEvent contains a NotificationKey that identifies an event. e.g newsletter.of.the.week, order.processed, order.created ...
 
-Create a NotificationKey entity based on the following file: [NotificationKey](https://github.com/Sydney-o9/OzNotificationBundle/tree/master/Resources/doc/Entity/NotificationKey.md).
+Create a NotificationKey entity based on the following file: [NotificationKey](https://github.com/Sydney-o9/OzNotificationBundle/tree/master/Resources/doc/Entity/Notification.md).
+
+#### Method Entity
+
+The Method entity ...
+
+Create [Method Entity](https://github.com/Sydney-o9/OzNotificationBundle/tree/master/Resources/doc/Entity/Method.md).
+
+#### MethodNotificationKey Entity
+
+Create [MethodNotificationKey Entity](https://github.com/Sydney-o9/OzNotificationBundle/tree/master/Resources/doc/Entity/MethodNotificationKey.md).
 
 #### Filter Entity
 
