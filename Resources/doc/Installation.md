@@ -81,7 +81,9 @@ NotificationBundle provides multiple abstract classes that need to be
 implemented. At this time, only a Doctrine ORM implementation is
 provided.
 
-- Notification; Represents a notification that is sent to a user
+- Notification; Represents a notification that is sent to a user. You can then extend this class
+to create different notification types. We will show an example with 3 types of notifications inherited from that class:
+EmailNotification, InternalNotification and SMSNotification.
 - NotificationEvent; Represents an event that occurs that will trigger notifications
 - UserPreferences; an object to hold default preferences for each user
 - Filter; an object that is used to store user defined filters for notifications
@@ -95,6 +97,19 @@ provided.
 
 > If you override the __construct() method in any of these classes, be sure
 > to call parent::__construct() if the parent has a constructor.
+
+### Notification entities
+
+Create a Notification entity based on the following file: [Notification](https://github.com/Sydney-o9/OzNotificationBundle/tree/master/Resources/doc/Entity/Notification.md).
+
+You can arrange the discriminator map as you wish, but as you can see, the basic configuration expects 3 entities: EmailNotification, InternalNotification and SMSNotification.
+
+- Create EmailNotification entity based on the following file: [EmailNotification](https://github.com/Sydney-o9/OzNotificationBundle/tree/master/Resources/doc/Entity/EmailNotification.md).
+- Create InternalNotification entity based on the following file: [InternalNotification](https://github.com/Sydney-o9/OzNotificationBundle/tree/master/Resources/doc/Entity/InternalNotification.md).
+- Create SMSNotification entity based on the following file: [SMSNotification.php](https://github.com/Sydney-o9/OzNotificationBundle/tree/master/Resources/doc/Entity/SMSNotification.md).
+
+
+### Filter entity
 
 ``` php
 <?php
@@ -129,47 +144,6 @@ class Filter extends BaseFilter
     protected $userPreferences;
 }
 ```
-
-``` php
-<?php
-
-// src/Company/AppBundle/Entity/Notification.php
-
-namespace Company\AppBundle\Entity;
-
-use Doctrine\ORM\Mapping AS ORM;
-use Company\UserBundle\Entity\User;
-use merk\NotificationBundle\Entity\Notification as BaseNotification;
-use Symfony\Component\Security\Core\User\UserInterface;
-
-/**
- * @ORM\Entity
- * @ORM\Table(name="notification")
- */
-class Notification extends BaseNotification
-{
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     * @var integer
-     */
-    protected $id;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="Company\UserBundle\Entity\User")
-     * @var \Company\UserBundle\Entity\User
-     */
-    protected $user;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="Company\AppBundle\Entity\NotificationEvent", inversedBy="notifications")
-     * @var NotificationEvent
-     */
-    protected $event;
-}
-```
-
 ``` php
 <?php
 
