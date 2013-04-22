@@ -96,17 +96,26 @@ to create different notification types. We will show an example with 3 types of 
            EmailNotification       InternalNotification       SMSNotification   (Add custom notifications if needed)
 </pre>
 
-                         abcdefghijklmnopqr abcdefghijklmnopqr
-EmailNotification, InternalNotification and SMSNotification.
 
-First, create a Notification entity based on the following file: [Notification](https://github.com/Sydney-o9/OzNotificationBundle/tree/master/Resources/doc/Entity/Notification.md).
+Create a [Notification Entity](https://github.com/Sydney-o9/OzNotificationBundle/tree/master/Resources/doc/Entity/Notification.md).
 
 You can arrange the discriminator map as you wish, but as you can see, the basic configuration expects 3 entities: EmailNotification, InternalNotification and SMSNotification.
 
-- Create EmailNotification entity based on the following file: [EmailNotification](https://github.com/Sydney-o9/OzNotificationBundle/tree/master/Resources/doc/Entity/EmailNotification.md).
-- Create InternalNotification entity based on the following file: [InternalNotification](https://github.com/Sydney-o9/OzNotificationBundle/tree/master/Resources/doc/Entity/InternalNotification.md).
-- Create SMSNotification entity based on the following file: [SMSNotification](https://github.com/Sydney-o9/OzNotificationBundle/tree/master/Resources/doc/Entity/SMSNotification.md).
+- Create [EmailNotification Entity](https://github.com/Sydney-o9/OzNotificationBundle/tree/master/Resources/doc/Entity/EmailNotification.md).
+- Create [InternalNotification Entity](https://github.com/Sydney-o9/OzNotificationBundle/tree/master/Resources/doc/Entity/InternalNotification.md).
+- Create [SMSNotification Entity](https://github.com/Sydney-o9/OzNotificationBundle/tree/master/Resources/doc/Entity/SMSNotification.md).
 
+#### NotificationEvent Entity
+
+Represents an event that occurs that will trigger notifications.
+
+Create a [NotificationEvent Entity](https://github.com/Sydney-o9/OzNotificationBundle/tree/master/Resources/doc/Entity/NotificationEvent.md).
+
+#### NotificationKey Entity
+
+A NotificationEvent contains a NotificationKey that identifies an event. e.g newsletter.of.the.week, order.processed, order.created ...
+
+Create a NotificationKey entity based on the following file: [NotificationKey](https://github.com/Sydney-o9/OzNotificationBundle/tree/master/Resources/doc/Entity/NotificationKey.md).
 
 #### Filter Entity
 
@@ -114,11 +123,6 @@ You can arrange the discriminator map as you wish, but as you can see, the basic
 
 Create a Filter entity based on the following file: [Filter](https://github.com/Sydney-o9/OzNotificationBundle/tree/master/Resources/doc/Entity/Filter.md).
 
-#### NotificationEvent Entity
-
-- NotificationEvent; Represents an event that occurs that will trigger notifications
-
-Create a NotificationEvent entity based on the following file: [NotificationEvent](https://github.com/Sydney-o9/OzNotificationBundle/tree/master/Resources/doc/Entity/NotificationEvent.md).
 
 #### UserPreferences entity
 

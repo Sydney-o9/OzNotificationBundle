@@ -16,17 +16,17 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * Abstract Notification model
- *
  */
 abstract class Notification implements NotificationInterface
 {
-
     /**
      * @var integer $id
      */
     protected $id;
 
     /**
+     * Owner of the notification
+     *
      * @var \Symfony\Component\Security\Core\User\UserInterface
      */
     protected $user;
@@ -147,7 +147,6 @@ abstract class Notification implements NotificationInterface
 
     /**
      * Mark the notification as sent.
-     *
      */
     public function markSent()
     {
