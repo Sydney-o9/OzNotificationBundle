@@ -87,6 +87,16 @@ provided.
 
 Represent a notification that is sent to a user. You can then extend this class
 to create different notification types. We will show an example with 3 types of notifications inherited from that class:
+<pre>
+                                    Notification.php
+                                           |
+                   ________________________|________________________
+                  |                        |                        |
+                  |                        |                        |
+           EmailNotification       InternalNotification       SMSNotification   (Add custom notifications if needed)
+</pre>
+
+                         abcdefghijklmnopqr abcdefghijklmnopqr
 EmailNotification, InternalNotification and SMSNotification.
 
 First, create a Notification entity based on the following file: [Notification](https://github.com/Sydney-o9/OzNotificationBundle/tree/master/Resources/doc/Entity/Notification.md).
