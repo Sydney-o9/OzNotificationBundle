@@ -13,20 +13,22 @@ OzNotificationBundle - Installation
 
 ### Step 1: Download merkNotificationBundle
 
-Ultimately, the merkNotificationBundle files should be downloaded to the
-`vendor/bundles/merk/NotificationBundle` directory.
+Ultimately, the OzNotificationBundle files should be downloaded to the
+`vendor/bundles/Oz/NotificationBundle` directory.
 
 This can be done in several ways, depending on your preference. The first
 method is the standard Symfony2 method.
+
+**Using composer**
 
 **Using the vendors script**
 
 Add the following lines in your `deps` file:
 
 ```
-[merkNotificationBundle]
-    git=git://github.com/merk/merkNotificationBundle.git
-    target=bundles/merk/NotificationBundle
+[OzNotificationBundle]
+    git=git://github.com/Oz/OzNotificationBundle.git
+    target=bundles/Oz/NotificationBundle
 ```
 
 Now, run the vendors script to download the bundle:
@@ -40,13 +42,13 @@ $ php bin/vendors install
 If you prefer instead to use git submodules, the run the following:
 
 ``` bash
-$ git submodule add git://github.com/merk/merkNotificationBundle.git vendor/bundles/merk/NotificationBundle
+$ git submodule add git://github.com/Sydney-o9/OzNotificationBundle.git vendor/bundles/Oz/NotificationBundle
 $ git submodule update --init
 ```
 
 ### Step 2: Configure the Autoloader
 
-Add the `merk` namespace to your autoloader:
+Add the `Oz` namespace to your autoloader:
 
 ``` php
 <?php
@@ -54,7 +56,7 @@ Add the `merk` namespace to your autoloader:
 
 $loader->registerNamespaces(array(
     // ...
-    'merk' => __DIR__.'/../vendor/bundles',
+    'Oz' => __DIR__.'/../vendor/bundles',
 ));
 ```
 
@@ -70,7 +72,7 @@ public function registerBundles()
 {
     $bundles = array(
         // ...
-        new merk\NotificationBundle\merkNotificationBundle(),
+        new Oz\NotificationBundle\OzNotificationBundle(),
     );
 }
 ```
@@ -81,194 +83,38 @@ NotificationBundle provides multiple abstract classes that need to be
 implemented. At this time, only a Doctrine ORM implementation is
 provided.
 
-- Notification; Represents a notification that is sent to a user. You can then extend this class
+#### Notification Entity
+
+Represent a notification that is sent to a user. You can then extend this class
 to create different notification types. We will show an example with 3 types of notifications inherited from that class:
 EmailNotification, InternalNotification and SMSNotification.
-- NotificationEvent; Represents an event that occurs that will trigger notifications
-- UserPreferences; an object to hold default preferences for each user
-- Filter; an object that is used to store user defined filters for notifications
 
-**Warning:**
-
-> When you extend from the mapped superclass provided by the bundle, don't
-> redefine the mapping for the other fields as it is provided by the bundle.
-
-**Warning:**
-
-> If you override the __construct() method in any of these classes, be sure
-> to call parent::__construct() if the parent has a constructor.
-
-### Notification entities
-
-Create a Notification entity based on the following file: [Notification](https://github.com/Sydney-o9/OzNotificationBundle/tree/master/Resources/doc/Entity/Notification.md).
+First, create a Notification entity based on the following file: [Notification](https://github.com/Sydney-o9/OzNotificationBundle/tree/master/Resources/doc/Entity/Notification.md).
 
 You can arrange the discriminator map as you wish, but as you can see, the basic configuration expects 3 entities: EmailNotification, InternalNotification and SMSNotification.
 
 - Create EmailNotification entity based on the following file: [EmailNotification](https://github.com/Sydney-o9/OzNotificationBundle/tree/master/Resources/doc/Entity/EmailNotification.md).
 - Create InternalNotification entity based on the following file: [InternalNotification](https://github.com/Sydney-o9/OzNotificationBundle/tree/master/Resources/doc/Entity/InternalNotification.md).
-- Create SMSNotification entity based on the following file: [SMSNotification.php](https://github.com/Sydney-o9/OzNotificationBundle/tree/master/Resources/doc/Entity/SMSNotification.md).
+- Create SMSNotification entity based on the following file: [SMSNotification](https://github.com/Sydney-o9/OzNotificationBundle/tree/master/Resources/doc/Entity/SMSNotification.md).
 
 
-### Filter entity
+#### Filter Entity
 
-``` php
-<?php
+- Filter; an object that is used to store user defined filters for notifications
 
-// src/Company/AppBundle/Entity/Filter.php
+Create a Filter entity based on the following file: [Filter](https://github.com/Sydney-o9/OzNotificationBundle/tree/master/Resources/doc/Entity/Filter.md).
 
-namespace Company\AppBundle\Entity;
+#### NotificationEvent Entity
 
-use Doctrine\ORM\Mapping AS ORM;
-use Company\UserBundle\Entity\User;
-use merk\NotificationBundle\Entity\Filter as BaseFilter;
-use Symfony\Component\Security\Core\User\UserInterface;
+- NotificationEvent; Represents an event that occurs that will trigger notifications
 
-/**
- * @ORM\Entity
- * @ORM\Table(name="notification_userfilter")
- */
-class Filter extends BaseFilter
-{
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     * @var integer
-     */
-    protected $id;
+Create a NotificationEvent entity based on the following file: [NotificationEvent](https://github.com/Sydney-o9/OzNotificationBundle/tree/master/Resources/doc/Entity/NotificationEvent.md).
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Company\AppBundle\Entity\UserPreferences", inversedBy="filters")
-     * @var UserPreferences
-     */
-    protected $userPreferences;
-}
-```
-``` php
-<?php
+#### UserPreferences entity
 
-namespace Company\AppBundle\Entity;
+- UserPreferences; an object to hold default preferences for each user
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
-use Doctrine\ORM\Mapping AS ORM;
-use Company\UserBundle\Entity\User;
-use merk\NotificationBundle\Entity\NotificationEvent as BaseNotificationEvent;
-use Symfony\Component\Security\Core\User\UserInterface;
-use DateTime;
-
-/**
- * @ORM\Entity
- * @ORM\Table(name="Company_notificationevent")
- * @ORM\HasLifecycleCallbacks
- */
-class NotificationEvent extends BaseNotificationEvent
-{
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     * @var integer
-     */
-    protected $id;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="Company\UserBundle\Entity\User")
-     * @var \Company\UserBundle\Entity\User
-     */
-    protected $actor;
-
-    /**
-     * @ORM\OneToMany(targetEntity="Company\AppBundle\Entity\Notification", mappedBy="event")
-     * @var \Doctrine\Common\Collection\Collection
-     */
-    protected $notifications;
-
-    public function __construct($key, $subject, $verb, UserInterface $actor = null, DateTime $createdAt = null)
-    {
-        parent::__construct($key, $subject, $verb, $actor, $createdAt);
-
-        $this->notifications = new ArrayCollection;
-    }
-
-    /**
-     * Sets the actor for the event.
-     *
-     * @param null|\Symfony\Component\Security\Core\User\UserInterface $actor
-     * @throws \InvalidArgumentException when the $actor is not a User object
-     */
-    protected function setActor(UserInterface $actor = null)
-    {
-        if (null !== $actor and !$actor instanceof User) {
-            throw new \InvalidArgumentException('Actor must be a User');
-        }
-
-        $this->actor = $actor;
-    }
-
-    public function getNotifications()
-    {
-        return $this->notifications;
-    }
-}
-```
-
-``` php
-<?php
-
-namespace Company\AppBundle\Entity;
-
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ORM\Mapping AS ORM;
-use Company\UserBundle\Entity\User;
-use merk\NotificationBundle\Entity\UserPreferences as BaseUserPreferences;
-use Symfony\Component\Security\Core\User\UserInterface;
-
-/**
- * @ORM\Entity
- * @ORM\Table(name="notification_userprefs")
- */
-class UserPreferences extends BaseUserPreferences
-{
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     * @var integer
-     */
-    protected $id;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="Company\UserBundle\Entity\User")
-     * @var \Company\UserBundle\Entity\User
-     */
-    protected $user;
-
-    /**
-     * @ORM\OneToMany(targetEntity="Company\AppBundle\Entity\Filter", mappedBy="userPreferences")
-     * @var \Doctrine\Common\Collection\Collection
-     */
-    protected $filters;
-
-    public function __construct()
-    {
-        $this->filters = new ArrayCollection;
-    }
-
-    /**
-     * @return \Doctrine\Common\Collection\Collection
-     */
-    public function getFilters()
-    {
-        return $this->filters;
-    }
-
-    public function setUser(User $user)
-    {
-        $this->user = $user;
-    }
-}
-```
+Create a UserPreferences entity based on the following file: [UserPreferences](https://github.com/Sydney-o9/OzNotificationBundle/tree/master/Resources/doc/Entity/UserPreferences.md).
 
 ### Step 5: Configure the merkNotificationBundle
 
