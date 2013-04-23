@@ -97,13 +97,13 @@ to create different notification types. We will show an example with 3 types of 
 </pre>
 
 
-Create a [Notification Entity](https://github.com/Sydney-o9/OzNotificationBundle/tree/master/Resources/doc/Entity/Notification.md).
+Create a [Notification Entity](Entity/Notification.md).
 
 You can arrange the discriminator map as you wish, but as you can see, the basic configuration expects 3 entities: EmailNotification, InternalNotification and SMSNotification.
 
-- Create [EmailNotification Entity](https://github.com/Sydney-o9/OzNotificationBundle/tree/master/Resources/doc/Entity/EmailNotification.md).
-- Create [InternalNotification Entity](https://github.com/Sydney-o9/OzNotificationBundle/tree/master/Resources/doc/Entity/InternalNotification.md).
-- Create [SMSNotification Entity](https://github.com/Sydney-o9/OzNotificationBundle/tree/master/Resources/doc/Entity/SMSNotification.md).
+- Create [EmailNotification Entity](Entity/EmailNotification.md).
+- Create [InternalNotification Entity](Entity/InternalNotification.md).
+- Create [SMSNotification Entity](Entity/SMSNotification.md).
 
 #### NotificationEvent Entity
 
@@ -121,7 +121,7 @@ A NotificationEvent represents an event that occurs in your application. Once tr
            EmailNotification       InternalNotification       SMSNotification
 </pre>
 
-Create a [NotificationEvent Entity](https://github.com/Sydney-o9/OzNotificationBundle/tree/master/Resources/doc/Entity/NotificationEvent.md).
+Create a [NotificationEvent Entity](Entity/NotificationEvent.md).
 
 #### NotificationKey Entity
 
@@ -141,7 +141,7 @@ as well as relevent information about the NotificationKey (whether the user can 
            EmailNotification       InternalNotification       SMSNotification
 </pre>
 
-Create [NotificationKey Entity](https://github.com/Sydney-o9/OzNotificationBundle/tree/master/Resources/doc/Entity/NotificationKey.md).
+Create [NotificationKey Entity](Entity/NotificationKey.md).
 
 #### Method Entity
 
@@ -160,7 +160,7 @@ A NotificationKey also contains the methods that can be used. For example, the N
 EmailNotification       InternalNotification       SMSNotification
 </pre>
 
-Create [Method Entity](https://github.com/Sydney-o9/OzNotificationBundle/tree/master/Resources/doc/Entity/Method.md).
+Create [Method Entity](Entity/Method.md).
 
 #### MethodNotificationKey Entity
 
@@ -180,7 +180,7 @@ choose email, and internal notifications by default (defaultMethod)  To do that,
       |                        |                        |
 EmailNotification       InternalNotification       SMSNotification
 </pre>
-Create [MethodNotificationKey Entity](https://github.com/Sydney-o9/OzNotificationBundle/tree/master/Resources/doc/Entity/MethodNotificationKey.md).
+Create [MethodNotificationKey Entity](Entity/MethodNotificationKey.md).
 
 #### UserPreferences entity
 
@@ -190,7 +190,7 @@ An object to hold default preferences for each user.
             User ================ UserPreferences
                    (e.g notification preferences via filters)
 </pre>
-Create [UserPreferences Entity](https://github.com/Sydney-o9/OzNotificationBundle/tree/master/Resources/doc/Entity/UserPreferences.md).
+Create [UserPreferences Entity](Entity/UserPreferences.md).
 
 Add the relation to your User entity:
 
@@ -249,35 +249,69 @@ The user "Georgio" can now modify his preferences via the filter containing orde
                             |    intenal     |                       |   internal
                             |      sms       |                       |              |
 </pre>
-Create [Filter Entity](https://github.com/Sydney-o9/OzNotificationBundle/tree/master/Resources/doc/Entity/Filter.md).
+Create [Filter Entity](Entity/Filter.md).
 
 
-### Step 5: Configure the merkNotificationBundle
-
-Notification bundle does not contain much configuration, at the current time
-the only configuration is database driver and FQCN of the classes you defined
-above.
+### Step 5: Configure the OzNotificationBundle
 
 ``` yaml
 oz_notification:
-    db_driver: orm
+
+    #DATABASE DRIVER
+    db_driver: orm  # will load orm.xml in OzNotifcationExtension
+
+    #FQCN OF THE CLASSES
     class:
-        filter: Company\AppBundle\Entity\Filter
-        notification: Company\AppBundle\Entity\Notification
-        notification_event: Company\AppBundle\Entity\NotificationEvent
-        user_preferences: Company\AppBundle\Entity\UserPreferences
+        user:  Acme\UserBundle\Entity\User
+        notification_key: Acme\NotificationBundle\Entity\NotificationKey
+        notification_event:  Acme\NotificationBundle\Entity\NotificationEvent
+        notification:  Acme\NotificationBundle\Entity\Notification
+        user_preferences:  Acme\NotificationBundle\Entity\UserPreferences
+        filter: Acme\NotificationBundle\Entity\Filter
+        method: Acme\NotificationBundle\Entity\Method
+
+    #NOTIFICATION TYPES
+    notification_types:
+        email:
+            entity: Acme\NotificationBundle\Entity\EmailNotification
+            renderer: oz_notification.renderer.email #service_name
+            notification_factory: oz_notification.notification.factory.email #service_name
+            sender_agent: oz_notification.sender.agent.email
+        sms:
+            entity: Acme\NotificationBundle\Entity\SMSNotification
+            renderer: oz_notification.renderer.sms
+            notification_factory: oz_notification.notification.factory.sms
+            sender_agent: oz_notification.sender.agent.sms
+        internal:
+            entity: Acme\NotificationBundle\Entity\InternalNotification
+            notification_factory: oz_notification.notification.factory.internal
+            renderer:  oz_notification.renderer.internal
+            sender_agent: oz_notification.sender.agent.internal
+
 ```
+For each notification type that you create, you will have to:
+- make sure getType() in the entity returns the alias. (e.g EmailNotification getType() should return 'email').
+- make sure you have created the according method in your Method table (e.g create a row 'email' in the Method table via your backend)
 
-### Step 6: Import merkNotificationBundle routing files
+If you need to override other parts of the bundle, see [full configuration of the bundle](Entity/FullConfiguration.md).
 
-NotificationBundle provides routing for a default UserPreferences controller.
+### Step 6: Import OzNotificationBundle routing files
+
+OzNotificationBundle provides routing for a default UserPreferences controller and a default User Notifications controller.
 
 In YAML:
 
 ``` yaml
 # app/config/routing.yml
-oz_notification:
-    resource: "@merkNotificationBundle/Resources/config/routing/user_preferences.xml"
+
+# OzNotificationBundle
+oz_notification_preferences:
+    resource: "@OzNotificationBundle/Resources/config/routing/user_preferences.xml"
+    prefix: /notifications/preferences
+
+oz_notification_notifications:
+    resource: "@OzNotificationBundle/Resources/config/routing/user_notifications.xml"
+    prefix: /notifications
 ```
 
 ### Step 7: Update your database schema
