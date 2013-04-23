@@ -8,14 +8,17 @@ are able to define specific events that will occur in your programs
 lifecycle that users will be able to subscribe to, and be notified
 when they occur.
 
+[See an exhaustive list of OzNotificationBundle features](Resources/doc/Features.md).
+
 ### Note:
 
 OzNotificationBundle is originally a fork from the amazing [merkNotificationBundle](https://github.com/merk/merkNotificationBundle/), initiated by [merk](https://github.com/merk).
 See [here](https://github.com/merk/merkNotificationBundle/issues/13) for more infos.
 
+## Install and Use OzNotificationBundle
+
 The bundle is not stable enough to be used yet.
 
-- [Features of the bundle](Resources/doc/Features.md)
 - [Installation](Resources/doc/Installation.md)
 - [Full Configuration](Resources/doc/FullConfiguration.md)
 - [Contribute to the bundle](Resources/doc/Contribute.md)
