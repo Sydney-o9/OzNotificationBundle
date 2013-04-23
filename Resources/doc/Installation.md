@@ -223,7 +223,7 @@ Add the relation to your User entity:
 The filters allow the users to set their preferences for each NotificationKey.
 
 <pre>
-                                                     OneToMany
+                                                      OneToMany
             User ================ UserPreferences ================== Filter
 </pre>
 
@@ -231,23 +231,23 @@ Therefore, each user can have one filter/notificationKey that will save his sett
 For example, if you wish to create an order.processed NotificationKey:
 
 <pre>
-NotificationKey | defaultMethods |   compulsoryMethods   |
-==========================================================
-order.processed |     email      |         internal      |
-                |    intenal     |                       |
-                |      sms       |                       |
+            NotificationKey | defaultMethods |   compulsoryMethods   |
+            ==========================================================
+            order.processed |     email      |         internal      |
+                            |    intenal     |                       |
+                            |      sms       |                       |
 
 </pre>
 
 The user "Georgio" can now modify his preferences via the filter containing order.processed:
 
 <pre>
-                                                             "Georgio"
-NotificationKey | defaultMethods |   compulsoryMethods   |     filter   |
-=========================================================================
-order.processed |     email      |         internal      |    email     |
-                |    intenal     |                       |   internal
-                |      sms       |                       |
+                                                                         "Georgio"
+            NotificationKey | defaultMethods |   compulsoryMethods   |     filter   |
+            =========================================================================
+            order.processed |     email      |         internal      |    email     |
+                            |    intenal     |                       |   internal
+                            |      sms       |                       |              |
 </pre>
 Create [Filter Entity](https://github.com/Sydney-o9/OzNotificationBundle/tree/master/Resources/doc/Entity/Filter.md).
 
