@@ -26,10 +26,10 @@ The bundle is not stable enough to be used yet.
 
 Notification bundle is capable of sending email notifications and requires Swift Mailer to be set up appropriately.
 
-### Rabbit MA
+### Rabbit MQ
 
-Notification bundle is capable of using RabbitMq as an AMQP.
-Therefore, it is recommended to set up [RabbitMqBundle](https://github.com/videlalvaro/rabbitmqbundle) appropriately.
+Notificationzbundle is capable of using RabbitMq as an AMQP,
+so it is recommended to set up [RabbitMqBundle](https://github.com/videlalvaro/rabbitmqbundle) appropriately.
 
 ## Basic Usage
 
