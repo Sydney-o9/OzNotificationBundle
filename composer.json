@@ -1,0 +1,38 @@
+{
+    "name":        "Oz/OzNotificationBundle",
+    "type":        "symfony-bundle",
+    "description": "OzNotificationBundle provides notification services for your application. You are able to define specific events that will occur in your programs lifecycle that users will be able to subscribe to, and be notified when they occur.",
+    "keywords":    ["notification", "notifications","email", "sms", "message", "symfony", "bundle"],
+    "homepage":    "http://github.com/Sydney-o9/OzNotificationBundle",
+    "license":     "MIT",
+
+    "authors": [
+        {
+            "name": "Tim Nagel",
+            "homepage": "http://github.com/merk"
+        },
+        {
+            "name": "Sydney-o9",
+            "homepage": "http://github.com/Sydney-o9"
+        },
+        {
+            "name": "Symfony Community",
+            "homepage": "http://github.com/Sydney-o9/OzNotificationBundle"
+        }
+    ],
+
+    "require": {
+        "php":                      ">=5.3.2",
+        "symfony/framework-bundle": ">=2.1.0",
+    },
+
+    "minimum-stability": "dev",
+
+    "autoload": {
+        "psr-0": {
+            "Oz\\NotificationBundle": ""
+        }
+    },
+
+    "target-dir": "Oz/NotificationBundle"
+}

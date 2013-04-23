@@ -11,7 +11,7 @@ OzNotificationBundle - Installation
 6. Import OzNotificationBundle routing
 7. Update your database schema
 
-### Step 1: Download merkNotificationBundle
+### Step 1: Download OzNotificationBundle
 
 Ultimately, the OzNotificationBundle files should be downloaded to the
 `vendor/bundles/Oz/NotificationBundle` directory.
