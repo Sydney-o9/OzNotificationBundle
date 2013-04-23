@@ -118,7 +118,7 @@ A NotificationEvent represents an event that occurs in your application. Once tr
                   =========================|=========================
                   |                        |                        |
                   |                        |                        |
-           EmailNotification       InternalNotification       SMSNotification   (Add custom notifications if needed)
+           EmailNotification       InternalNotification       SMSNotification
 </pre>
 
 Create a [NotificationEvent Entity](https://github.com/Sydney-o9/OzNotificationBundle/tree/master/Resources/doc/Entity/NotificationEvent.md).
@@ -138,7 +138,7 @@ as well as relevent information about the NotificationKey (whether the user can 
                   =========================|=========================
                   |                        |                        |
                   |                        |                        |
-           EmailNotification       InternalNotification       SMSNotification   (Add custom notifications if needed)
+           EmailNotification       InternalNotification       SMSNotification
 </pre>
 
 Create [NotificationKey Entity](https://github.com/Sydney-o9/OzNotificationBundle/tree/master/Resources/doc/Entity/NotificationKey.md).
@@ -148,8 +148,8 @@ Create [NotificationKey Entity](https://github.com/Sydney-o9/OzNotificationBundl
 A NotificationKey also contains the methods that can be used. For example, the NotificationKey identified by `newsletter.of.the week` will very likely be tied to the email method.
 
 <pre>
-                         NotificationEvent ==================== NotificationKey ========================== Method
-                               |               (e.g order.processed, newsletter.of.the.week)    (e.g email, sms, internal)
+                         NotificationEvent ================ NotificationKey ====================== Method
+                               |          (e.g order.processed, newsletter.of.the.week)  (e.g email, sms, internal)
                                |
                                |
                         Notification.php
@@ -157,7 +157,7 @@ A NotificationKey also contains the methods that can be used. For example, the N
       =========================|=========================
       |                        |                        |
       |                        |                        |
-EmailNotification       InternalNotification       SMSNotification   (Add custom notifications if needed)
+EmailNotification       InternalNotification       SMSNotification
 </pre>
 
 Create [Method Entity](https://github.com/Sydney-o9/OzNotificationBundle/tree/master/Resources/doc/Entity/Method.md).
@@ -168,9 +168,9 @@ Most of the time, you want to have default methods and compulsory methods for a 
 choose email, and internal notifications by default (defaultMethod)  To do that, the relation between NotificationKey and Method is OneToMany <---> ManyToOne.
 
 <pre>
-                                                                                 OneToMany                          ManyToOne
-                         NotificationEvent ==================== NotificationKey =========== MethodNotificationKey ============ Method
-                               |               (e.g order.processed, newsletter.of.the.week)                         (e.g email, sms, internal)
+                                                                             OneToMany                          ManyToOne
+                         NotificationEvent ================ NotificationKey =========== MethodNotificationKey ============ Method
+                               |           e.g order.processed, newsletter.of.the.week)                         (e.g email, sms, internal)
                                |
                                |
                         Notification.php
@@ -178,21 +178,79 @@ choose email, and internal notifications by default (defaultMethod)  To do that,
        ________________________|________________________
       |                        |                        |
       |                        |                        |
-EmailNotification       InternalNotification       SMSNotification   (Add custom notifications if needed)
+EmailNotification       InternalNotification       SMSNotification
 </pre>
 Create [MethodNotificationKey Entity](https://github.com/Sydney-o9/OzNotificationBundle/tree/master/Resources/doc/Entity/MethodNotificationKey.md).
-
-#### Filter Entity
-
-An object that is used to store user defined filters for notifications.
-
-Create [Filter Entity](https://github.com/Sydney-o9/OzNotificationBundle/tree/master/Resources/doc/Entity/Filter.md).
 
 #### UserPreferences entity
 
 An object to hold default preferences for each user.
 
+<pre>
+            User ================ UserPreferences
+                   (e.g notification preferences via filters)
+</pre>
 Create [UserPreferences Entity](https://github.com/Sydney-o9/OzNotificationBundle/tree/master/Resources/doc/Entity/UserPreferences.md).
+
+Add the relation to your User entity:
+
+```php
+    /**
+     * @ORM\OneToOne(targetEntity="Acme\NotificationBundle\Entity\UserPreferences", mappedBy="user")
+     * @var \Acme\NotificationBundle\Entity\UserPreferences
+     */
+    protected $userPreferences;
+
+    /**
+     * @param UserPreferencesInterface $userPreferences
+     */
+    public function setUserPreferences(UserPreferencesInterface $userPreferences)
+    {
+        $this->userPreferences = $userPreferences;
+    }
+
+    /**
+     * @return \Acme\NotificationBundle\Entity\UserPreferences
+     */
+    public function getUserPreferences()
+    {
+        return $this->userPreferences;
+    }
+```
+
+#### Filter Entity
+
+The filters allow the users to set their preferences for each NotificationKey.
+
+<pre>
+                                                     OneToMany
+            User ================ UserPreferences ================== Filter
+</pre>
+
+Therefore, each user can have one filter/notificationKey that will save his settings.
+For example, if you wish to create an order.processed NotificationKey:
+
+<pre>
+NotificationKey | defaultMethods |   compulsoryMethods   |
+==========================================================
+order.processed |     email      |         internal      |
+                |    intenal     |                       |
+                |      sms       |                       |
+
+</pre>
+
+The user "Georgio" can now modify his preferences via the filter containing order.processed:
+
+<pre>
+                                                             "Georgio"
+NotificationKey | defaultMethods |   compulsoryMethods   |     filter   |
+=========================================================================
+order.processed |     email      |         internal      |    email     |
+                |    intenal     |                       |   internal
+                |      sms       |                       |
+</pre>
+Create [Filter Entity](https://github.com/Sydney-o9/OzNotificationBundle/tree/master/Resources/doc/Entity/Filter.md).
+
 
 ### Step 5: Configure the merkNotificationBundle
 
