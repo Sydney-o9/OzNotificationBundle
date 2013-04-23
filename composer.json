@@ -1,5 +1,5 @@
 {
-    "name":        "Oz/OzNotificationBundle",
+    "name":        "Oz/NotificationBundle",
     "type":        "symfony-bundle",
     "description": "OzNotificationBundle provides notification services for your application. You are able to define specific events that will occur in your programs lifecycle that users will be able to subscribe to, and be notified when they occur.",
     "keywords":    ["notification", "notifications","email", "sms", "message", "symfony", "bundle"],
@@ -16,14 +16,25 @@
             "homepage": "http://github.com/Sydney-o9"
         },
         {
-            "name": "Symfony Community",
-            "homepage": "http://github.com/Sydney-o9/OzNotificationBundle"
+            "name": "Oz Community",
+            "homepage": "https://github.com/Sydney-o9/OzNotificationBundle/contributors"
         }
     ],
 
     "require": {
         "php":                      ">=5.3.2",
-        "symfony/framework-bundle": ">=2.1.0",
+        "symfony/framework-bundle": ">=2.1,<2.3-dev",
+        "symfony/form":             ">=2.1,<2.3-dev",
+        "symfony/security-bundle":  ">=2.1,<2.3-dev"
+    },
+
+    "require-dev": {
+        "twig/twig": "*",
+        "doctrine/doctrine-bundle": "*",
+        "symfony/yaml": "2.1.*",
+        "symfony/validator": "2.1.*",
+        "swiftmailer/swiftmailer": "*",
+        "oldsound/rabbitmq-bundle": "*"
     },
 
     "minimum-stability": "dev",
