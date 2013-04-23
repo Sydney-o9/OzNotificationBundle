@@ -90,7 +90,7 @@ to create different notification types. We will show an example with 3 types of 
 <pre>
                                       Notification
                                            |
-                   ________________________|________________________
+                   ========================|========================
                   |                        |                        |
                   |                        |                        |
            EmailNotification       InternalNotification       SMSNotification   (Add custom notifications if needed)
@@ -115,7 +115,7 @@ A NotificationEvent represents an event that occurs in your application. Once tr
                                            |
                                       Notification
                                            |
-                   ________________________|________________________
+                  =========================|=========================
                   |                        |                        |
                   |                        |                        |
            EmailNotification       InternalNotification       SMSNotification   (Add custom notifications if needed)
@@ -129,13 +129,13 @@ A NotificationEvent contains a particular NotificationKey. The NotificationKey i
 as well as relevent information about the NotificationKey (whether the user can subscribe to that NotificationKey or not, etc...).
 
 <pre>
-                                     NotificationEvent <-----------------------> NotificationKey
+                                     NotificationEvent ======================== NotificationKey
                                            |                     (e.g order.processed, newsletter.of.the.week)
                                            |
                                            |
                                     Notification.php
                                            |
-                   ________________________|________________________
+                  =========================|=========================
                   |                        |                        |
                   |                        |                        |
            EmailNotification       InternalNotification       SMSNotification   (Add custom notifications if needed)
@@ -148,13 +148,13 @@ Create [NotificationKey Entity](https://github.com/Sydney-o9/OzNotificationBundl
 A NotificationKey also contains the methods that can be used. For example, the NotificationKey identified by `newsletter.of.the week` will very likely be tied to the email method.
 
 <pre>
-                                     NotificationEvent <-----------------------> NotificationKey <----------------------------> Method
-                                           |                     (e.g order.processed, newsletter.of.the.week)        (e.g email, sms, internal)
+                                     NotificationEvent ==================== NotificationKey ========================== Method
+                                           |               (e.g order.processed, newsletter.of.the.week)    (e.g email, sms, internal)
                                            |
                                            |
                                     Notification.php
                                            |
-                   ________________________|________________________
+                  =========================|=========================
                   |                        |                        |
                   |                        |                        |
            EmailNotification       InternalNotification       SMSNotification   (Add custom notifications if needed)
