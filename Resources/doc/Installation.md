@@ -97,7 +97,7 @@ to create different notification types. We will show an example with 3 types of 
 </pre>
 
 
-Create a [Notification Entity](Entity/Notification.md).
+Create [Notification Entity](Entity/Notification.md).
 
 You can arrange the discriminator map as you wish, but as you can see, the basic configuration expects 3 entities: EmailNotification, InternalNotification and SMSNotification.
 
@@ -121,7 +121,7 @@ A NotificationEvent represents an event that occurs in your application. Once tr
            EmailNotification       InternalNotification       SMSNotification
 </pre>
 
-Create a [NotificationEvent Entity](Entity/NotificationEvent.md).
+Create [NotificationEvent Entity](Entity/NotificationEvent.md).
 
 #### NotificationKey Entity
 
@@ -258,7 +258,7 @@ Create [Filter Entity](Entity/Filter.md).
 oz_notification:
 
     #DATABASE DRIVER
-    db_driver: orm  # will load orm.xml in OzNotifcationExtension
+    db_driver: orm
 
     #FQCN OF THE CLASSES
     class:
@@ -274,8 +274,8 @@ oz_notification:
     notification_types:
         email:
             entity: Acme\NotificationBundle\Entity\EmailNotification
-            renderer: oz_notification.renderer.email #service_name
-            notification_factory: oz_notification.notification.factory.email #service_name
+            renderer: oz_notification.renderer.email
+            notification_factory: oz_notification.notification.factory.email
             sender_agent: oz_notification.sender.agent.email
         sms:
             entity: Acme\NotificationBundle\Entity\SMSNotification
@@ -293,7 +293,7 @@ For each notification type that you create, you will have to:
 - make sure getType() in the entity returns the alias. (e.g EmailNotification getType() should return 'email').
 - make sure you have created the according method in your Method table (e.g create a row 'email' in the Method table via your backend)
 
-If you need to override other parts of the bundle, see [full configuration of the bundle](Entity/FullConfiguration.md).
+If you need to override other parts of the bundle, see [full configuration of the bundle](FullConfiguration.md).
 
 ### Step 6: Import OzNotificationBundle routing files
 
@@ -317,8 +317,7 @@ oz_notification_notifications:
 ### Step 7: Update your database schema
 
 Now that the bundle is configured, the last thing you need to do is update your
-database schema because you have added a new entity, the `User` class which you
-created in Step 2.
+database schema.
 
 For ORM run the following command.
 
