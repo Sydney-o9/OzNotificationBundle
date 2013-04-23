@@ -8,14 +8,14 @@ are able to define specific events that will occur in your programs
 lifecycle that users will be able to subscribe to, and be notified
 when they occur.
 
-[See an exhaustive list of OzNotificationBundle features](Resources/doc/Features.md).
+See an exhaustive list of [OzNotificationBundle Features](Resources/doc/Features.md).
 
 ### Note:
 
 OzNotificationBundle is originally a fork from the amazing [merkNotificationBundle](https://github.com/merk/merkNotificationBundle/), initiated by [merk](https://github.com/merk).
 See [here](https://github.com/merk/merkNotificationBundle/issues/13) for more infos.
 
-## Install and Use OzNotificationBundle
+## Install and use OzNotificationBundle
 
 The bundle is not stable enough to be used yet.
 
@@ -27,12 +27,12 @@ The bundle is not stable enough to be used yet.
 
 ### Swift Mailer
 
-Notification bundle is capable of sending email notifications and requires Swift Mailer to be set up appropriately.
+OzNotificationBundle is capable of sending email notifications and requires Swift Mailer to be set up appropriately.
 
 ### Rabbit MQ
 
-Notificationzbundle is capable of using RabbitMq as an AMQP,
-so it is recommended to set up [RabbitMqBundle](https://github.com/videlalvaro/rabbitmqbundle) appropriately.
+OzNotificationBundle is capable of using RabbitMq as an AMQP,
+and requires [RabbitMqBundle](https://github.com/videlalvaro/rabbitmqbundle) to be set up appropriately.
 
 ## Basic Usage
 
