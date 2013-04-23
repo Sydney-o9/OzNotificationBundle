@@ -148,16 +148,16 @@ Create [NotificationKey Entity](https://github.com/Sydney-o9/OzNotificationBundl
 A NotificationKey also contains the methods that can be used. For example, the NotificationKey identified by `newsletter.of.the week` will very likely be tied to the email method.
 
 <pre>
-                                     NotificationEvent ==================== NotificationKey ========================== Method
-                                           |               (e.g order.processed, newsletter.of.the.week)    (e.g email, sms, internal)
-                                           |
-                                           |
-                                    Notification.php
-                                           |
-                  =========================|=========================
-                  |                        |                        |
-                  |                        |                        |
-           EmailNotification       InternalNotification       SMSNotification   (Add custom notifications if needed)
+                         NotificationEvent ==================== NotificationKey ========================== Method
+                               |               (e.g order.processed, newsletter.of.the.week)    (e.g email, sms, internal)
+                               |
+                               |
+                        Notification.php
+                               |
+      =========================|=========================
+      |                        |                        |
+      |                        |                        |
+EmailNotification       InternalNotification       SMSNotification   (Add custom notifications if needed)
 </pre>
 
 Create [Method Entity](https://github.com/Sydney-o9/OzNotificationBundle/tree/master/Resources/doc/Entity/Method.md).
@@ -168,17 +168,17 @@ Most of the time, you want to have default methods and compulsory methods for a 
 choose email, and internal notifications by default (defaultMethod)  To do that, the relation between NotificationKey and Method is OneToMany <---> ManyToOne.
 
 <pre>
-                                                                                                   OneToMany                              ManyToOne
-                                     NotificationEvent <-----------------------> NotificationKey <-------------> MethodNotificationKey <---------------> Method
-                                           |                     (e.g order.processed, newsletter.of.the.week)                               (e.g email, sms, internal)
-                                           |
-                                           |
-                                    Notification.php
-                                           |
-                   ________________________|________________________
-                  |                        |                        |
-                  |                        |                        |
-           EmailNotification       InternalNotification       SMSNotification   (Add custom notifications if needed)
+                                                                                 OneToMany                          ManyToOne
+                         NotificationEvent ==================== NotificationKey =========== MethodNotificationKey ============ Method
+                               |               (e.g order.processed, newsletter.of.the.week)                         (e.g email, sms, internal)
+                               |
+                               |
+                        Notification.php
+                               |
+       ________________________|________________________
+      |                        |                        |
+      |                        |                        |
+EmailNotification       InternalNotification       SMSNotification   (Add custom notifications if needed)
 </pre>
 Create [MethodNotificationKey Entity](https://github.com/Sydney-o9/OzNotificationBundle/tree/master/Resources/doc/Entity/MethodNotificationKey.md).
 
