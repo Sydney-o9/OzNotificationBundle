@@ -88,7 +88,7 @@ provided.
 Represent a notification that is sent to a user. You can then extend this class
 to create different notification types. We will show an example with 3 types of notifications inherited from that class:
 <pre>
-                                    Notification.php
+                                      Notification
                                            |
                    ________________________|________________________
                   |                        |                        |
@@ -107,24 +107,79 @@ You can arrange the discriminator map as you wish, but as you can see, the basic
 
 #### NotificationEvent Entity
 
-Represents an event that occurs that will trigger notifications.
+A NotificationEvent represents an event that occurs in your application. Once triggered, that event will trigger the notifications.
+<pre>
+                                     NotificationEvent
+                                           |
+                                           |
+                                           |
+                                      Notification
+                                           |
+                   ________________________|________________________
+                  |                        |                        |
+                  |                        |                        |
+           EmailNotification       InternalNotification       SMSNotification   (Add custom notifications if needed)
+</pre>
 
 Create a [NotificationEvent Entity](https://github.com/Sydney-o9/OzNotificationBundle/tree/master/Resources/doc/Entity/NotificationEvent.md).
 
 #### NotificationKey Entity
 
-A NotificationEvent contains a NotificationKey that identifies an event. e.g newsletter.of.the.week, order.processed, order.created ...
+A NotificationEvent contains a particular NotificationKey. The NotificationKey identifies the event. It contains a NotificationKey identifier (e.g newsletter.of.the.week, order.processed, order.created...)
+as well as relevent information about the NotificationKey (whether the user can subscribe to that NotificationKey or not, etc...).
 
-Create a NotificationKey entity based on the following file: [NotificationKey](https://github.com/Sydney-o9/OzNotificationBundle/tree/master/Resources/doc/Entity/Notification.md).
+<pre>
+                                     NotificationEvent <-----------------------> NotificationKey
+                                           |                     (e.g order.processed, newsletter.of.the.week)
+                                           |
+                                           |
+                                    Notification.php
+                                           |
+                   ________________________|________________________
+                  |                        |                        |
+                  |                        |                        |
+           EmailNotification       InternalNotification       SMSNotification   (Add custom notifications if needed)
+</pre>
+
+Create [NotificationKey Entity](https://github.com/Sydney-o9/OzNotificationBundle/tree/master/Resources/doc/Entity/NotificationKey.md).
 
 #### Method Entity
 
-The Method entity ...
+A NotificationKey also contains the methods that can be used. For example, the NotificationKey identified by `newsletter.of.the week` will very likely be tied to the email method.
+
+<pre>
+                                     NotificationEvent <-----------------------> NotificationKey <----------------------------> Method
+                                           |                     (e.g order.processed, newsletter.of.the.week)        (e.g email, sms, internal)
+                                           |
+                                           |
+                                    Notification.php
+                                           |
+                   ________________________|________________________
+                  |                        |                        |
+                  |                        |                        |
+           EmailNotification       InternalNotification       SMSNotification   (Add custom notifications if needed)
+</pre>
 
 Create [Method Entity](https://github.com/Sydney-o9/OzNotificationBundle/tree/master/Resources/doc/Entity/Method.md).
 
 #### MethodNotificationKey Entity
 
+Most of the time, you want to have default methods and compulsory methods for a notificationKey. For example, for a particular NotificationKey, you might want your users to always receive an internal notification (compulsoryMethod) but
+choose email, and internal notifications by default (defaultMethod)  To do that, the relation between NotificationKey and Method is OneToMany <---> ManyToOne.
+
+<pre>
+                                                                                                   OneToMany                              ManyToOne
+                                     NotificationEvent <-----------------------> NotificationKey <-------------> MethodNotificationKey <---------------> Method
+                                           |                     (e.g order.processed, newsletter.of.the.week)                               (e.g email, sms, internal)
+                                           |
+                                           |
+                                    Notification.php
+                                           |
+                   ________________________|________________________
+                  |                        |                        |
+                  |                        |                        |
+           EmailNotification       InternalNotification       SMSNotification   (Add custom notifications if needed)
+</pre>
 Create [MethodNotificationKey Entity](https://github.com/Sydney-o9/OzNotificationBundle/tree/master/Resources/doc/Entity/MethodNotificationKey.md).
 
 #### Filter Entity
