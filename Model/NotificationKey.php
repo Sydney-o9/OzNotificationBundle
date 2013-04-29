@@ -31,6 +31,13 @@ abstract class NotificationKey implements NotificationKeyInterface
     protected $notificationKey;
 
     /**
+     * The fully qualified class of the subject object of the notification.
+     *
+     * @var string $subjectClass
+     */
+    protected $subjectClass;
+
+    /**
      * Description of the notification (e.g Inform users on the latest news)
      *
      * @var string $description
@@ -57,6 +64,7 @@ abstract class NotificationKey implements NotificationKeyInterface
      * @var array
      */
     protected $subscriberRoles;
+
 
     public function __construct()
     {
@@ -93,6 +101,22 @@ abstract class NotificationKey implements NotificationKeyInterface
     public function setNotificationKey($notificationKey)
     {
         $this->notificationKey = $notificationKey;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSubjectClass()
+    {
+        return $this->subjectClass;
+    }
+
+    /**
+     * @param string $subjectClass
+     */
+    public function setSubjectClass($subjectClass)
+    {
+        $this->subjectClass = $subjectClass;
     }
 
     /**

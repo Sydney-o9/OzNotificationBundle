@@ -8,8 +8,6 @@ use PhpAmqpLib\Message\AMQPMessage;
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
 use Oz\NotificationBundle\Model\NotificationInterface;
 
-
-
 class EmailConsumer implements ConsumerInterface
 {
 

@@ -79,7 +79,6 @@ class NotificationEventManager extends BaseNotificationEventManager
         $subject = $event->getSubject();
 
         if (null === $subject) {
-            $event->setSubjectClass(null);
             $event->setSubjectIdentifiers(null);
 
             return;
@@ -87,7 +86,6 @@ class NotificationEventManager extends BaseNotificationEventManager
 
         $metadata = $this->em->getClassMetadata(get_class($subject));
 
-        $event->setSubjectClass($metadata->name);
         $event->setSubjectIdentifiers($metadata->getIdentifierValues($subject));
     }
 

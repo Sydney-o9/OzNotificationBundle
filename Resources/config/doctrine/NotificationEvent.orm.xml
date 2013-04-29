@@ -14,8 +14,6 @@
 
         <field name="verb" column="verb" type="string" />
 
-        <field name="subjectClass" column="subject_class" type="string" length="1000" nullable="true" />
-
         <field name="subjectIdentifiers" column="subject_identifiers" type="array" nullable="true" />
 
     </mapped-superclass>

@@ -19,5 +19,4 @@ use Oz\NotificationBundle\Model\Notification as BaseNotification;
  */
 abstract class Notification extends BaseNotification
 {
-
 }

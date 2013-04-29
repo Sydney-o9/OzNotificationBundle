@@ -29,13 +29,6 @@ abstract class NotificationEvent extends BaseNotificationEvent
     protected $subject;
 
     /**
-     * The fully qualified class of the subject object.
-     *
-     * @var string $subjectClass
-     */
-    protected $subjectClass;
-
-    /**
      * An array of identifiers used to identify the subject object.
      *
      * @var array $subjectIdentifiers
@@ -51,19 +44,11 @@ abstract class NotificationEvent extends BaseNotificationEvent
     }
 
     /**
-     * @param string $subjectClass
-     */
-    public function setSubjectClass($subjectClass)
-    {
-        $this->subjectClass = $subjectClass;
-    }
-
-    /**
      * @return string
      */
     public function getSubjectClass()
     {
-        return $this->subjectClass;
+        return $this->notificationKey->getSubjectClass();
     }
 
     /**
