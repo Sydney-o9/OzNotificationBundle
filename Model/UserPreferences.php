@@ -8,8 +8,9 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Oz\NotificationBundle\Model;
+
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * Base UserPreferences object.
@@ -61,7 +62,10 @@ abstract class UserPreferences implements UserPreferencesInterface
         return $this->user;
     }
 
-    public function setUser(User $user)
+    /**
+     * @return \Symfony\Component\Security\Core\User\UserInterface
+     */
+    public function setUser(UserInterface $user)
     {
         $this->user = $user;
     }
