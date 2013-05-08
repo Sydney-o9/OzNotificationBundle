@@ -48,7 +48,23 @@ class InternalRenderer extends Renderer
             ->renderBlock('message', array('notification' => $notification));
 
         return compact('subject', 'message');
-
     }
 
+    /**
+     * Renders individual block inside the template
+     *
+     * @param \Oz\NotificationBundle\Model\NotificationInterface $notification
+     * @param string Name of the block
+     *
+     * @return string The block rendered
+     */
+    public function renderNotificationComponent(NotificationInterface $notification, $component)
+    {
+        $template = $this->resolveTemplateName($notification);
+
+        $component = $this->twig->loadTemplate($template)
+            ->renderBlock($component, array('notification' => $notification));
+
+        return $component;
+    }
 }
