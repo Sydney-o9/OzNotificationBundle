@@ -75,7 +75,6 @@ class NotificationEventListener implements EventSubscriber
         $entity = $args->getEntity();
 
         if ($entity instanceof BaseNotificationEventInterface) {
-
             if (null === $this->notificationEventManager) {
                 $this->notificationEventManager = $this->container->get('oz_notification.notification_event.manager');
             }
