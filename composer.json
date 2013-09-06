@@ -1,5 +1,5 @@
 {
-    "name":        "Oz/NotificationBundle",
+    "name":        "oz/notification-bundle",
     "type":        "symfony-bundle",
     "description": "OzNotificationBundle provides notification services for your application. You are able to define specific events that will occur in your programs lifecycle that users will be able to subscribe to, and be notified when they occur.",
     "keywords":    ["notification", "notifications","email", "sms", "message", "symfony", "bundle"],
