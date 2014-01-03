@@ -139,7 +139,7 @@ class NotificationManager extends BaseNotificationManager
         foreach($methods as $method){
 
             /** @var NotificationInterface $notification  */
-            $notificationFactory = $this->notificationDiscriminator->getNotificationFactory($method->getName());
+            $notificationFactory = $this->notificationDiscriminator->getNotificationFactory($method);
 
             $notification = $notificationFactory
                 ->createNotificationFromUser($event, $user);
