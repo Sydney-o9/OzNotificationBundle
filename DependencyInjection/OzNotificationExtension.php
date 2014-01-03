@@ -56,7 +56,8 @@ class OzNotificationExtension extends Extension
             'validator',
             'discriminator',
             'notification_factory',
-            'provider');
+            'provider',
+            'twig');
 
         foreach ($xmlFiles as $xmlFile) {
             $loader->load(sprintf('%s.xml', $xmlFile));

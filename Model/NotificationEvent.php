@@ -76,7 +76,6 @@ abstract class NotificationEvent implements NotificationEventInterface
         return $this->id;
     }
 
-
     /**
      * Returns the user that caused the event.
      *

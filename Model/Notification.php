@@ -16,9 +16,11 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * Abstract Notification model
+ *
  */
 abstract class Notification implements NotificationInterface
 {
+
     /**
      * @var integer $id
      */
@@ -71,7 +73,6 @@ abstract class Notification implements NotificationInterface
      * @return string
      */
     abstract public function getType();
-
 
     /**
      * @return int
