@@ -76,14 +76,6 @@ class Notifier implements NotifierInterface
      */
     public function triggerSingleNotification($notificationKey, UserInterface $receiver, $verb, $subject, UserInterface $actor = null, DateTime $createdAt = null)
     {
-        echo "Notification Key";
-        ladybug_dump($notificationKey);
-        echo "Verb";
-        ladybug_dump($verb);
-        echo "Subject";
-        ladybug_dump($subject);
-        echo "Actor";
-        ladybug_dump($actor);
         if (!is_string($notificationKey) || !is_string($verb)){
             throw new \InvalidArgumentException(sprintf('"NotificationKey" and "Verb" should be of string type, "%s" and "%s" given respectively.', gettype($notificationKey), gettype($verb)));
         }
@@ -104,7 +96,6 @@ class Notifier implements NotifierInterface
         else{
             $notifications = $this->notificationManager->createForUncommittedUser($event, $receiver);
         }
-        echo "Notifications";
 
         $this->notificationEventManager->update($event, false);
 
