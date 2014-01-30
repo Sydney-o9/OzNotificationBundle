@@ -14,6 +14,7 @@ namespace Oz\NotificationBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Oz\NotificationBundle\Model\FilterInterface;
+use Oz\NotificationBundle\Model\MethodInterface;
 use Oz\NotificationBundle\Model\UserPreferencesInterface;
 use Oz\NotificationBundle\Model\NotificationKeyInterface;
 

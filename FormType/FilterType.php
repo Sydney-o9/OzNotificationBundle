@@ -4,6 +4,7 @@
  * This file is part of the OzNotificationBundle package.
  *
  * (c) Tim Nagel <tim@nagel.com.au>
+ * (c) Sydney-o9 <https://github.com/Sydney-o9/>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -43,12 +44,16 @@ class FilterType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 
+        /** The notificationKey associated with that filter */
+        $builder->add( 'notificationKey', 'entity', array(
+            'class' => $this->notificationKeyClass,
+            'disabled' => true,
+            )
+        );
 
+        /** The methods that are associated with that filter */
         $subscriber = new AddMethodFieldSubscriber($builder->getFormFactory(),  $this->methodClass);
-
         $builder->addEventSubscriber($subscriber);
-
-        $builder->add('notificationKey', 'entity', array('class'=>$this->notificationKeyClass));
 
 
 

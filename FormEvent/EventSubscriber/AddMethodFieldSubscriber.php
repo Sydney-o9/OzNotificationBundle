@@ -1,5 +1,15 @@
 <?php
 
+/*
+ * This file is part of the OzNotificationBundle package.
+ *
+ * (c) Tim Nagel <tim@nagel.com.au>
+ * (c) Sydney-o9 <https://github.com/Sydney-o9/>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Oz\NotificationBundle\FormEvent\EventSubscriber;
 
 use Symfony\Component\Form\FormEvent;
@@ -29,16 +39,12 @@ class AddMethodFieldSubscriber implements EventSubscriberInterface
     public function __construct(FormFactoryInterface $factory, $methodClass)
     {
         $this->factory = $factory;
-
         $this->methodClass = $methodClass;
-
     }
 
     /**
      * Tells the dispatcher that we want to listen to the form.pre_set_data
      * event and that the preSetData method should be called.
-     *
-     *
      */
     public static function getSubscribedEvents()
     {
@@ -48,7 +54,6 @@ class AddMethodFieldSubscriber implements EventSubscriberInterface
     public function preSetData(FormEvent $event)
     {
         $data = $event->getData();
-
         $form = $event->getForm();
 
         if (null === $data) {
@@ -56,19 +61,28 @@ class AddMethodFieldSubscriber implements EventSubscriberInterface
         }
 
         if ($data) {
-            //Retrieve methods to the particular Filter <----> NotificationKey
+            /** Retrieve the methods of a particular Filter <----> NotificationKey */
             $form->add($this->factory->createNamed('methods', 'entity', null, array(
                     'class' => $this->methodClass,
                     'multiple' => true,
                     'expanded' => true,
                     'query_builder' => function(EntityRepository $er) use ($data) {
+
+                        /**
+                         * Get all the methods that are attached to the notification key
+                         * and that are compulsory.
+                         */
                         $query = $er->createQueryBuilder('met')
                             ->select(array('met'))
                             ->leftJoin('met.methodMetadata', 'mm')
                             ->leftJoin('mm.notificationKey', 'nk')
+
+                            /** The methods are not compulsory, i.e The user can choose among them */
                             ->where('mm.isCompulsory = :isCompulsory')
-                            ->andWhere('nk.key = :key')
                             ->setParameter('isCompulsory', false)
+
+                            /** The notification key is  */
+                            ->andWhere('nk.key = :key')
                             ->setParameter('key', (string)$data->getNotificationKey());
 
                         return $query;
