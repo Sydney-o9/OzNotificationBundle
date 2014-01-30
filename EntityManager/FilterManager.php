@@ -147,7 +147,7 @@ class FilterManager implements FilterManagerInterface
             ->leftJoin('f.notificationKey', 'nk')
             ->leftJoin('f.userPreferences', 'up')
             ->leftJoin('up.user', 'u')
-            ->andWhere('nk.notificationKey = :key');
+            ->andWhere('nk.key = :key');
 
         return $qb->getQuery()->execute(array(
             'key' => (string)$event->getNotificationKey()
@@ -164,7 +164,7 @@ class FilterManager implements FilterManagerInterface
             ->leftJoin('f.notificationKey', 'nk')
             ->leftJoin('f.userPreferences', 'up')
             ->leftJoin('up.user', 'u')
-            ->andWhere('nk.notificationKey = :key')
+            ->andWhere('nk.key = :key')
             ->andWhere('u.username = :username')
             ->setParameter('key', (string)$event->getNotificationKey())
             ->setParameter('username', $user->getUsername());
@@ -186,7 +186,7 @@ class FilterManager implements FilterManagerInterface
             ->leftJoin('f.notificationKey', 'nk')
             ->leftJoin('f.userPreferences', 'up')
             ->leftJoin('up.user', 'u')
-            ->andWhere('nk.notificationKey = :key')
+            ->andWhere('nk.key = :key')
             ->andWhere('u.username = :username')
             ->setParameter('key', (string)$notificationKey)
             ->setParameter('username', $user->getUsername());
@@ -211,7 +211,7 @@ class FilterManager implements FilterManagerInterface
             ->leftJoin('u.userPreferences', 'up')
             ->leftJoin('up.filters', 'f')
             ->leftJoin('f.notificationKey', 'nk')
-            ->andWhere('nk.notificationKey = :key')
+            ->andWhere('nk.key = :key')
             ->andWhere('size(f.methods) >= 1')
             ->setParameter('key', (string)$notificationKey);
 
@@ -236,7 +236,7 @@ class FilterManager implements FilterManagerInterface
             ->leftJoin('u.userPreferences', 'up')
             ->leftJoin('up.filters', 'f')
             ->leftJoin('f.notificationKey', 'nk')
-            ->andWhere('nk.notificationKey = :key')
+            ->andWhere('nk.key = :key')
             ->andWhere('f.methods is EMPTY')
             ->setParameter('key', (string)$notificationKey);
 
@@ -263,7 +263,7 @@ class FilterManager implements FilterManagerInterface
             ->leftJoin('u.userPreferences', 'up')
             ->leftJoin('up.filters', 'f')
             ->leftJoin('f.notificationKey', 'nk')
-            ->andWhere('nk.notificationKey = :key')
+            ->andWhere('nk.key = :key')
             ->setParameter('key', (string)$notificationKey);
 
         return $committed->getQuery()->getResult();
@@ -289,7 +289,7 @@ class FilterManager implements FilterManagerInterface
             ->leftJoin('u.userPreferences', 'up')
             ->leftJoin('up.filters', 'f')
             ->leftJoin('f.notificationKey', 'nk')
-            ->andWhere('nk.notificationKey = :key')
+            ->andWhere('nk.key = :key')
             ->getDQL();
 
         $query = $this->em->createQueryBuilder();

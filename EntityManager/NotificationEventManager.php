@@ -85,7 +85,7 @@ class NotificationEventManager implements NotificationEventManagerInterface
         $qb = $this->repository->createQueryBuilder('ne')
             ->select(array('ne', 'nk'))
             ->leftJoin('ne.notificationKey', 'nk')
-            ->andWhere('nk.notificationKey = :key')
+            ->andWhere('nk.key = :key')
             ->setParameter('key',$notificationKey);
 
         return $qb->getQuery()->getOneOrNullResult();

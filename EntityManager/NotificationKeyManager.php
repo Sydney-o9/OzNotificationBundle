@@ -72,9 +72,9 @@ class NotificationKeyManager implements NotificationKeyManagerInterface
             throw new \InvalidArgumentException(sprintf('notificationKey should be a string, %s given.', gettype($notificationKey)));
         }
 
-        $qb = $this->repository->createQueryBuilder('nek')
-            ->select(array('nek'))
-            ->andWhere('nek.notificationKey = :key')
+        $qb = $this->repository->createQueryBuilder('nk')
+            ->select(array('nk'))
+            ->andWhere('nk.key = :key')
             ->setParameter('key',$notificationKey);
 
         return $qb->getQuery()->getOneOrNullResult();
@@ -94,11 +94,11 @@ class NotificationKeyManager implements NotificationKeyManagerInterface
             throw new \InvalidArgumentException(sprintf('subscriberRole should be a string, %s given.', gettype($subscriberRole)));
         }
 
-        $qb = $this->repository->createQueryBuilder('nek');
+        $qb = $this->repository->createQueryBuilder('nk');
 
-        $qb ->select(array('nek'))
-            ->where('nek.isSubscribable = :isSubscribable')
-            ->andWhere($qb->expr()->like('nek.subscriberRoles', ':subscriberRole'))
+        $qb ->select(array('nk'))
+            ->where('nk.isSubscribable = :isSubscribable')
+            ->andWhere($qb->expr()->like('nk.subscriberRoles', ':subscriberRole'))
             ->setParameter('isSubscribable', true)
             ->setParameter('subscriberRole',"%".$subscriberRole."%");
 
@@ -121,22 +121,22 @@ class NotificationKeyManager implements NotificationKeyManagerInterface
             throw new \InvalidArgumentException(sprintf('SubscriberRoles should be an array, %s given.', gettype($subscriberRoles)));
         }
 
-        $qb = $this->repository->createQueryBuilder('nek');
+        $qb = $this->repository->createQueryBuilder('nk');
 
-        $qb->select(array('nek'));
+        $qb->select(array('nk'));
 
         $i = 0;
         foreach ($subscriberRoles as $subscriberRole){
 
             $identifier = ':subscriberRole'.$i;
 
-            $qb->orWhere($qb->expr()->like('nek.subscriberRoles', $identifier))
+            $qb->orWhere($qb->expr()->like('nk.subscriberRoles', $identifier))
                ->setParameter($identifier,"%".$subscriberRole."%");
 
             $i++;
         }
 
-        $qb->andwhere('nek.isSubscribable = :isSubscribable')
+        $qb->andwhere('nk.isSubscribable = :isSubscribable')
             ->setParameter('isSubscribable', true);
 
         return $qb->getQuery()->getResult();

@@ -11,11 +11,11 @@ interface NotificationKeyInterface
 {
 
     /**
-     * Returns the event key.
+     * Returns the key.
      *
      * @return string
      */
-    public function getNotificationKey();
+    public function getKey();
 
 
     /**

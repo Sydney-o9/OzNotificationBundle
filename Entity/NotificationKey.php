@@ -31,9 +31,9 @@ abstract class NotificationKey implements NotificationKeyInterface
     /**
      * Key of the notification (e.g newsletter.of.the.week)
      *
-     * @var string $notificationKey
+     * @var string $key
      */
-    protected $notificationKey;
+    protected $key;
 
     /**
      * The fully qualified class of the subject object of the notification.
@@ -99,17 +99,17 @@ abstract class NotificationKey implements NotificationKeyInterface
     /**
      * @return string
      */
-    public function getNotificationKey()
+    public function getKey()
     {
-        return $this->notificationKey;
+        return $this->key;
     }
 
     /**
-     * @param string $notificationKey
+     * @param string $key
      */
-    public function setNotificationKey($notificationKey)
+    public function setKey($key)
     {
-        $this->notificationKey = $notificationKey;
+        $this->key = $key;
     }
 
     /**
@@ -374,6 +374,6 @@ abstract class NotificationKey implements NotificationKeyInterface
      */
     public function __toString()
     {
-        return $this->notificationKey;
+        return $this->key;
     }
 }

@@ -26,11 +26,15 @@ abstract class MethodNotificationKey implements MethodNotificationKeyInterface
 
     /**
      * Method
+     *
+     * @var MethodInterface
      */
     protected $method;
 
     /**
-     * Notification key
+     * NotificationKey
+     *
+     * @var NotificationKeyInterface
      */
     protected $notificationKey;
 
@@ -43,7 +47,7 @@ abstract class MethodNotificationKey implements MethodNotificationKeyInterface
     }
 
     /**
-     * @return Method
+     * @return MethodInterface
      */
     public function getMethod()
     {
@@ -59,7 +63,7 @@ abstract class MethodNotificationKey implements MethodNotificationKeyInterface
     }
 
     /**
-     * @return NotificationKey
+     * @return NotificationKeyInterface
      */
     public function getNotificationKey()
     {
@@ -105,7 +109,7 @@ abstract class MethodNotificationKey implements MethodNotificationKeyInterface
     /**
      * @return Bool
      */
-    public function isCompulsory()
+    public function getIsCompulsory()
     {
         return $this->isCompulsory;
     }
@@ -113,7 +117,7 @@ abstract class MethodNotificationKey implements MethodNotificationKeyInterface
     /**
      * @return Bool
      */
-    public function getIsCompulsory()
+    public function isCompulsory()
     {
         return $this->isCompulsory;
     }
@@ -129,7 +133,7 @@ abstract class MethodNotificationKey implements MethodNotificationKeyInterface
     /**
      * @return Bool
      */
-    public function isDefault()
+    public function getIsDefault()
     {
         return $this->isDefault;
     }
@@ -137,7 +141,7 @@ abstract class MethodNotificationKey implements MethodNotificationKeyInterface
     /**
      * @return Bool
      */
-    public function getIsDefault()
+    public function isDefault()
     {
         return $this->isDefault;
     }

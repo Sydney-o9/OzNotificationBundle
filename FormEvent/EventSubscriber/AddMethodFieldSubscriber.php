@@ -67,7 +67,7 @@ class AddMethodFieldSubscriber implements EventSubscriberInterface
                             ->leftJoin('met.methodNotificationKey', 'mnk')
                             ->leftJoin('mnk.notificationKey', 'nk')
                             ->where('mnk.isCompulsory = :isCompulsory')
-                            ->andWhere('nk.notificationKey = :key')
+                            ->andWhere('nk.key = :key')
                             ->setParameter('isCompulsory', false)
                             ->setParameter('key', (string)$data->getNotificationKey());
 
