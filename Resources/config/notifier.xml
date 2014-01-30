@@ -13,7 +13,16 @@
             <argument type="service" id="oz_notification.sender" />
         </service>
 
+        <service id="oz_notification.bulk_notifier" class="Oz\NotificationBundle\Notifier\BulkNotifier">
+            <argument type="service" id="oz_notification.notification_key.manager" />
+            <argument type="service" id="oz_notification.notification_event.manager" />
+            <argument type="service" id="oz_notification.filter.manager" />
+            <argument type="service" id="oz_notification.notification.manager" />
+            <argument type="service" id="oz_notification.sender" />
+        </service>
+
         <service id="notifier" alias="oz_notification.notifier" />
+        <service id="bulk_notifier" alias="oz_notification.bulk_notifier" />
 
     </services>
 

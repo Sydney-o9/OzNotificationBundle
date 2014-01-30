@@ -15,22 +15,19 @@ namespace Oz\NotificationBundle\Notifier;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * Interface that the Notifier service implements.
+ * Interface for the Bulk Notifier service.
  */
-interface NotifierInterface
+interface BulkNotifierInterface
 {
-
     /**
-     * Triggers single notification to a particular receiver for a specific notification event.
+     * Triggers bulk notification to all users subscribed to specific notification event.
      *
      * @param string $notificationKey
-     * @param UserInterface $receiver
-     * @param string $verb
      * @param mixed $subject
+     * @param string $verb
      * @param UserInterface $actor
      * @param \DateTime $createdAt
-     * @return
      */
-    public function trigger($notificationKey, UserInterface $receiver, $verb, $subject, UserInterface $actor = null, \DateTime $createdAt = null);
+    public function trigger($notificationKey, $verb, $subject, UserInterface $actor = null, \DateTime $createdAt = null);
 
 }
