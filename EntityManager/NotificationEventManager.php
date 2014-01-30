@@ -78,20 +78,6 @@ class NotificationEventManager implements NotificationEventManagerInterface
     }
 
     /**
-     * {@inheritDoc}
-     */
-    public function findByNotificationKey($notificationKey)
-    {
-        $qb = $this->repository->createQueryBuilder('ne')
-            ->select(array('ne', 'nk'))
-            ->leftJoin('ne.notificationKey', 'nk')
-            ->andWhere('nk.key = :key')
-            ->setParameter('key',$notificationKey);
-
-        return $qb->getQuery()->getOneOrNullResult();
-    }
-
-    /**
      * Persists and flushes the event to the persistent storage.
      *
      * @param \Oz\NotificationBundle\Model\NotificationEventInterface $event
