@@ -4,6 +4,7 @@
  * This file is part of the OzNotificationBundle package.
  *
  * (c) Tim Nagel <tim@nagel.com.au>
+ * (c) Sydney_o9 <https://github.com/Sydney-o9>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,8 +16,6 @@ use Oz\NotificationBundle\Sender\Agent\AgentInterface;
 
 /**
  * Sender service.
- *
- * @author Tim Nagel <tim@nagel.com.au>
  */
 class Sender implements SenderInterface
 {
@@ -59,7 +58,7 @@ class Sender implements SenderInterface
      * that agent does not exist.
      *
      * @param string $alias
-     * @return \Oz\NotificationBundle\Sender\Agent\AgentInterface
+     * @return AgentInterface
      * @throws \InvalidArgumentException when the alias doesnt exist
      */
     protected function getAgent($alias)
@@ -79,12 +78,12 @@ class Sender implements SenderInterface
      */
     public function send(array $notifications)
     {
-        $sorted = array();
+        $sortedNotifications = array();
         foreach ($notifications as $notification) {
-            $sorted[$notification->getType()][] = $notification;
+            $sortedNotifications[$notification->getType()][] = $notification;
         }
 
-        foreach ($sorted as $method => $notifications) {
+        foreach ($sortedNotifications as $method => $notifications) {
             $this->getAgent($method)->sendBulk($notifications);
         }
 

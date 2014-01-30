@@ -4,6 +4,7 @@
  * This file is part of the OzNotificationBundle package.
  *
  * (c) Tim Nagel <tim@nagel.com.au>
+ * (c) Sydney_o9 <https://github.com/Sydney-o9>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -16,8 +17,6 @@ use Oz\NotificationBundle\Model\NotificationInterface;
 
 /**
  * An agent that will send notifications through SwiftMailer.
- *
- * @author Tim Nagel <tim@nagel.com.au>
  */
 class EmailAgent extends Agent implements AgentInterface
 {
@@ -50,15 +49,25 @@ class EmailAgent extends Agent implements AgentInterface
      */
     public function send(NotificationInterface $notification)
     {
-        /** @var \Swift_Message $message  */
+
+        /* @var $mailer \Swift_Mailer */
+        if(!$this->mailer->getTransport()->isStarted()){
+            $this->mailer->getTransport()->start();
+        }
+
+        /* @var $message \Swift_Message */
         $message = $this->mailer->createMessage();
         $message->setSubject($notification->getSubject());
-        $message->addPart($notification->getMessage(), 'text/plain', 'UTF8');
 
-        $message->addTo($notification->getRecipientData(), $notification->getRecipientName());
+        $message->setBody($notification->getBodyHtml(), 'text/html');
+        $message->addPart($notification->getBodyText(), 'text/plain', 'UTF8');
+
+        $message->addTo($notification->getRecipientEmail(), $notification->getRecipientName());
         $message->setFrom('test@test.com', 'Test Sending');
 
+
         $this->mailer->send($message);
+        $this->mailer->getTransport()->stop();
     }
 
     /**
@@ -68,6 +77,10 @@ class EmailAgent extends Agent implements AgentInterface
     {
         foreach ($notifications as $notification) {
 
+            if (!$useMessageBroker) {
+                return $this->send($notification);
+            }
+
             $message = array(
                 //To retrieve the notification in the consumer as
                 //serializing the hole entity is a very bad idea
@@ -75,13 +88,8 @@ class EmailAgent extends Agent implements AgentInterface
                 'id' => $notification->getId()
             );
 
-            if ($useMessageBroker){
-                //Implementation of Message Broker
-                $this->notificationEmailProducer->publish(serialize($message));
-            }else{
-                $this->send($notification);
-            }
-
+            //Implementation of Message Broker
+            return $this->notificationEmailProducer->publish(serialize($message));
         }
     }
 }

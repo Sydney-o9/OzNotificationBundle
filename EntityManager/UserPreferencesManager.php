@@ -104,14 +104,12 @@ class UserPreferencesManager implements UserPreferencesManagerInterface
     }
 
     /**
-     *
-     *
      * Get User Preferences in 2 steps:
-     *  - generate all empty/default filters
-     *  - if the user has one of these filters already, replace it
+     *  1- Generate all empty/default filters
+     *  2- if the user has one of these filters already, replace it
      *
      * @param UserInterface $user
-     * @return \Oz\NotificationBundle\Model\UserPreferencesInterface|mixed
+     * @return UserPreferencesInterface
      */
     public function getUserPreferences($user){
 
@@ -124,20 +122,19 @@ class UserPreferencesManager implements UserPreferencesManagerInterface
         $defaultFilters = $this->filterManager
             ->generateDefaultFilters($user);
 
+        /** Generate the array of filters */
         $filters = new ArrayCollection();
 
         foreach ($defaultFilters as $defaultFilter){
 
             /** If user has already subscribed to it */
-            if ($filter = $this->filterManager->getUserFilterByNotificationKey($user, $defaultFilter->getNotificationKey())){
-
-                $filters[]= $filter;
+            if ($existingFilter = $this->filterManager->getUserFilterByNotificationKey($user, $defaultFilter->getNotificationKey())){
+                $filters->add($existingFilter);
             }
-            /** otherwise, create new filter */
+            /** Otherwise, create a new default filter */
             else{
-
                 $defaultFilter->setUserPreferences($userPreferences);
-                $filters[] = $defaultFilter;
+                $filters->add($defaultFilter);
             }
         }
         $userPreferences->setFilters($filters);

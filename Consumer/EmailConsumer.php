@@ -27,36 +27,34 @@ class EmailConsumer implements ConsumerInterface
     private $em;
 
 
-    public function __construct(\Swift_Mailer $mailer, LoggerInterface $logger, $entityManager){
-
+    public function __construct(\Swift_Mailer $mailer, LoggerInterface $logger,  EntityManager $entityManager)
+    {
         $this->mailer = $mailer;
-
         $this->logger = $logger;
-
-        $this->em = $entityManager;
+        $this->em     = $entityManager;
     }
 
 
     public function execute(AMQPMessage $msg)
     {
-        /**  1- Decode message */
+        /** 1. Decode message */
         try{
             $message = unserialize($msg->body);
             $class = $message['class'];
             $id = $message['id'];
-        }catch(\Exception $e){
+        } catch( \Exception $e ) {
+            $this->logger->err('Cannot unserialize the message.');
             $this->logger->err('Message: '.$e->getMessage());
             /**  If we can't unserialize the message, resending the message won't change anything. */
             return true;
         }
 
-        /**  2- Fetch notification */
+        /** 2. Fetch notification */
         try{
             $notification = $this->em->find($class, $id);
-        }
-        //--->not found exception: there is no point sending a notification if the $subject is not found.
-        catch(\Doctrine\ORM\NoResultException $e){
+        } catch(\Doctrine\ORM\NoResultException $e){
             $this->logger->info('Object of id'.$id.'and class'.$class.'was not found.');
+            // There is no point sending a notification if the $subject is not found.
             return true;
         }
         //If we can't retrieve the message from the database, it depends on the error
@@ -66,7 +64,7 @@ class EmailConsumer implements ConsumerInterface
             return false;
         }
 
-        /**  3- Send notification - use timer to evaluate performance*/
+        /** 3. Send notification - use timer to evaluate performance*/
         try{
             $time_start = microtime(true);
             $this->send($notification);
@@ -84,7 +82,7 @@ class EmailConsumer implements ConsumerInterface
             return false;
         }
 
-        /**  4- Update notification */
+        /** 4. Update notification */
         try{
             $notification->markSent();
             $this->em->flush();
