@@ -12,7 +12,5 @@
 
         <field name="updatedAt" column="updated_at" type="datetime" />
 
-        <field name="defaultMethod" column="default_method" type="string" />
-
     </mapped-superclass>
 </doctrine-mapping>

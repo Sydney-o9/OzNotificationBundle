@@ -9,7 +9,6 @@
         <service id="oz_notification.user_preferences.form.type.default" class="Oz\NotificationBundle\FormType\UserPreferencesType">
             <tag name="form.type" alias="oz_notification_user_preferences" />
             <argument>%oz_notification.user_preferences.class%</argument>
-            <argument type="service" id="oz_notification.sender" />
         </service>
 
         <service id="oz_notification.filter.form.type" class="Oz\NotificationBundle\FormType\FilterType">

@@ -4,15 +4,12 @@ namespace Oz\NotificationBundle\EntityManager;
 
 use Doctrine\ORM\EntityManager;
 use Oz\NotificationBundle\Model\FilterInterface;
-use Oz\NotificationBundle\ModelManager\MethodManager as BaseMethodManager;
-
+use Oz\NotificationBundle\ModelManager\MethodManagerInterface;
 
 /**
- * Doctrine ORM implementation of the MethodManager class.
- *
- *
+ * Manages methods.
  */
-class MethodManager extends BaseMethodManager
+class MethodManager implements MethodManagerInterface
 {
     /**
      * @var EntityManager
@@ -51,6 +48,4 @@ class MethodManager extends BaseMethodManager
 
         return new $class;
     }
-
-
 }

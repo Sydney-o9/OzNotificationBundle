@@ -20,26 +20,17 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 class UserPreferencesType extends AbstractType
 {
     private $class;
-    private $sender;
 
     /**
      * @param string $class
-     * @param \Oz\NotificationBundle\Sender\SenderInterface $sender
      */
-    public function __construct($class, SenderInterface $sender)
+    public function __construct($class)
     {
         $this->class = $class;
-        $this->sender = $sender;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('defaultMethod', 'choice', array(
-            'choices' => $this->getMethodChoices(),
-            'multiple' => false,
-            'expanded' => true,
-        ));
-
         $builder->add('filters', 'collection', array(
             'type' => 'oz_notification_user_preferences_filter',
             'allow_add' => true,
@@ -47,12 +38,6 @@ class UserPreferencesType extends AbstractType
             'prototype' => true,
             'by_reference' => false,
         ));
-    }
-
-    protected function getMethodChoices()
-    {
-        $choices = $this->sender->getAgentAliases();
-        return array_combine($choices, $choices);
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)

@@ -70,10 +70,10 @@ class Notifier implements NotifierInterface
     /**
      * {@inheritDoc}
      */
-    public function trigger($notificationKey, UserInterface $receiver, $verb, $subject, UserInterface $actor = null, \DateTime $createdAt = null)
+    public function trigger($notificationKey, UserInterface $receiver, $subject, UserInterface $actor = null)
     {
-        if (!is_string($notificationKey) || !is_string($verb)){
-            throw new \InvalidArgumentException(sprintf('"NotificationKey" and "Verb" should be of string type, "%s" and "%s" given respectively.', gettype($notificationKey), gettype($verb)));
+        if (!is_string($notificationKey) ){
+            throw new \InvalidArgumentException( sprintf('The notification key should be of string type, "%s" given.', gettype($notificationKey) ) );
         }
 
         $notificationKey = $this->notificationKeyManager->findByNotificationKey($notificationKey);
@@ -81,7 +81,7 @@ class Notifier implements NotifierInterface
             throw new \InvalidArgumentException(sprintf('The notificationKey "%s" does not exist.', $notificationKey));
         }
 
-        $event = $this->notificationEventManager->create($notificationKey, $subject, $verb, $actor, $createdAt);
+        $event = $this->notificationEventManager->create($notificationKey, $subject, $actor);
 
         /** If the receiver has a filter (subscribed to that event) */
         if ($filter = $this->filterManager->getFilterOwnedByUser($event, $receiver)){

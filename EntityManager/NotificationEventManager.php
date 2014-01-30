@@ -4,6 +4,7 @@
  * This file is part of the OzNotificationBundle package.
  *
  * (c) Tim Nagel <tim@nagel.com.au>
+ * (c) Sydney_o9 <https://github.com/Sydney-o9>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -16,14 +17,12 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Oz\NotificationBundle\Model\NotificationEventInterface;
 use Oz\NotificationBundle\Entity\NotificationEvent;
 use \Oz\NotificationBundle\Model\NotificationKeyInterface;
-use Oz\NotificationBundle\ModelManager\NotificationEventManager as BaseNotificationEventManager;
-use DateTime;
+use Oz\NotificationBundle\ModelManager\NotificationEventManagerInterface;
+
 /**
- * Doctrine ORM implementation of the NotificationEventManager class.
- *
- * @author Tim Nagel <tim@nagel.com.au>
+ * Manage notification events.
  */
-class NotificationEventManager extends BaseNotificationEventManager
+class NotificationEventManager implements NotificationEventManagerInterface
 {
 
     /**
@@ -45,13 +44,51 @@ class NotificationEventManager extends BaseNotificationEventManager
     public function __construct(EntityManager $em, $class)
     {
         $this->em = $em;
-
         $this->repository = $em->getRepository($class);
 
         $metadata = $em->getClassMetadata($class);
-
         $this->class = $metadata->name;
+    }
 
+    /**
+     * {@inheritDoc}
+     */
+    public function create(NotificationKeyInterface $notificationKey, $subject, UserInterface $actor = null)
+    {
+        $class = $this->class;
+
+        return new $class($notificationKey, $subject, $actor);
+    }
+
+    /**
+     * @param $id
+     * @throws \Exception
+     * @return notificationEvent
+     */
+    public function find($id)
+    {
+        $notificationEvent =  $this->repository->find($id);
+
+        if(!$notificationEvent) {
+            throw new \Exception('Unable to find Notification Event');
+        } else {
+            return $notificationEvent;
+        }
+
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function findByNotificationKey($notificationKey)
+    {
+        $qb = $this->repository->createQueryBuilder('ne')
+            ->select(array('ne', 'nk'))
+            ->leftJoin('ne.notificationKey', 'nk')
+            ->andWhere('nk.notificationKey = :key')
+            ->setParameter('key',$notificationKey);
+
+        return $qb->getQuery()->getOneOrNullResult();
     }
 
     /**
@@ -99,8 +136,7 @@ class NotificationEventManager extends BaseNotificationEventManager
      */
     public function replaceSubject(NotificationEvent $event, $reference = true)
     {
-   if ($reference) {
-
+       if ($reference) {
             $subject = $this->em->getReference(
                 $event->getSubjectClass(),
                 $event->getSubjectIdentifiers()
@@ -112,56 +148,7 @@ class NotificationEventManager extends BaseNotificationEventManager
                 $event->getSubjectIdentifiers()
             );
         }
-
         $event->setSubject($subject);
    }
-
-
-    /**
-     * @param $id
-     * @throws \Exception
-     * @return notificationEvent
-     */
-    public function find($id)
-    {
-        $notificationEvent =  $this->repository->find($id);
-
-        if(!$notificationEvent)
-        {
-            throw new \Exception('Unable to find Notification Event');
-        }
-        else
-        {
-            return $notificationEvent;
-        }
-
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function findByNotificationKey($notificationKey)
-    {
-        $qb = $this->repository->createQueryBuilder('ne')
-            ->select(array('ne', 'nk'))
-            ->leftJoin('ne.notificationKey', 'nk')
-            ->andWhere('nk.notificationKey = :key')
-            ->setParameter('key',$notificationKey);
-
-        return $qb->getQuery()->getOneOrNullResult();
-    }
-
-
-    /**
-     * {@inheritDoc}
-     */
-    public function create(NotificationKeyInterface $notificationKey, $subject, $verb, UserInterface $actor = null, DateTime $createdAt = null)
-    {
-        $class = $this->class;
-
-        return new $class($notificationKey, $subject, $verb, $actor);
-    }
-
-
 
 }

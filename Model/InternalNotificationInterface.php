@@ -1,10 +1,12 @@
 <?php
 
-namespace Oz\NotificationBundle\Entity;
+namespace Oz\NotificationBundle\Model;
 
+/**
+ * Internal notification interface
+ */
 interface InternalNotificationInterface
 {
-
     /**
      * Set if the notification has been read by the owner
      * @param Bool $isRead

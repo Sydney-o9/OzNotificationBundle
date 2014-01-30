@@ -4,6 +4,7 @@
  * This file is part of the OzNotificationBundle package.
  *
  * (c) Tim Nagel <tim@nagel.com.au>
+ * (c) Sydney-o9 <https://github.com/Sydney-o9/>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -11,31 +12,40 @@
 
 namespace Oz\NotificationBundle\EntityManager;
 
+use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\ORM\EntityManager;
 use Oz\NotificationBundle\Model\FilterInterface;
 use Oz\NotificationBundle\Model\NotificationEventInterface;
 use Oz\NotificationBundle\Model\NotificationInterface;
-use Oz\NotificationBundle\ModelManager\NotificationManager as BaseNotificationManager;
-use Oz\NotificationBundle\Discriminator\NotificationDiscriminator;
-use Symfony\Component\Security\Core\User\UserInterface;
-
+use Oz\NotificationBundle\ModelManager\NotificationManagerInterface;
+use Oz\NotificationBundle\Discriminator\NotificationDiscriminatorInterface;
 
 /**
- * Doctrine ORM implementation of the NotificationManager class.
- *
- * @author Tim Nagel <tim@nagel.com.au>
+ * Manages notifications.
  */
-class NotificationManager extends BaseNotificationManager
+class NotificationManager implements NotificationManagerInterface
 {
+    /**
+     * @var EntityManager
+     */
     protected $em;
 
+    /**
+     * @var NotificationRepository
+     */
     protected $repository;
 
+    /**
+     * @var string
+     */
     protected $class;
 
+    /**
+     * @var NotificationDiscriminatorInterface
+     */
     protected $notificationDiscriminator;
 
-    public function __construct(EntityManager $em, $class, NotificationDiscriminator $notificationDiscriminator)
+    public function __construct(EntityManager $em, $class, NotificationDiscriminatorInterface $notificationDiscriminator)
     {
         $this->em = $em;
         $this->repository = $em->getRepository($class);
@@ -317,20 +327,6 @@ class NotificationManager extends BaseNotificationManager
         return $repository->createQueryBuilder($type);
 
     }
-
-    //public function markInternalNotificationAsReadByUser(UserInterface $user ){
-        //$type = 'internal';
-        //$class = $this->notificationDiscriminator->getClass($type);
-        //$queryBuilder = $this->getLocalizedQueryBuilder($type);
-
-        //$queryBuilder
-            //->update('n')
-            //->set("n.isRead", '?1')
-            //->Where("n.user = {$user->getId()}")
-            //->setParameter(1, true);
-
-        //$queryBuilder->getQuery()->getResult();
-    //}
 
     public function markInternalNotificationAsReadByUser(UserInterface $user ){
 

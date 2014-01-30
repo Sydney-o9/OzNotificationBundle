@@ -2,7 +2,7 @@
 
 namespace Oz\NotificationBundle\Twig\Extension;
 
-use Oz\NotificationBundle\Entity\InternalNotificationInterface;
+use Oz\NotificationBundle\Model\InternalNotificationInterface;
 
 /**
  * Twig extension

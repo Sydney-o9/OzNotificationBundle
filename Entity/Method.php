@@ -1,42 +1,88 @@
 <?php
 
+/*
+ * This file is part of the OzNotificationBundle package.
+ *
+ * (c) Tim Nagel <tim@nagel.com.au>
+ * (c) Sydney-o9 <https://github.com/Sydney-o9/>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Oz\NotificationBundle\Entity;
 
-use Oz\NotificationBundle\Model\Method as BaseMethod;
+use Oz\NotificationBundle\Model\MethodInterface;
+use Oz\NotificationBundle\Model\MethodNotificationKeyInterface;
 
 
-abstract class Method extends BaseMethod
+abstract class Method implements MethodInterface
 {
+    /**
+     * @var integer $id
+     */
+    protected $id;
+
+    /**
+     * @var string $name
+     */
+    protected $name;
 
     /**
      * Intermediate Association with NotificationKey
+     *
+     * @var MethodNotificationKeyInterface
      */
     protected $methodNotificationKey;
 
     /**
-     * Add association methodNotificationKey
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Add association MethodNotificationKey
      *
-     * @param MethodNotificationKey $methodNotificationKey
+     * @param MethodNotificationKeyInterface $methodNotificationKey
      * @return Method
      */
-    public function addMethodNotificationKey(MethodNotificationKey $methodNotificationKey)
+    public function addMethodNotificationKey(MethodNotificationKeyInterface $methodNotificationKey)
     {
         $this->methodNotificationKey[] = $methodNotificationKey;
         return $this;
     }
 
     /**
-     * Remove association methodNotificationKey
+     * Remove association MethodNotificationKey
      *
-     * @param MethodNotificationKey $methodNotificationKey
+     * @param MethodNotificationKeyInterface $methodNotificationKey
      */
-    public function removeMethodNotificationKey(MethodNotificationKey $methodNotificationKey)
+    public function removeMethodNotificationKey(MethodNotificationKeyInterface $methodNotificationKey)
     {
         $this->methodNotificationKey->removeElement($methodNotificationKey);
     }
 
     /**
-     * Get methodNotificationKey
+     * Get MethodNotificationKey
      *
      * @return \Doctrine\Common\Collections\ArrayCollection
      */
@@ -56,5 +102,4 @@ abstract class Method extends BaseMethod
         return (string)$this->name;
 
     }
-
 }

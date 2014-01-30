@@ -4,6 +4,7 @@
  * This file is part of the OzNotificationBundle package.
  *
  * (c) Tim Nagel <tim@nagel.com.au>
+ * (c) Sydney-o9 <https://github.com/Sydney-o9/>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -12,20 +13,18 @@
 namespace Oz\NotificationBundle\EntityManager;
 
 use Doctrine\ORM\EntityManager;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Oz\NotificationBundle\ModelManager\FilterManagerInterface;
 use Oz\NotificationBundle\Model\FilterInterface;
-use Oz\NotificationBundle\ModelManager\FilterManager as BaseFilterManager;
 use Oz\NotificationBundle\ModelManager\NotificationKeyManagerInterface;
 use Oz\NotificationBundle\Model\NotificationEventInterface;
 use Oz\NotificationBundle\Model\NotificationKeyInterface;
-use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * Doctrine ORM implementation of the FilterManager class.
- *
- * @author Tim Nagel <tim@nagel.com.au>
+ * Manages filters.
  */
-class FilterManager extends BaseFilterManager
+class FilterManager implements FilterManagerInterface
 {
     /**
      * @var EntityManager
@@ -58,15 +57,10 @@ class FilterManager extends BaseFilterManager
     public function __construct(EntityManager $em, $class, $userClass, NotificationKeyManagerInterface $notificationKeyManager)
     {
         $this->em = $em;
-
         $this->repository = $em->getRepository($class);
-
         $this->class = $em->getClassMetadata($class)->name;
-
         $this->userClass = $em->getClassMetadata($userClass)->name;
-
         $this->notificationKeyManager = $notificationKeyManager;
-
     }
 
     /**

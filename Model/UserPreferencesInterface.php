@@ -13,8 +13,6 @@ namespace Oz\NotificationBundle\Model;
 
 /**
  * UserPreferences interface
- *
- * @author Tim Nagel <tim@nagel.com.au>
  */
 interface UserPreferencesInterface
 {
@@ -49,19 +47,4 @@ interface UserPreferencesInterface
      */
     public function getFilters();
 
-    /**
-     * Returns the default method used to notify the user if
-     * the filter doesnt specify one.
-     *
-     * @return string
-     */
-    public function getDefaultMethod();
-
-    /**
-     * Sets the default method used to notify a user if the
-     * filter doesnt specify one.
-     *
-     * @param string $defaultMethod
-     */
-    public function setDefaultMethod($defaultMethod);
 }

@@ -1,10 +1,12 @@
 <?php
 
-namespace Oz\NotificationBundle\Entity;
+namespace Oz\NotificationBundle\Model;
 
+/**
+ * SMS notification interface
+ */
 interface SMSNotificationInterface
 {
-
     /**
      * @param string $recipientName
      */

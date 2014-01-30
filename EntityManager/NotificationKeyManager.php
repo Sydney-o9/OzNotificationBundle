@@ -3,23 +3,22 @@
 namespace Oz\NotificationBundle\EntityManager;
 
 use Doctrine\ORM\EntityManager;
+use Oz\NotificationBundle\ModelManager\NotificationKeyManagerInterface;
 
-use Oz\NotificationBundle\ModelManager\NotificationKeyManager as BaseNotificationKeyManager;
-
-class NotificationKeyManager extends BaseNotificationKeyManager
+class NotificationKeyManager implements NotificationKeyManagerInterface
 {
     /**
-     * @var EntityManager.
+     * @var EntityManager
      */
     protected $em;
 
     /**
-     * @var EntityRepository of the NotificationKey class.
+     * @var EntityRepository of the NotificationKey class
      */
     protected $repository;
 
     /**
-     * @var string NotificationKey entity name.
+     * @var string NotificationKey entity name
      */
     protected $class;
 
@@ -27,11 +26,9 @@ class NotificationKeyManager extends BaseNotificationKeyManager
     public function __construct(EntityManager $em, $class)
     {
         $this->em = $em;
-
         $this->repository = $em->getRepository($class);
 
         $metadata = $em->getClassMetadata($class);
-
         $this->class = $metadata->name;
     }
 
@@ -44,15 +41,11 @@ class NotificationKeyManager extends BaseNotificationKeyManager
     {
         $notificationKey =  $this->repository->find($id);
 
-        if(!$notificationKey)
-        {
+        if(!$notificationKey) {
             throw new \Exception('Unable to find Notification Event Key');
-        }
-        else
-        {
+        } else {
             return $notificationKey;
         }
-
     }
 
     /**

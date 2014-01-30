@@ -1,13 +1,24 @@
 <?php
 
+/*
+ * This file is part of the OzNotificationBundle package.
+ *
+ * (c) Tim Nagel <tim@nagel.com.au>
+ * (c) Sydney-o9 <https://github.com/Sydney-o9/>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Oz\NotificationBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Oz\NotificationBundle\Model\MethodNotificationKeyInterface;
+use Oz\NotificationBundle\Model\NotificationKeyInterface;
+use Oz\NotificationBundle\Model\MethodInterface;
 
-
-class MethodNotificationKey
+abstract class MethodNotificationKey implements MethodNotificationKeyInterface
 {
-
     /**
      * @var int
      */
@@ -22,7 +33,6 @@ class MethodNotificationKey
      * Notification key
      */
     protected $notificationKey;
-
 
     /**
      * @return int
@@ -41,9 +51,9 @@ class MethodNotificationKey
     }
 
     /**
-     * @param Method $method
+     * @param MethodInterface $method
      */
-    public function setMethod($method)
+    public function setMethod(MethodInterface $method)
     {
         $this->method = $method;
     }
@@ -57,9 +67,9 @@ class MethodNotificationKey
     }
 
     /**
-     * @param NotificationKey $notificationKey
+     * @param NotificationKeyInterface $notificationKey
      */
-    public function setNotificationKey($notificationKey)
+    public function setNotificationKey(NotificationKeyInterface $notificationKey)
     {
         $this->notificationKey = $notificationKey;
     }

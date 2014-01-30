@@ -12,8 +12,6 @@
 
         <field name="createdAt" column="created_at" type="datetime" />
 
-        <field name="verb" column="verb" type="string" />
-
         <field name="subjectIdentifiers" column="subject_identifiers" type="array" nullable="true" />
 
     </mapped-superclass>

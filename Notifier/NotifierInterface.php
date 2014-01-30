@@ -25,12 +25,10 @@ interface NotifierInterface
      *
      * @param string $notificationKey
      * @param UserInterface $receiver
-     * @param string $verb
      * @param mixed $subject
      * @param UserInterface $actor
-     * @param \DateTime $createdAt
      * @return
      */
-    public function trigger($notificationKey, UserInterface $receiver, $verb, $subject, UserInterface $actor = null, \DateTime $createdAt = null);
+    public function trigger($notificationKey, UserInterface $receiver, $subject, UserInterface $actor = null);
 
 }

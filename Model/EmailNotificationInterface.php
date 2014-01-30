@@ -1,8 +1,10 @@
 <?php
 
-namespace Oz\NotificationBundle\Entity;
+namespace Oz\NotificationBundle\Model;
 
-
+/**
+ * Email notification interface
+ */
 interface EmailNotificationInterface
 {
 

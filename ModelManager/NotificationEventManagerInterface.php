@@ -4,6 +4,7 @@
  * This file is part of the OzNotificationBundle package.
  *
  * (c) Tim Nagel <tim@nagel.com.au>
+ * (c) Sydney-o9 <https://github.com/Sydney-o9/>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -29,7 +30,7 @@ interface NotificationEventManagerInterface
      *
      * @return NotificationEventInterface
      */
-    public function create(NotificationKeyInterface $notificationKey, $subject, $verb, UserInterface $actor = null, DateTime $createdAt = null);
+    public function create(NotificationKeyInterface $notificationKey, $subject, UserInterface $actor = null);
 
     /**
      * Persists and flushes the event to the persistent storage.

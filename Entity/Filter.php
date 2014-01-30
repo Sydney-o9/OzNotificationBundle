@@ -12,39 +12,155 @@
 
 namespace Oz\NotificationBundle\Entity;
 
-use Oz\NotificationBundle\Model\Filter as BaseFilter;
 use Doctrine\Common\Collections\ArrayCollection;
+use Oz\NotificationBundle\Model\FilterInterface;
+use Oz\NotificationBundle\Model\UserPreferencesInterface;
+use Oz\NotificationBundle\Model\NotificationKeyInterface;
 
 /**
- * Doctrine ORM implementation of the Filter class
+ * Filter class
  */
-abstract class Filter extends BaseFilter
+abstract class Filter implements FilterInterface
 {
+    /**
+     * @var integer $id
+     */
+    protected $id;
+
+    /**
+     * @var NotificationKeyInterface
+     */
+    protected $notificationKey;
+
+    /**
+     * @var string
+     */
+    protected $recipientData;
+
+    /**
+     * @var string
+     */
+    protected $recipientName;
+
+    /**
+     * @var UserPreferencesInterface
+     */
+    protected $userPreferences;
 
     /**
      * @var MethodInterface[]
      */
     protected $methods;
 
-
+    /**
+     * Constructor
+     */
     public function __construct()
     {
         $this->methods = new ArrayCollection;
     }
 
     /**
-     * @param Method $method
+     * @return int
      */
-    public function addMethod($method)
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return NotificationKey
+     */
+    public function getNotificationKey()
+    {
+        return $this->notificationKey;
+    }
+
+    /**
+     * @param NotificationKeyInterface $notificationKey
+     */
+    public function setNotificationKey(NotificationKeyInterface $notificationKey)
+    {
+        $this->notificationKey = $notificationKey;
+    }
+
+    /**
+     * @param UserPreferencesInterface|null $userPreferences
+     */
+    public function setUserPreferences(UserPreferencesInterface $userPreferences = null)
+    {
+        $this->userPreferences = $userPreferences;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRecipientData()
+    {
+        if ($this->recipientData) {
+            return $this->recipientData;
+        }
+
+        if ($this->getUserPreferences()) {
+            return $this->getUserPreferences()->getUser()->getEmail();
+        }
+
+        return null;
+    }
+
+    /**
+     * @param string $recipientData
+     */
+    public function setRecipientData($recipientData)
+    {
+        $this->recipientData = $recipientData;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getRecipientName()
+    {
+        if ($this->recipientName) {
+            return $this->recipientName;
+        }
+
+        if ($this->getUserPreferences()) {
+            return $this->getUserPreferences()->getUser()->getUsername();
+        }
+
+        return null;
+    }
+
+    /**
+     * @param string $recipientName
+     */
+    public function setRecipientName($recipientName)
+    {
+        $this->recipientName = $recipientName;
+    }
+
+    /**
+     * @return UserPreferencesInterface
+     */
+    public function getUserPreferences()
+    {
+        return $this->userPreferences;
+    }
+
+    /**
+     * @param MethodInterface $method
+     */
+    public function addMethod(MethodInterface $method)
     {
         $this->methods[] = $method;
     }
 
     /**
-     * @param Method $method
+     * @param MethodInterface $method
      * @return bool
      */
-    public function removeMethod($method)
+    public function removeMethod(MethodInterface $method)
     {
         return $this->methods->removeElement($method);
     }
@@ -52,13 +168,13 @@ abstract class Filter extends BaseFilter
     /**
      * @param ArrayCollection $methods
      */
-    public function setMethods($methods)
+    public function setMethods(ArrayCollection $methods)
     {
         $this->methods = $methods;
     }
 
     /**
-     * @return \Jbh\NotificationBundle\Entity\Method[]|\Doctrine\Common\Collections\ArrayCollection
+     * @return ArrayCollection \Jbh\NotificationBundle\Entity\MethodInterface
      */
     public function getMethods()
     {

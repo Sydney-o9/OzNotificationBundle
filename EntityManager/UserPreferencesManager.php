@@ -4,6 +4,7 @@
  * This file is part of the OzNotificationBundle package.
  *
  * (c) Tim Nagel <tim@nagel.com.au>
+ * (c) Sydney-o9 <https://github.com/Sydney-o9/>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -11,19 +12,17 @@
 
 namespace Oz\NotificationBundle\EntityManager;
 
+use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\ORM\EntityManager;
+use Doctrine\Common\Collections\ArrayCollection;
 use Oz\NotificationBundle\ModelManager\FilterManagerInterface;
 use Oz\NotificationBundle\Model\UserPreferencesInterface;
-use Oz\NotificationBundle\ModelManager\UserPreferencesManager as BaseUserPreferencesManager;
-use Symfony\Component\Security\Core\User\UserInterface;
-use Doctrine\Common\Collections\ArrayCollection;
+use Oz\NotificationBundle\ModelManager\UserPreferencesManagerInterface;
 
 /**
- * Doctrine ORM implementation of the UserPreferencesManager class.
- *
- * @author Tim Nagel <tim@nagel.com.au>
+ * Manages User Preferences
  */
-class UserPreferencesManager extends BaseUserPreferencesManager
+class UserPreferencesManager implements UserPreferencesManagerInterface
 {
     /**
      * @var EntityManager
@@ -36,12 +35,14 @@ class UserPreferencesManager extends BaseUserPreferencesManager
     protected $repository;
 
     /**
+     * Class to use when initialising a new UserPreferences object.
+     *
      * @var string
      */
     protected $class;
 
-    /*
-     * FilterManager
+    /**
+     * @var FilterManagerInterface
      */
     protected $filterManager;
 
@@ -54,7 +55,22 @@ class UserPreferencesManager extends BaseUserPreferencesManager
         $this->filterManager = $filterManager;
     }
 
-    /*
+    /**
+     * Creates a new UserPreferences object.
+     *
+     * @return UserPreferencesInterface
+     */
+    public function create()
+    {
+
+        $class = $this->class;
+        $userPreferences = new $class;
+        $userPreferences->setDefaultMethod($this->defaultMethod);
+
+        return $userPreferences;
+    }
+
+    /**
      * Find User Preferences By User
      */
     public function findByUser(UserInterface $user)
@@ -66,7 +82,7 @@ class UserPreferencesManager extends BaseUserPreferencesManager
         return $qb->getQuery()->getOneOrNullResult();
     }
 
-    /*
+    /**
      * Update User Preferences
      */
     public function update(UserPreferencesInterface $preferences, $flush = true)
