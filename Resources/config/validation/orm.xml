@@ -4,8 +4,8 @@
                     xsi:schemaLocation="http://symfony.com/schema/dic/constraint-mapping
 http://symfony.com/schema/dic/constraint-mapping/constraint-mapping-1.0.xsd">
 
-    <class name="Oz\NotificationBundle\Model\NotificationKey">
-        <property name="notificationKey">
+    <class name="Oz\NotificationBundle\Entity\NotificationKey">
+        <property name="key">
             <constraint name="NotBlank">
                 <option name="message">oz_notification.notificationKey.blank</option>
             </constraint>
@@ -17,14 +17,14 @@ http://symfony.com/schema/dic/constraint-mapping/constraint-mapping-1.0.xsd">
         </property>
 
         <constraint name="Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity">
-            <option name="fields">notificationKey</option>
+            <option name="fields">key</option>
             <option name="message">oz_notification.notificationKey.already_used</option>
         </constraint>
 
     </class>
 
 
-    <class name="Oz\NotificationBundle\Model\Filter">
+    <class name="Oz\NotificationBundle\Entity\Filter">
         <constraint name="Oz\NotificationBundle\Validator\Constraints\UniqueFilter" />
         <property name="notificationKey">
             <constraint name="NotBlank">
@@ -39,17 +39,14 @@ http://symfony.com/schema/dic/constraint-mapping/constraint-mapping-1.0.xsd">
     </class>
 
 
-    <class name="Oz\NotificationBundle\Model\Method">
-
+    <class name="Oz\NotificationBundle\Entity\Method">
         <constraint name="Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity">
             <option name="fields">name</option>
             <option name="message">oz_notification.method.unique</option>
         </constraint>
-
-
     </class>
 
-    <class name="Oz\NotificationBundle\Model\UserPreferences">
+    <class name="Oz\NotificationBundle\Entity\UserPreferences">
         <property name="filters">
             <constraint name="Valid" />
         </property>

@@ -10,7 +10,7 @@
             <generator strategy="AUTO" />
         </id>
 
-        <field name="key" column="key" type="string" />
+        <field name="key" column="key" type="string" length="255" unique="true" nullable="false"/>
 
         <field name="subjectClass" column="subject_class" type="string" length="1000" nullable="true" />
 

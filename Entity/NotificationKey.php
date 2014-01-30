@@ -109,7 +109,8 @@ abstract class NotificationKey implements NotificationKeyInterface
      */
     public function setKey($key)
     {
-        $this->key = $key;
+        /** remove all whitespaces and convert to lowercase expression */
+        $this->key = strtolower( preg_replace('/\s+/', '', $key) );
     }
 
     /**
