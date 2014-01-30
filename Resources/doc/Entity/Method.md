@@ -13,9 +13,9 @@ use Oz\NotificationBundle\Entity\Method as BaseMethod;
 class Method extends BaseMethod
 {
     /**
-     * @ORM\OneToMany(targetEntity="MethodNotificationKey" , mappedBy="method" , cascade={"all"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="MethodMetadata" , mappedBy="method" , cascade={"all"}, orphanRemoval=true)
      */
-    protected $methodNotificationKey;
+    protected $methodMetadata;
 
 }
 ```

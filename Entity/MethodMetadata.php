@@ -13,11 +13,11 @@
 namespace Oz\NotificationBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Oz\NotificationBundle\Model\MethodNotificationKeyInterface;
+use Oz\NotificationBundle\Model\MethodMetadataInterface;
 use Oz\NotificationBundle\Model\NotificationKeyInterface;
 use Oz\NotificationBundle\Model\MethodInterface;
 
-abstract class MethodNotificationKey implements MethodNotificationKeyInterface
+abstract class MethodMetadata implements MethodMetadataInterface
 {
     /**
      * @var int

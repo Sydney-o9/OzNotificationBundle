@@ -12,8 +12,9 @@
 
 namespace Oz\NotificationBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Oz\NotificationBundle\Model\MethodInterface;
-use Oz\NotificationBundle\Model\MethodNotificationKeyInterface;
+use Oz\NotificationBundle\Model\MethodMetadataInterface;
 
 
 abstract class Method implements MethodInterface
@@ -31,9 +32,9 @@ abstract class Method implements MethodInterface
     /**
      * Intermediate Association with NotificationKey
      *
-     * @var MethodNotificationKeyInterface
+     * @var MethodMetadataInterface
      */
-    protected $methodNotificationKey;
+    protected $methodMetadata;
 
     /**
      * @return int
@@ -60,35 +61,35 @@ abstract class Method implements MethodInterface
     }
 
     /**
-     * Add association MethodNotificationKey
+     * Add association MethodMetadata
      *
-     * @param MethodNotificationKeyInterface $methodNotificationKey
+     * @param MethodMetadataInterface $methodMetadata
      * @return Method
      */
-    public function addMethodNotificationKey(MethodNotificationKeyInterface $methodNotificationKey)
+    public function addMethodMetadata(MethodMetadataInterface $methodMetadata)
     {
-        $this->methodNotificationKey[] = $methodNotificationKey;
+        $this->methodMetadata[] = $methodMetadata;
         return $this;
     }
 
     /**
-     * Remove association MethodNotificationKey
+     * Remove association MethodMetadata
      *
-     * @param MethodNotificationKeyInterface $methodNotificationKey
+     * @param MethodMetadataInterface $methodMetadata
      */
-    public function removeMethodNotificationKey(MethodNotificationKeyInterface $methodNotificationKey)
+    public function removeMethodMetadata(MethodMetadataInterface $methodMetadata)
     {
-        $this->methodNotificationKey->removeElement($methodNotificationKey);
+        $this->methodMetadata->removeElement($methodMetadata);
     }
 
     /**
-     * Get MethodNotificationKey
+     * Get MethodMetadata
      *
-     * @return \Doctrine\Common\Collections\ArrayCollection
+     * @return ArrayCollection
      */
-    public function getMethodNotificationKey()
+    public function getMethodMetadata()
     {
-        return $this->methodNotificationKey;
+        return $this->methodMetadata;
     }
 
 

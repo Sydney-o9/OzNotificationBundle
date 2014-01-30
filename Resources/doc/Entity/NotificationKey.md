@@ -16,8 +16,8 @@ class NotificationKey extends BaseNotificationKey
     /**
      *
      * @var Array
-     * @ORM\OneToMany(targetEntity="MethodNotificationKey", mappedBy="notificationKey", cascade={"all"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="MethodMetadata", mappedBy="notificationKey", cascade={"all"}, orphanRemoval=true)
      */
-    protected $methodNotificationKey;
+    protected $methodMetadata;
 }
 ```

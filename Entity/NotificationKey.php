@@ -14,7 +14,7 @@ namespace Oz\NotificationBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Oz\NotificationBundle\Model\NotificationKeyInterface;
-use Oz\NotificationBundle\Model\MethodNotificationKeyInterface;
+use Oz\NotificationBundle\Model\MethodMetadataInterface;
 use Oz\NotificationBundle\Model\MethodInterface;
 
 /**
@@ -73,7 +73,7 @@ abstract class NotificationKey implements NotificationKeyInterface
     /**
      * @var ArrayCollection
      */
-    protected $methodNotificationKey;
+    protected $methodMetadata;
 
     /**
      *
@@ -84,7 +84,7 @@ abstract class NotificationKey implements NotificationKeyInterface
     public function __construct()
     {
         $this->subscriberRoles = array();
-        $this->methodNotificationKey = new ArrayCollection();
+        $this->methodMetadata = new ArrayCollection();
         $this->methods = new ArrayCollection();
     }
 
@@ -270,36 +270,36 @@ abstract class NotificationKey implements NotificationKeyInterface
     }
 
     /**
-     * @return ArrayCollection methodNotificationKey
+     * @return ArrayCollection methodMetadata
      */
-    public function getMethodNotificationKey()
+    public function getMethodMetadata()
     {
-        return $this->methodNotificationKey;
+        return $this->methodMetadata;
     }
 
     /**
-     * @param ArrayCollection $methodNotificationKey
+     * @param ArrayCollection $methodMetadata
      */
-    public function setMethodNotificationKey(ArrayCollection $methodNotificationKey)
+    public function setMethodMetadata(ArrayCollection $methodMetadata)
     {
-        $this->methodNotificationKey= $methodNotificationKey;
+        $this->methodMetadata= $methodMetadata;
     }
 
     /**
-     * @param MethodNotificationKeyInterface $methodNotificationKey
+     * @param MethodMetadataInterface $methodMetadata
      */
-    public function addMethodNotificationKey(MethodNotificationKeyInterface $methodNotificationKey)
+    public function addMethodMetadata(MethodMetadataInterface $methodMetadata)
     {
-        $this->methodNotificationKey[] = $methodNotificationKey;
+        $this->methodMetadata[] = $methodMetadata;
     }
 
     /**
-     * @param MethodNotificationKeyInterface $methodNotificationKey
+     * @param MethodMetadataInterface $methodMetadata
      * @return bool
      */
-    public function removeMethodNotificationKey(MethodNotificationKeyInterface $methodNotificationKey)
+    public function removeMethodMetadata(MethodMetadataInterface $methodMetadata)
     {
-        return $this->methodNotificationKey->removeElement($methodNotificationKey);
+        return $this->methodMetadata->removeElement($methodMetadata);
     }
 
     /**
@@ -309,7 +309,7 @@ abstract class NotificationKey implements NotificationKeyInterface
     {
         $methods = new ArrayCollection();
 
-        foreach($this->methodNotificationKey as $mN)
+        foreach($this->methodMetadata as $mN)
         {
             $methods[] = $mN->getMethod();
         }
@@ -325,12 +325,12 @@ abstract class NotificationKey implements NotificationKeyInterface
 
         foreach($methods as $m)
         {
-            $methodNotificationKey = new MethodNotificationKey();
+            $methodMetadata = new MethodMetadata();
 
-            $methodNotificationKey->setNotificationKey($this);
-            $methodNotificationKey->setMethod($m);
+            $methodMetadata->setNotificationKey($this);
+            $methodMetadata->setMethod($m);
 
-            $this->addMethodNotificationKey($methodNotificationKey);
+            $this->addMethodMetadata($methodMetadata);
         }
 
     }
@@ -343,7 +343,7 @@ abstract class NotificationKey implements NotificationKeyInterface
     {
         $methods = new ArrayCollection();
 
-        foreach($this->methodNotificationKey as $mN)
+        foreach($this->methodMetadata as $mN)
         {
             if($mN->isDefault()){
                 $methods[] = $mN->getMethod();
@@ -360,7 +360,7 @@ abstract class NotificationKey implements NotificationKeyInterface
     {
         $methods = new ArrayCollection();
 
-        foreach($this->methodNotificationKey as $mN)
+        foreach($this->methodMetadata as $mN)
         {
             if($mN->isCompulsory()){
                 $methods[] = $mN->getMethod();

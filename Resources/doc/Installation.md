@@ -162,14 +162,14 @@ EmailNotification       InternalNotification       SMSNotification
 
 Create [Method Entity](Entity/Method.md).
 
-#### MethodNotificationKey Entity
+#### MethodMetadata Entity
 
 Most of the time, you want to have default methods and compulsory methods for a notificationKey. For example, for a particular NotificationKey, you might want your users to always receive an internal notification (compulsoryMethod) but
 choose email, and internal notifications by default (defaultMethod)  To do that, the relation between NotificationKey and Method is OneToMany <---> ManyToOne.
 
 <pre>
                                                                              OneToMany                          ManyToOne
-                         NotificationEvent ================ NotificationKey =========== MethodNotificationKey ============ Method
+                         NotificationEvent ================ NotificationKey =========== MethodMetadata ============ Method
                                |           e.g order.processed, newsletter.of.the.week)                         (e.g email, sms, internal)
                                |
                                |
@@ -180,7 +180,7 @@ choose email, and internal notifications by default (defaultMethod)  To do that,
       |                        |                        |
 EmailNotification       InternalNotification       SMSNotification
 </pre>
-Create [MethodNotificationKey Entity](Entity/MethodNotificationKey.md).
+Create [MethodMetadata Entity](Entity/MethodMetadata.md).
 
 #### UserPreferences entity
 

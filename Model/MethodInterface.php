@@ -5,6 +5,5 @@ namespace Oz\NotificationBundle\Model;
 
 interface MethodInterface
 {
-
-     public function getName();
+    public function getName();
 }
