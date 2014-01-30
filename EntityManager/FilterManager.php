@@ -205,17 +205,31 @@ class FilterManager implements FilterManagerInterface
      */
     public function getSubscribedUsers($notificationKey)
     {
-        $qb = $this->em->createQueryBuilder()
-            ->select(array('u'))
-            ->from($this->userClass,'u')
-            ->leftJoin('u.userPreferences', 'up')
-            ->leftJoin('up.filters', 'f')
+        /** Obtain an array of user_id that subscribed to that notification key */
+        $subQueryBuilder = $this->em
+            ->createQueryBuilder();
+
+        $subQueryBuilder
+            ->select('u.id')
+        //from the filter class
+            ->from($this->class, 'f')
+        //get user preferences
+            ->leftJoin('f.userPreferences', 'up')
+        //get the users
+            ->leftJoin('up.user', 'u')
+        //get the notification key
             ->leftJoin('f.notificationKey', 'nk')
+        //with the appropriate notification key
             ->andWhere('nk.key = :key')
             ->andWhere('size(f.methods) >= 1')
             ->setParameter('key', (string)$notificationKey);
 
-        return $qb->getQuery()->getResult();
+        /** @var array An array of user ids */
+        $userIds = $subQueryBuilder
+            ->getQuery()
+            ->getResult();
+
+        return $this->getUsers($userIds);
     }
 
     /**
@@ -230,17 +244,31 @@ class FilterManager implements FilterManagerInterface
      */
     public function getUnsubscribedUsers($notificationKey)
     {
-        $qb = $this->em->createQueryBuilder()
-            ->select(array('u'))
-            ->from($this->userClass,'u')
-            ->leftJoin('u.userPreferences', 'up')
-            ->leftJoin('up.filters', 'f')
+        /** Obtain an array of user_id that are not subscribed to that notification key */
+        $subQueryBuilder = $this->em
+            ->createQueryBuilder();
+
+        $subQueryBuilder
+            ->select('u.id')
+        //from the filter class
+            ->from($this->class, 'f')
+        //get user preferences
+            ->leftJoin('f.userPreferences', 'up')
+        //get the users
+            ->leftJoin('up.user', 'u')
+        //get the notification key
             ->leftJoin('f.notificationKey', 'nk')
+        //with the appropriate notification key
             ->andWhere('nk.key = :key')
-            ->andWhere('f.methods is EMPTY')
+            ->andWhere('f.methods IS EMPTY')
             ->setParameter('key', (string)$notificationKey);
 
-        return $qb->getQuery()->getResult();
+        /** @var array An array of user ids */
+        $userIds = $subQueryBuilder
+            ->getQuery()
+            ->getResult();
+
+        return $this->getUsers($userIds);
     }
 
 
@@ -255,23 +283,35 @@ class FilterManager implements FilterManagerInterface
      */
     public function getCommittedUsers($notificationKey)
     {
-        $qb=$this->em->createQueryBuilder();
+        /** Obtain an array of user_id that are committed to a notification key */
+        $subQueryBuilder = $this->em
+            ->createQueryBuilder();
 
-        $committed = $qb
-            ->select(array('u.id'))
-            ->from($this->userClass,'u')
-            ->leftJoin('u.userPreferences', 'up')
-            ->leftJoin('up.filters', 'f')
+        $subQueryBuilder
+            ->select('u.id')
+        //from the filter class
+            ->from($this->class, 'f')
+        //get user preferences
+            ->leftJoin('f.userPreferences', 'up')
+        //get the users
+            ->leftJoin('up.user', 'u')
+        //get the notification key
             ->leftJoin('f.notificationKey', 'nk')
+        //with the appropriate notification key
             ->andWhere('nk.key = :key')
             ->setParameter('key', (string)$notificationKey);
 
-        return $committed->getQuery()->getResult();
+        /** @var array An array of user ids */
+        $userIds = $subQueryBuilder
+            ->getQuery()
+            ->getResult();
+
+        return $this->getUsers($userIds);
     }
 
     /**
      * Obtain users that are not committed to a particular notification key
-     * They haven't told their preference yet.
+     * They haven't told their preference yet
      *
      * (USERS THAT DID NOT UPDATE THEIR PREFERENCES AND THEREFORE DO NOT
      *  HAVE A FILTER YET.)
@@ -281,27 +321,65 @@ class FilterManager implements FilterManagerInterface
      */
     public function getUncommittedUsers($notificationKey)
     {
-        $qb=$this->em->createQueryBuilder();
+        $subQueryBuilder=$this->em
+            ->createQueryBuilder();
 
-        $committed = $qb
-            ->select(array('u.id'))
-            ->from($this->userClass,'u')
-            ->leftJoin('u.userPreferences', 'up')
-            ->leftJoin('up.filters', 'f')
+        $subQueryBuilder
+            ->select('u.id')
+        //from the filter class
+            ->from($this->class, 'f')
+        //get user preferences
+            ->leftJoin('f.userPreferences', 'up')
+        //get the users
+            ->leftJoin('up.user', 'u')
+        //get the notification key
             ->leftJoin('f.notificationKey', 'nk')
+        //with the appropriate notification key
             ->andWhere('nk.key = :key')
-            ->getDQL();
-
-        $query = $this->em->createQueryBuilder();
-
-        $uncommitted = $query
-            ->select('user')
-            ->from('JbhUserBundle:User','user')
-            ->where($query->expr()->notIn('user.id', $committed))
             ->setParameter('key', (string)$notificationKey);
 
-        return $uncommitted->getQuery()->getResult();
+        $userIds = $subQueryBuilder
+            ->getQuery()
+            ->getResult();
+
+        return $this->getUsers($userIds, false);
     }
+
+    /**
+     * Get an array of users that are or are not within array $userIds
+     *
+     * @param array Array of user ids
+     * @param Bool True if we want the users that are in $userIds
+     *             False if we want the users that are not in $userIds
+     */
+    public function getUsers(array $userIds = array(), $inArray = true)
+    {
+        /** Get all the users that have an id within $userIds array */
+        $queryBuilder = $this->em
+            ->createQueryBuilder();
+
+        $queryBuilder
+            ->select('u')
+        //from the user class
+            ->from($this->userClass, 'u');
+
+        //users who have an id within $userIds array
+        if ($inArray) {
+            $queryBuilder
+                ->andWhere('u.id IN (:user_ids)');
+        } else {
+            $queryBuilder
+                ->andWhere('u.id NOT IN (:user_ids)');
+        }
+        //set array of user_ids
+        $queryBuilder
+            ->setParameter('user_ids', $userIds);
+
+        return $queryBuilder
+            ->getQuery()
+            ->getResult();
+    }
+
 
     /**
      * Returns true if a particular user is subscribed to a particular notification key
