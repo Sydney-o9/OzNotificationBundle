@@ -83,6 +83,8 @@ abstract class Filter implements FilterInterface
     public function setNotificationKey(NotificationKeyInterface $notificationKey)
     {
         $this->notificationKey = $notificationKey;
+
+        return $this;
     }
 
     /**
@@ -91,6 +93,8 @@ abstract class Filter implements FilterInterface
     public function setUserPreferences(UserPreferencesInterface $userPreferences = null)
     {
         $this->userPreferences = $userPreferences;
+
+        return $this;
     }
 
     /**
@@ -115,6 +119,8 @@ abstract class Filter implements FilterInterface
     public function setRecipientData($recipientData)
     {
         $this->recipientData = $recipientData;
+
+        return $this;
     }
 
     /**
@@ -139,6 +145,8 @@ abstract class Filter implements FilterInterface
     public function setRecipientName($recipientName)
     {
         $this->recipientName = $recipientName;
+
+        return $this;
     }
 
     /**
@@ -172,6 +180,8 @@ abstract class Filter implements FilterInterface
     public function setMethods(ArrayCollection $methods)
     {
         $this->methods = $methods;
+
+        return $this;
     }
 
     /**

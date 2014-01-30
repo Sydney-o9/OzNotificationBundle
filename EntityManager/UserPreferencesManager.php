@@ -62,43 +62,45 @@ class UserPreferencesManager implements UserPreferencesManagerInterface
      */
     public function create()
     {
-
-        $class = $this->class;
-        $userPreferences = new $class;
-        $userPreferences->setDefaultMethod($this->defaultMethod);
-
-        return $userPreferences;
+        return new $this->class;
     }
 
     /**
      * Find User Preferences By User
+     *
+     * @param UserInterface $user
      */
     public function findByUser(UserInterface $user)
     {
-        $qb = $this->repository->createQueryBuilder('up');
-        $qb->andWhere('up.user = :user');
-        $qb->setParameter('user', $user);
+        $queryBuilder = $this->repository
+            ->createQueryBuilder('up');
 
-        return $qb->getQuery()->getOneOrNullResult();
+        $queryBuilder
+            ->andWhere('up.user = :user')
+            ->setParameter('user', $user);
+
+        return $queryBuilder->getQuery()
+            ->getOneOrNullResult();
     }
 
     /**
      * Update User Preferences
+     *
+     * @param UserPreferencesInterface $preferences
+     * @param Bool $andFlush
      */
-    public function update(UserPreferencesInterface $preferences, $flush = true)
+    public function update(UserPreferencesInterface $preferences, $andFlush = true)
     {
         $this->em->persist($preferences);
 
-        //Persist new filters when they exist
-        foreach($preferences->getFilters() as $filter)
-        {
+        /** Persist new filters when they exist */
+        foreach($preferences->getFilters() as $filter) {
             $this->em->persist($filter);
         }
 
-        if ($flush) {
+        if ($andFlush) {
             $this->em->flush();
         }
-
     }
 
     /**
@@ -114,11 +116,13 @@ class UserPreferencesManager implements UserPreferencesManagerInterface
     public function getUserPreferences($user){
 
         if (!$userPreferences = $this->findByUser($user)){
-            $userPreferences = $this->create();
-            $userPreferences->setUser($user);
+            $userPreferences = $this->create()
+                ->setUser($user);
         }
+
         /** @var ArrayCollection $defaultFilters */
-        $defaultFilters = $this->filterManager->generateDefaultFilters($user);
+        $defaultFilters = $this->filterManager
+            ->generateDefaultFilters($user);
 
         $filters = new ArrayCollection();
 

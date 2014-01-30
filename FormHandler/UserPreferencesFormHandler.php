@@ -41,6 +41,19 @@ class UserPreferencesFormHandler
             return false;
         }
 
+        /** debug */
+        //$filters = $form->getData()->getFilters();
+
+        //foreach ($filters as $filter) {
+            //ladybug_dump($filter);
+            //$methods = $filter->getMethods();
+            //foreach($methods as $method) {
+                //ladybug_dump($method);
+            //}
+        //}
+        //die();
+
+
         $form->bind($this->request);
 
         if ($form->isValid()) {

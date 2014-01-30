@@ -71,6 +71,8 @@ abstract class UserPreferences implements UserPreferencesInterface
     public function setUser(UserInterface $user)
     {
         $this->user = $user;
+
+        return $this;
     }
 
     /**
@@ -82,6 +84,8 @@ abstract class UserPreferences implements UserPreferencesInterface
     {
         $this->filters->add($filter);
         $filter->setUserPreferences($this);
+
+        return $this;
     }
 
     /**
@@ -93,6 +97,8 @@ abstract class UserPreferences implements UserPreferencesInterface
     {
         $this->filters->remove($filter);
         $filter->setUserPreferences(null);
+
+        return $this;
     }
 
     /**
@@ -111,6 +117,8 @@ abstract class UserPreferences implements UserPreferencesInterface
     public function setFilters(ArrayCollection $filters)
     {
         $this->filters = $filters;
+
+        return $this;
     }
 
 }

@@ -4,6 +4,7 @@ namespace Oz\NotificationBundle\EntityManager;
 
 use Doctrine\ORM\EntityManager;
 use Oz\NotificationBundle\ModelManager\NotificationKeyManagerInterface;
+use Oz\NotificationBundle\Model\NotificationKeyInterface;
 
 class NotificationKeyManager implements NotificationKeyManagerInterface
 {
@@ -33,25 +34,28 @@ class NotificationKeyManager implements NotificationKeyManagerInterface
     }
 
     /**
-     * @param $id
+     * Find notification key
+     *
+     * @param int $id
      * @throws \Exception
-     * @return \Oz\NotificationBundle\Model\notificationKey
+     * @return NotificationKeyInterface
      */
     public function find($id)
     {
-        $notificationKey =  $this->repository->find($id);
+        $notificationKey =  $this->repository
+            ->find($id);
 
         if(!$notificationKey) {
-            throw new \Exception('Unable to find Notification Event Key');
-        } else {
-            return $notificationKey;
+            throw new \Exception( sprintf('Unable to find NotificationKey with id %s.', strval($id)) );
         }
+
+        return $notificationKey;
     }
 
     /**
-     * Fetch all objects
+     * Find all notification keys
      *
-     * @return \Oz\NotificationBundle\Model\notificationKey[]
+     * @return NotificationKeyInterface[]
      */
     public function findAll()
     {
@@ -60,33 +64,37 @@ class NotificationKeyManager implements NotificationKeyManagerInterface
 
 
     /**
-     * Fetch object by notification key
+     * Find a NotificationKey by its unique key
      *
-     * @param string $notificationKey
+     * @param string $key
      * @throws \InvalidArgumentException
-     * @return \Oz\NotificationBundle\Model\NotificationKey
+     * @return NotificationKeyInterface
      */
-    public function findByNotificationKey($notificationKey)
+    public function findByNotificationKey($key)
     {
-        if(!is_string($notificationKey)){
-            throw new \InvalidArgumentException(sprintf('notificationKey should be a string, %s given.', gettype($notificationKey)));
+        if(!is_string($key)){
+            throw new \InvalidArgumentException( sprintf('notificationKey should be a string, %s given.', gettype($key)) );
         }
 
-        $qb = $this->repository->createQueryBuilder('nk')
+        $queryBuilder = $this->repository
+            ->createQueryBuilder('nk');
+
+        $queryBuilder
             ->select(array('nk'))
             ->andWhere('nk.key = :key')
-            ->setParameter('key',$notificationKey);
+            ->setParameter('key', $key);
 
-        return $qb->getQuery()->getOneOrNullResult();
+        return $queryBuilder->getQuery()
+            ->getOneOrNullResult();
     }
 
     /**
-     * Fetch all objects that are subscribable and have
+     * Find all NotificationKey objects that are subscribable and have
      * the subscriberRole $subscriberRole
      *
      * @param string $subscriberRole
      * @throws \InvalidArgumentException
-     * @return \Oz\NotificationBundle\Model\notificationKey[]
+     * @return NotificationKeyInterface[]
      */
     public function findBySubscriberRole($subscriberRole)
     {
@@ -94,53 +102,50 @@ class NotificationKeyManager implements NotificationKeyManagerInterface
             throw new \InvalidArgumentException(sprintf('subscriberRole should be a string, %s given.', gettype($subscriberRole)));
         }
 
-        $qb = $this->repository->createQueryBuilder('nk');
+        $queryBuilder = $this->repository
+            ->createQueryBuilder('nk');
 
-        $qb ->select(array('nk'))
+        $queryBuilder
+            ->select(array('nk'))
             ->where('nk.isSubscribable = :isSubscribable')
-            ->andWhere($qb->expr()->like('nk.subscriberRoles', ':subscriberRole'))
+            ->andWhere($queryBuilder->expr()->like('nk.subscriberRoles', ':subscriberRole'))
             ->setParameter('isSubscribable', true)
             ->setParameter('subscriberRole',"%".$subscriberRole."%");
 
-        return $qb->getQuery()->getResult();
-
+        return $queryBuilder->getQuery()
+            ->getResult();
     }
 
     /**
-     * Fetch all objects that are subscribable and have
+     * Find all NotificationKey objects that are subscribable and have
      * the subscriberRoles $subscriberRoles
      *
      * @param array $subscriberRoles
      * @throws \InvalidArgumentException
-     * @return \Oz\NotificationBundle\Model\notificationKey[]
+     * @return NotificationKeyInterface[]
      */
-    public function findBySubscriberRoles($subscriberRoles)
+    public function findBySubscriberRoles(array $subscriberRoles = array())
     {
+        $queryBuilder = $this->repository
+            ->createQueryBuilder('nk');
 
-        if(!is_array($subscriberRoles)){
-            throw new \InvalidArgumentException(sprintf('SubscriberRoles should be an array, %s given.', gettype($subscriberRoles)));
-        }
-
-        $qb = $this->repository->createQueryBuilder('nk');
-
-        $qb->select(array('nk'));
+        $queryBuilder
+            ->select(array('nk'));
 
         $i = 0;
         foreach ($subscriberRoles as $subscriberRole){
-
             $identifier = ':subscriberRole'.$i;
-
-            $qb->orWhere($qb->expr()->like('nk.subscriberRoles', $identifier))
+            $queryBuilder->orWhere($queryBuilder->expr()->like('nk.subscriberRoles', $identifier))
                ->setParameter($identifier,"%".$subscriberRole."%");
-
             $i++;
         }
 
-        $qb->andwhere('nk.isSubscribable = :isSubscribable')
+        $queryBuilder
+            ->andWhere('nk.isSubscribable = :isSubscribable')
             ->setParameter('isSubscribable', true);
 
-        return $qb->getQuery()->getResult();
-
+        return $queryBuilder->getQuery()
+            ->getResult();
     }
 
 }

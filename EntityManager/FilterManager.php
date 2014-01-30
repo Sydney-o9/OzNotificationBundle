@@ -16,8 +16,9 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Oz\NotificationBundle\ModelManager\FilterManagerInterface;
-use Oz\NotificationBundle\Model\FilterInterface;
 use Oz\NotificationBundle\ModelManager\NotificationKeyManagerInterface;
+use Oz\NotificationBundle\Model\FilterInterface;
+use Oz\NotificationBundle\Model\MethodInterface;
 use Oz\NotificationBundle\Model\NotificationEventInterface;
 use Oz\NotificationBundle\Model\NotificationKeyInterface;
 
@@ -78,30 +79,36 @@ class FilterManager implements FilterManagerInterface
     /**
      * Generate the default filters available to the user
      * using the notificationKey and the default methods
-     * associated to it.
+     * associated to it
      *
-     * 1 filter <----> 1 particular event / 1 notification key
+     *           is associated with
+     * 1 filter <------------------> 1 notification key
+     * i.e: 1 filter/notification key existing
      *
      * @param $user
-     * @return \Oz\NotificationBundle\Model\Filter[]
+     * @return ArrayCollection of FilterInterface objects.
      */
     public function generateDefaultFilters($user){
 
         $roles = $user->getRoles();
 
-        $keys = $this->notificationKeyManager->findBySubscriberRoles($roles);
+        /** Get all the notification keys the user can subscribe to */
+        $keys = $this->notificationKeyManager
+            ->findBySubscriberRoles($roles);
 
+        /** Generate filters */
         $filters = new ArrayCollection();
 
         foreach ($keys as $key){
-            $filter = $this->create();
-            $filter->setNotificationKey($key);
+
+            $filter = $this->create()
+                ->setNotificationKey($key);
 
             /** Methods are empty, fill with default methods */
             $defaultMethods = $this->generateDefaultMethods($filter);
             $filter->setMethods($defaultMethods);
 
-            $filters[]= $filter;
+            $filters->add($filter);
         }
 
         return $filters;
@@ -112,29 +119,37 @@ class FilterManager implements FilterManagerInterface
      * for a particular filter
      *
      * @param FilterInterface $filter
-     * @return \Oz\NotificationBundle\Model\Method[]
+     * @return ArrayCollection of MethodInterface objects.
      */
     public function generateDefaultMethods(FilterInterface $filter){
 
-        return new ArrayCollection($filter->getNotificationKey()->getDefaultMethods()->toArray());
+        $methods = $filter->getNotificationKey()
+            ->getDefaultMethods()
+            ->toArray();
+
+        return new ArrayCollection($methods);
     }
 
-
     /**
-     * Find Filters By User
+     * Find the filters owned by a user
      *
      * @param UserInterface $user
-     * @return \Oz\NotificationBundle\Model\Filter[]
+     * @return FilterInterface[]
      */
     public function findByUser(UserInterface $user)
     {
-        $qb = $this->repository->createQueryBuilder('f')
-        ->select(array('f'))
-        ->leftJoin('f.userPreferences', 'up')
-        ->andWhere('up.user = :user')
-        ->setParameter('user', $user);
+        $queryBuilder = $this->repository
+            ->createQueryBuilder('f');
 
-        return new ArrayCollection($qb->getQuery()->getResult());
+        $queryBuilder
+            ->select(array('f'))
+            ->leftJoin('f.userPreferences', 'up')
+            ->andWhere('up.user = :user')
+            ->setParameter('user', $user);
+
+        return $queryBuilder
+            ->getQuery()
+            ->getResult();
     }
 
     /**
@@ -142,16 +157,19 @@ class FilterManager implements FilterManagerInterface
      */
     public function getFiltersForEvent(NotificationEventInterface $event)
     {
-        $qb = $this->repository->createQueryBuilder('f')
+        $queryBuilder = $this->repository
+            ->createQueryBuilder('f');
+
+        $queryBuilder
             ->select(array('f', 'up', 'u'))
             ->leftJoin('f.notificationKey', 'nk')
             ->leftJoin('f.userPreferences', 'up')
             ->leftJoin('up.user', 'u')
-            ->andWhere('nk.key = :key');
+            ->andWhere('nk.key = :key')
+            ->setParameter('key', (string)$event->getNotificationKey());
 
-        return $qb->getQuery()->execute(array(
-            'key' => (string)$event->getNotificationKey()
-        ));
+        return $queryBuilder->getQuery()
+            ->getResult();
     }
 
     /**
@@ -159,7 +177,10 @@ class FilterManager implements FilterManagerInterface
      */
     public function getFilterOwnedByUser(NotificationEventInterface $event, UserInterface $user)
     {
-        $qb = $this->repository->createQueryBuilder('f')
+        $queryBuilder = $this->repository
+            ->createQueryBuilder('f');
+
+        $queryBuilder
             ->select(array('f', 'up', 'u'))
             ->leftJoin('f.notificationKey', 'nk')
             ->leftJoin('f.userPreferences', 'up')
@@ -169,7 +190,8 @@ class FilterManager implements FilterManagerInterface
             ->setParameter('key', (string)$event->getNotificationKey())
             ->setParameter('username', $user->getUsername());
 
-        return $qb->getQuery()->getOneOrNullResult();
+        return $queryBuilder->getQuery()
+            ->getOneOrNullResult();
     }
 
     /**
@@ -177,11 +199,14 @@ class FilterManager implements FilterManagerInterface
      *
      * @param UserInterface $user
      * @param string | NotificationKeyInterface $notificationKey
-     * @return \Oz\NotificationBundle\Model\Filter|null
+     * @return FilterInterface|null
      */
     public function getUserFilterByNotificationKey(UserInterface $user, $notificationKey)
     {
-        $qb = $this->repository->createQueryBuilder('f')
+        $queryBuilder = $this->repository
+            ->createQueryBuilder('f');
+
+        $queryBuilder
             ->select(array('f'))
             ->leftJoin('f.notificationKey', 'nk')
             ->leftJoin('f.userPreferences', 'up')
@@ -191,7 +216,8 @@ class FilterManager implements FilterManagerInterface
             ->setParameter('key', (string)$notificationKey)
             ->setParameter('username', $user->getUsername());
 
-        return $qb->getQuery()->getOneOrNullResult();
+        return $queryBuilder->getQuery()
+            ->getOneOrNullResult();
     }
 
     /**
@@ -379,7 +405,6 @@ class FilterManager implements FilterManagerInterface
             ->getQuery()
             ->getResult();
     }
-
 
     /**
      * Returns true if a particular user is subscribed to a particular notification key

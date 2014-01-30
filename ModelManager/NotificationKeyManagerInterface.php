@@ -2,51 +2,50 @@
 
 namespace Oz\NotificationBundle\ModelManager;
 
+use Oz\NotificationBundle\Model\NotificationKeyInterface;
+
 
 interface NotificationKeyManagerInterface
 {
-
     /**
-     * @param $id
+     * @param int $id
      * @throws \Exception
-     * @return \Oz\NotificationBundle\Model\notificationKey
+     * @return NotificationKeyInterface
      */
     public function find($id);
 
     /**
-     * Fetch all objects
+     * Find all notification keys
      *
-     * @return \Oz\NotificationBundle\Model\notificationKey[]
+     * @return NotificationKeyInterface[]
      */
     public function findAll();
 
     /**
-     * Fetch object by notification key
+     * Find a NotificationKey by its unique key
      *
-     * @param string $notificationKey
-     * @return \Oz\NotificationBundle\Model\NotificationKey
+     * @param string $key
+     * @return NotificationKeyInterface
      */
-    public function findByNotificationKey($notificationKey);
-
+    public function findByNotificationKey($key);
 
     /**
-     * Fetch all objects that have the subscriberRoles
+     * Find all NotificationKey objects that are subscribable and have
+     * the subscriberRole $subscriberRole
      *
      * @param string $subscriberRole
      * @throws \InvalidArgumentException
-     * @return \Oz\NotificationBundle\Model\notificationKey[]
+     * @return NotificationKeyInterface[]
      */
     public function findBySubscriberRole($subscriberRole);
 
-
     /**
-     * Fetch all objects that have the subscriberRoles
+     * Find all NotificationKey objects that are subscribable and have
+     * the subscriberRoles $subscriberRoles
      *
      * @param array $subscriberRoles
      * @throws \InvalidArgumentException
-     * @return \Oz\NotificationBundle\Model\notificationKey[]
+     * @return NotificationKeyInterface[]
      */
-    public function findBySubscriberRoles($subscriberRoles);
-
-
+    public function findBySubscriberRoles(array $subscriberRoles = array());
 }
