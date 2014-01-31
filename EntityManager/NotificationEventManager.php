@@ -13,10 +13,12 @@
 namespace Oz\NotificationBundle\EntityManager;
 
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Query;
+use Oz\NotificationBundle\Exception\NoSubjectLoadedException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Oz\NotificationBundle\Model\NotificationEventInterface;
 use Oz\NotificationBundle\Entity\NotificationEvent;
-use \Oz\NotificationBundle\Model\NotificationKeyInterface;
+use Oz\NotificationBundle\Model\NotificationKeyInterface;
 use Oz\NotificationBundle\ModelManager\NotificationEventManagerInterface;
 
 /**
@@ -120,21 +122,56 @@ class NotificationEventManager implements NotificationEventManagerInterface
      * @param bool $reference
      * @return null
      */
-    public function replaceSubject(NotificationEvent $event, $reference = true)
+    public function replaceSubject(NotificationEvent $event)
     {
-       if ($reference) {
-            $subject = $this->em->getReference(
+        try {
+            $subject = $this->em->find(
                 $event->getSubjectClass(),
                 $event->getSubjectIdentifiers()
             );
+            $event->setSubject($subject);
 
-        } else {
-            $subject = $this->em->find(
-                $event->getSubject(),
-                $event->getSubjectIdentifiers()
-            );
+        } catch (\Exception $e) {
+            throw new NoSubjectLoadedException($event);
         }
-        $event->setSubject($subject);
    }
+
+    /**
+     * Check whether the subject exists in database or not
+     *
+     * TODO: Use the identifier properly (using id field only at the moment)
+     *
+     * @param NotificationEvent $event
+     * @return Bool Whether the subject was found or not
+     */
+    public function subjectExists(NotificationEvent $event)
+    {
+
+        $subjectClass = $event->getNotificationKey()
+            ->getSubjectClass();
+
+        $subjectIdentifiers = $event
+            ->getSubjectIdentifiers();
+
+        reset($subjectIdentifiers);
+        $identifier = key($subjectIdentifiers);
+        $identifierValue = $subjectIdentifiers[$identifier];
+
+        $queryBuilder = $this->em
+            ->createQueryBuilder();
+
+        $queryBuilder
+            ->select('COUNT(s.id) as cnt')
+            ->from($subjectClass, 's')
+            ->andWhere('s.id = :identifier_value')
+            ->setParameter('identifier_value',$identifierValue);
+
+        $count = $queryBuilder
+            ->getQuery()
+            ->execute(array(), (Query::HYDRATE_SINGLE_SCALAR));
+
+        return (bool)$count >0;
+   }
+
 
 }

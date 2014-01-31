@@ -245,15 +245,11 @@ class NotificationManager implements NotificationManagerInterface
     {
         $notification =  $this->repository->find($id);
 
-        if(!$notification)
-        {
+        if(!$notification) {
             throw new \InvalidArgumentException(sprintf('Unable to find Notification "%s" ', $id));
         }
-        else
-        {
-            return $notification;
-        }
 
+        return $notification;
     }
 
     /**

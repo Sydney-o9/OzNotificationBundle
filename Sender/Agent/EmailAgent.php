@@ -14,7 +14,6 @@ namespace Oz\NotificationBundle\Sender\Agent;
 
 use Oz\NotificationBundle\Model\NotificationInterface;
 
-
 /**
  * An agent that will send notifications through SwiftMailer.
  */
@@ -25,22 +24,22 @@ class EmailAgent extends Agent implements AgentInterface
      */
     private $mailer;
 
-
     /**
-     * This is the producer for email notifications
+     * The producer for email notifications
      *
      * @var old_sound_rabbit_mq.notification_email_producer
      */
     private $notificationEmailProducer;
 
     /**
+     * Constructor
+     *
      * @param \Swift_Mailer $mailer
      * @param $notificationEmailProducer
      */
     public function __construct(\Swift_Mailer $mailer, $notificationEmailProducer)
     {
         $this->mailer = $mailer;
-
         $this->notificationEmailProducer = $notificationEmailProducer;
     }
 
@@ -49,7 +48,6 @@ class EmailAgent extends Agent implements AgentInterface
      */
     public function send(NotificationInterface $notification)
     {
-
         /* @var $mailer \Swift_Mailer */
         if(!$this->mailer->getTransport()->isStarted()){
             $this->mailer->getTransport()->start();
@@ -63,8 +61,7 @@ class EmailAgent extends Agent implements AgentInterface
         $message->addPart($notification->getBodyText(), 'text/plain', 'UTF8');
 
         $message->addTo($notification->getRecipientEmail(), $notification->getRecipientName());
-        $message->setFrom('test@test.com', 'Test Sending');
-
+        $message->setFrom( array('info@jobinhood.com' => 'Jobinhood') );
 
         $this->mailer->send($message);
         $this->mailer->getTransport()->stop();
@@ -81,14 +78,14 @@ class EmailAgent extends Agent implements AgentInterface
                 return $this->send($notification);
             }
 
+            /** We send class and id to retrieve the notification in the consumer
+                as serialising the hole notification entity is a bad idea */
             $message = array(
-                //To retrieve the notification in the consumer as
-                //serializing the hole entity is a very bad idea
                 'class' => get_class($notification),
                 'id' => $notification->getId()
             );
 
-            //Implementation of Message Broker
+            /** Implementation of Message Broker */
             return $this->notificationEmailProducer->publish(serialize($message));
         }
     }

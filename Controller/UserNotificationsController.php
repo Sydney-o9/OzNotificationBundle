@@ -43,11 +43,11 @@ class UserNotificationsController extends ContainerAware
      */
     public function showAction(Request $request)
     {
-        $emailNotifications = $this->getProvider()->getEmailNotifications(30);
+        $emailNotifications = $this->getProvider()->getEmailNotifications(10);
 
-        $smsNotifications = $this->getProvider()->getSMSNotifications(30);
+        $smsNotifications = $this->getProvider()->getSMSNotifications(10);
 
-        $internalNotifications = $this->getProvider()->getInternalNotifications(30);
+        $internalNotifications = $this->getProvider()->getInternalNotifications(10);
 
         $nbUnreadInternalNotifications = $this->getProvider()->getNbUnreadInternalNotifications();
 

@@ -78,8 +78,14 @@ class Sender implements SenderInterface
      */
     public function send(array $notifications)
     {
+
         $sortedNotifications = array();
         foreach ($notifications as $notification) {
+            /** Make sure the notification is ongoing */
+            if(!$notification->isOngoing()){
+                continue;
+            }
+
             $sortedNotifications[$notification->getType()][] = $notification;
         }
 

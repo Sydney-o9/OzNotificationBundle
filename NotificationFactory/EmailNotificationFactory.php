@@ -2,6 +2,7 @@
 
 namespace Oz\NotificationBundle\NotificationFactory;
 
+use Oz\NotificationBundle\Exception\NoSubjectFoundException;
 
 class EmailNotificationFactory extends NotificationFactory
 {

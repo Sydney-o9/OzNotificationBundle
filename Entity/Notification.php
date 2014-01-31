@@ -165,6 +165,23 @@ abstract class Notification implements NotificationInterface
     }
 
     /**
+     * @return Bool Returns true if the message has been sent.
+     */
+    public function isSent()
+    {
+        return (bool)$this->sentAt;
+    }
+
+    /**
+     * @return Bool Returns true if the notification is sill ongoing
+     * (i.e the subject is still present)
+     */
+    public function isOngoing()
+    {
+        return (bool)$this->event->getSubject();
+    }
+
+    /**
      * Mark the notification as sent.
      */
     public function markSent()
