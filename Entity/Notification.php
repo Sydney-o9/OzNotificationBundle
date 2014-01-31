@@ -173,6 +173,18 @@ abstract class Notification implements NotificationInterface
     }
 
     /**
+     * Everytime we fetch a notification, we need to know whether that
+     * notification is still 'ongoing' or not (e.g the subject might have been
+     * deleted, etc..)
+     *
+     * Everytime we fetch a notification from the database, we can check
+     * whether that notification is ongoing by checking the return value
+     * of isOngoing()
+     *
+     * The logic may evolve in the future, for example we could create a
+     * expireAt timestamp, where the notification can not be sent or
+     * displayed after that time
+     *
      * @return Bool Returns true if the notification is sill ongoing
      * (i.e the subject is still present)
      */

@@ -78,7 +78,11 @@ class Notifier implements NotifierInterface
 
         $notificationKey = $this->notificationKeyManager->findByNotificationKey($notificationKey);
         if (!$notificationKey){
-            throw new \InvalidArgumentException(sprintf('The notificationKey "%s" does not exist.', $notificationKey));
+            throw new \InvalidArgumentException( sprintf('The notificationKey "%s" does not exist.', $notificationKey) );
+        }
+
+        if (is_null($subject)){
+            throw new \InvalidArgumentException( sprintf('A notification cannot be triggered without a subject, NULL given.') );
         }
 
         $event = $this->notificationEventManager->create($notificationKey, $subject, $actor);
