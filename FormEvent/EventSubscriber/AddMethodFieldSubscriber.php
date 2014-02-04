@@ -82,8 +82,8 @@ class AddMethodFieldSubscriber implements EventSubscriberInterface
                             ->setParameter('isCompulsory', false)
 
                             /** The notification key is  */
-                            ->andWhere('nk.key = :key')
-                            ->setParameter('key', (string)$data->getNotificationKey());
+                            ->andWhere('nk.notificationKey = :notificationKey')
+                            ->setParameter('notificationKey', (string)$data->getNotificationKey());
 
                         return $query;
 

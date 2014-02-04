@@ -10,9 +10,9 @@
             <generator strategy="AUTO" />
         </id>
 
-        <field name="key" column="key" type="string" length="255" unique="true" nullable="false"/>
+        <field name="notificationKey" column="notificationKey" type="string" length="255" unique="true"/>
 
-        <field name="subjectClass" column="subject_class" type="string" length="1000" nullable="true" />
+        <field name="subjectClass" column="subjectClass" type="string" length="1000" nullable="true" />
 
         <field name="isBulkable" column="isBulkable" type="boolean" />
 

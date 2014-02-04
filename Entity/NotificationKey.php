@@ -29,11 +29,11 @@ abstract class NotificationKey implements NotificationKeyInterface
     protected $id;
 
     /**
-     * Key of the notification (e.g newsletter.of.the.week)
+     * string representation of the notification (e.g newsletter.of.the.week)
      *
-     * @var string $key
+     * @var string $notificationKey
      */
-    protected $key;
+    protected $notificationKey;
 
     /**
      * The fully qualified class of the subject object of the notification.
@@ -99,18 +99,19 @@ abstract class NotificationKey implements NotificationKeyInterface
     /**
      * @return string
      */
-    public function getKey()
+    public function getNotificationKey()
     {
-        return $this->key;
+        return $this->notificationKey;
     }
 
     /**
-     * @param string $key
+     * @param string $notificationKey
      */
-    public function setKey($key)
+    public function setNotificationKey($notificationKey)
     {
         /** remove all whitespaces and convert to lowercase expression */
-        $this->key = strtolower( preg_replace('/\s+/', '', $key) );
+        $this->notificationKey = $notificationKey;
+        //$this->notificationKey = strtolower( preg_replace('/\s+/', '', $notificationKey) );
     }
 
     /**
@@ -221,7 +222,7 @@ abstract class NotificationKey implements NotificationKeyInterface
             $this->addSubscriberRole($subscriberRole);
         }
 
-        return $this;
+        //return $this;
     }
 
     /**
@@ -237,7 +238,7 @@ abstract class NotificationKey implements NotificationKeyInterface
             $this->subscriberRoles[] = $subscriberRole;
         }
 
-        return $this;
+        //return $this;
     }
 
     /**
@@ -266,7 +267,7 @@ abstract class NotificationKey implements NotificationKeyInterface
             $this->subscriberRoles = array_values($this->subscriberRoles);
         }
 
-        return $this;
+        //return $this;
     }
 
     /**
@@ -280,7 +281,7 @@ abstract class NotificationKey implements NotificationKeyInterface
     /**
      * @param ArrayCollection $methodMetadata
      */
-    public function setMethodMetadata(ArrayCollection $methodMetadata)
+    public function setMethodMetadata($methodMetadata)
     {
         $this->methodMetadata= $methodMetadata;
     }
@@ -290,7 +291,8 @@ abstract class NotificationKey implements NotificationKeyInterface
      */
     public function addMethodMetadata(MethodMetadataInterface $methodMetadata)
     {
-        $this->methodMetadata[] = $methodMetadata;
+        $this->methodMetadata
+            ->add($methodMetadata);
     }
 
     /**
@@ -299,7 +301,8 @@ abstract class NotificationKey implements NotificationKeyInterface
      */
     public function removeMethodMetadata(MethodMetadataInterface $methodMetadata)
     {
-        return $this->methodMetadata->removeElement($methodMetadata);
+        return $this->methodMetadata
+            ->removeElement($methodMetadata);
     }
 
     /**
@@ -375,6 +378,6 @@ abstract class NotificationKey implements NotificationKeyInterface
      */
     public function __toString()
     {
-        return $this->key;
+        return $this->notificationKey;
     }
 }

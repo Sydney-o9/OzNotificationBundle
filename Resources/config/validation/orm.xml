@@ -5,7 +5,7 @@
 http://symfony.com/schema/dic/constraint-mapping/constraint-mapping-1.0.xsd">
 
     <class name="Oz\NotificationBundle\Entity\NotificationKey">
-        <property name="key">
+        <property name="notificationKey">
             <constraint name="NotBlank">
                 <option name="message">oz_notification.notificationKey.blank</option>
             </constraint>
@@ -17,7 +17,7 @@ http://symfony.com/schema/dic/constraint-mapping/constraint-mapping-1.0.xsd">
         </property>
 
         <constraint name="Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity">
-            <option name="fields">key</option>
+            <option name="fields">notificationKey</option>
             <option name="message">oz_notification.notificationKey.already_used</option>
         </constraint>
 

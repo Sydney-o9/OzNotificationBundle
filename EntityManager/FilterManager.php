@@ -165,8 +165,8 @@ class FilterManager implements FilterManagerInterface
             ->leftJoin('f.notificationKey', 'nk')
             ->leftJoin('f.userPreferences', 'up')
             ->leftJoin('up.user', 'u')
-            ->andWhere('nk.key = :key')
-            ->setParameter('key', (string)$event->getNotificationKey());
+            ->andWhere('nk.notificationKey = :notificationKey')
+            ->setParameter('notificationKey', (string)$event->getNotificationKey());
 
         return $queryBuilder->getQuery()
             ->getResult();
@@ -185,9 +185,9 @@ class FilterManager implements FilterManagerInterface
             ->leftJoin('f.notificationKey', 'nk')
             ->leftJoin('f.userPreferences', 'up')
             ->leftJoin('up.user', 'u')
-            ->andWhere('nk.key = :key')
+            ->andWhere('nk.notificationKey = :notificationKey')
             ->andWhere('u.username = :username')
-            ->setParameter('key', (string)$event->getNotificationKey())
+            ->setParameter('notificationKey', (string)$event->getNotificationKey())
             ->setParameter('username', $user->getUsername());
 
         return $queryBuilder->getQuery()
@@ -211,9 +211,9 @@ class FilterManager implements FilterManagerInterface
             ->leftJoin('f.notificationKey', 'nk')
             ->leftJoin('f.userPreferences', 'up')
             ->leftJoin('up.user', 'u')
-            ->andWhere('nk.key = :key')
+            ->andWhere('nk.notificationKey = :notificationKey')
             ->andWhere('u.username = :username')
-            ->setParameter('key', (string)$notificationKey)
+            ->setParameter('notificationKey', (string)$notificationKey)
             ->setParameter('username', $user->getUsername());
 
         return $queryBuilder->getQuery()
@@ -246,9 +246,9 @@ class FilterManager implements FilterManagerInterface
         //get the notification key
             ->leftJoin('f.notificationKey', 'nk')
         //with the appropriate notification key
-            ->andWhere('nk.key = :key')
+            ->andWhere('nk.notificationKey = :notificationKey')
             ->andWhere('size(f.methods) >= 1')
-            ->setParameter('key', (string)$notificationKey);
+            ->setParameter('notificationKey', (string)$notificationKey);
 
         /** @var array An array of user ids */
         $userIds = $subQueryBuilder
@@ -285,9 +285,9 @@ class FilterManager implements FilterManagerInterface
         //get the notification key
             ->leftJoin('f.notificationKey', 'nk')
         //with the appropriate notification key
-            ->andWhere('nk.key = :key')
+            ->andWhere('nk.notificationKey = :notificationKey')
             ->andWhere('f.methods IS EMPTY')
-            ->setParameter('key', (string)$notificationKey);
+            ->setParameter('notificationKey', (string)$notificationKey);
 
         /** @var array An array of user ids */
         $userIds = $subQueryBuilder
@@ -324,8 +324,8 @@ class FilterManager implements FilterManagerInterface
         //get the notification key
             ->leftJoin('f.notificationKey', 'nk')
         //with the appropriate notification key
-            ->andWhere('nk.key = :key')
-            ->setParameter('key', (string)$notificationKey);
+            ->andWhere('nk.notificationKey = :notificationKey')
+            ->setParameter('notificationKey', (string)$notificationKey);
 
         /** @var array An array of user ids */
         $userIds = $subQueryBuilder
@@ -361,8 +361,8 @@ class FilterManager implements FilterManagerInterface
         //get the notification key
             ->leftJoin('f.notificationKey', 'nk')
         //with the appropriate notification key
-            ->andWhere('nk.key = :key')
-            ->setParameter('key', (string)$notificationKey);
+            ->andWhere('nk.notificationKey = :notificationKey')
+            ->setParameter('notificationKey', (string)$notificationKey);
 
         $userIds = $subQueryBuilder
             ->getQuery()

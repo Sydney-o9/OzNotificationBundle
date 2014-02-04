@@ -64,16 +64,16 @@ class NotificationKeyManager implements NotificationKeyManagerInterface
 
 
     /**
-     * Find a NotificationKey by its unique key
+     * Find a NotificationKey by its unique key phrase
      *
      * @param string $key
      * @throws \InvalidArgumentException
      * @return NotificationKeyInterface
      */
-    public function findByNotificationKey($key)
+    public function findByNotificationKey($notificationKey)
     {
-        if(!is_string($key)){
-            throw new \InvalidArgumentException( sprintf('notificationKey should be a string, %s given.', gettype($key)) );
+        if(!is_string($notificationKey)){
+            throw new \InvalidArgumentException( sprintf('notificationKey should be a string, %s given.', gettype($notificationKey)) );
         }
 
         $queryBuilder = $this->repository
@@ -81,8 +81,8 @@ class NotificationKeyManager implements NotificationKeyManagerInterface
 
         $queryBuilder
             ->select(array('nk'))
-            ->andWhere('nk.key = :key')
-            ->setParameter('key', $key);
+            ->andWhere('nk.notificationKey = :notificationKey')
+            ->setParameter('notificationKey', $notificationKey);
 
         return $queryBuilder->getQuery()
             ->getOneOrNullResult();
