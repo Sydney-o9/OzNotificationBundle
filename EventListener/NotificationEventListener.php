@@ -22,7 +22,7 @@ use Oz\NotificationBundle\Model\NotificationEventInterface as BaseNotificationEv
 use Oz\NotificationBundle\Model\NotificationInterface as BaseNotificationInterface;
 use Oz\NotificationBundle\ModelManager\NotificationEventManager as BaseNotificationEventManager;
 use Oz\NotificationBundle\Model\NotificationInterface;
-use Oz\NotificationBundle\Exception\NoSubjectFoundException;
+use Oz\NotificationBundle\Model\NotifiableInterface;
 
 /**
  * Doctrine ORM listener updating the subject of NotificationEvent objects
@@ -33,6 +33,11 @@ class NotificationEventListener implements EventSubscriber
      * @var BaseNotificationEventManager
      */
     private $notificationEventManager;
+
+    /**
+     * @var NotificationDeleterInterface
+     */
+    private $notificationDeleter;
 
     /**
      * @var ContainerInterface
@@ -58,6 +63,7 @@ class NotificationEventListener implements EventSubscriber
             Events::prePersist,
             Events::preUpdate,
             Events::postLoad,
+            Events::postRemove,
         );
     }
 
@@ -106,6 +112,9 @@ class NotificationEventListener implements EventSubscriber
 
     }
 
+    /**
+     * On prePersist and preUpdate events
+     */
     private function handlePersistEvents(LifecycleEventArgs $args)
     {
         $entity = $args->getEntity();
@@ -127,5 +136,31 @@ class NotificationEventListener implements EventSubscriber
                 $uow->recomputeSingleEntityChangeSet($meta, $entity);
             }
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function postRemove(LifecycleEventArgs $args)
+    {
+        $entity = $args->getEntity();
+
+        ladybug_dump($entity);
+
+        /**
+         * Every time we delete a subject, we delete the notifications that are linked to it
+         *
+         */
+        if ($entity instanceof NotifiableInterface) {
+
+            if (null === $this->notificationDeleter) {
+                $this->notificationDeleter = $this->container->get('oz_notification.notification.deleter');
+            }
+
+            $this->notificationDeleter
+                ->deleteNotificationsWithSubject($entity);
+
+        }
+
     }
 }

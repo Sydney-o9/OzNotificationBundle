@@ -40,11 +40,20 @@ class NotificationDeleter implements NotificationDeleterInterface
      */
     public function deleteNotificationsWithSubject(NotifiableInterface $subject)
     {
-        return $this->notificationManager
+        $notifications = $this->notificationManager
             ->findNotificationsWithSubject($subject);
+
+        foreach ($notifications as $notification){
+            $this->deleteNotification($notification);
+        }
     }
 
-
+    /**
+     * Delete notification
+     *
+     * @param NotificationInterface $notification
+     * @return Bool
+     */
     public function deleteNotification(NotificationInterface $notification)
     {
         return $this->notificationManager

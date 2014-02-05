@@ -142,9 +142,9 @@ abstract class NotificationEvent implements NotificationEventInterface
     /**
      * Returns the subject of the event.
      *
-     * @param NotifiableInterface $subject
+     * @param null|NotifiableInterface $subject
      */
-    public function setSubject(NotifiableInterface $subject)
+    public function setSubject($subject)
     {
         $this->subject = $subject;
     }

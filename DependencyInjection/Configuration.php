@@ -78,6 +78,12 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('notification_deleter')->defaultValue('oz_notification.notification.deleter.default')->end()
             ->end();
 
+        /** Listener */
+        $rootNode
+            ->children()
+                ->scalarNode('notification_event_listener')->defaultValue('oz_notification.notification_event.listener.default')->end()
+            ->end();
+
        /** Notifications types */
         $rootNode
             ->children()
