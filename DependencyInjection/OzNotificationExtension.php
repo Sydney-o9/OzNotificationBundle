@@ -57,6 +57,7 @@ class OzNotificationExtension extends Extension
             'discriminator',
             'notification_factory',
             'provider',
+            'deleter',
             'twig');
 
         foreach ($xmlFiles as $xmlFile) {

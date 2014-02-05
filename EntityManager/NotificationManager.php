@@ -291,26 +291,29 @@ class NotificationManager implements NotificationManagerInterface
     public function findNotificationsWithSubject(NotifiableInterface $subject)
     {
 
-        $identifierFieldNames = $this->em
+        $identifierValues = $this->em
             ->getClassMetadata(get_class($subject))
-            ->getIdentifierFieldNames();
+            ->getIdentifierValues($subject);
 
         /** The field name of the subject */
-        $subjectIdentifierFieldName = array_keys($identifierFieldName)[0];
+        $subjectIdentifierFieldName = array_keys($identifierValues)[0];
+
+        /** The identifier value of the subject */
+        $subjectIdentifierValue = array_values($identifierValues)[0];
 
         $queryBuilder = $this->repository
             ->createQueryBuilder('n')
             ->select('n')
             ->leftJoin('n.event', 'e')
-            ->leftJoin('e.notifiationKey', 'nk')
+            ->leftJoin('e.notificationKey', 'nk')
 
         // the subject has the same class as the notificationKey subjectClass field
             ->andWhere('nk.subjectClass = :subject_class')
             ->setParameter('subject_class', get_class($subject))
 
         // the subject has the same identifier value as the notificationEvent subjectIdentifier field
-            ->andWhere('e.'.$subjectIdentifierFieldName.'= :subject_identifier_value')
-            ->setParameter('subject_identifier_value', $subject->getId());
+            ->andWhere('e.subjectIdentifier = :subject_identifier_value')
+            ->setParameter('subject_identifier_value', $subjectIdentifierValue);
 
         return $queryBuilder
             ->getQuery()

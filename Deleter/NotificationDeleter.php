@@ -1,13 +1,14 @@
 <?php
 
-namespace Oz\NotificationBundle\Provider;
+namespace Oz\NotificationBundle\Deleter;
 
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-
 use Symfony\Component\Security\Core\User\UserInterface;
 use Oz\NotificationBundle\Provider\UserProviderInterface;
 use Oz\NotificationBundle\ModelManager\NotificationManagerInterface;
+use Oz\NotificationBundle\Model\NotifiableInterface;
+use Oz\NotificationBundle\Model\NotificationInterface;
 
 /**
  * Deletes notifications
@@ -22,16 +23,13 @@ class NotificationDeleter implements NotificationDeleterInterface
     protected $notificationManager;
 
     /**
-     * The notification key manager interface
+     * Constructor
      *
-     * @var NotificationKeyManagerInterface
+     * @param NotificationManagerInterface $notificationManager
      */
-    protected $notificationKeyManager;
-
-    public function __construct(NotificationManagerInterface $notificationManager, NotificationKeyManagerInterface $notificationKeyManager)
+    public function __construct(NotificationManagerInterface $notificationManager)
     {
         $this->notificationManager = $notificationManager;
-        $this->notificationKeyManager = $notificationKeyManager;
     }
 
     /**

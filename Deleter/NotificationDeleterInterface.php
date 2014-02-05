@@ -3,6 +3,7 @@
 namespace Oz\NotificationBundle\Deleter;
 
 use Oz\NotificationBundle\Model\NotifiableInterface;
+use Oz\NotificationBundle\Model\NotificationInterface;
 
 /**
  * Deletes notifications
