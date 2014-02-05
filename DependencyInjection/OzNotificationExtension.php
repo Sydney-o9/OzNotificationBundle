@@ -82,6 +82,9 @@ class OzNotificationExtension extends Extension
         $container->setAlias('oz_notification.user_preferences.provider', $config['user_preferences_provider']);
         $container->setAlias('oz_notification.notification.provider', $config['notification_provider']);
 
+        /** Alias default deleters */
+        $container->setAlias('oz_notification.notification.deleter', $config['notification_deleter']);
+
         /** Model manager name */
         $container->setParameter('oz_notification.model_manager_name', $config['model_manager_name']);
 
