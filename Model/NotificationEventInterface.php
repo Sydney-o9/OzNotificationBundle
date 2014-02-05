@@ -5,6 +5,7 @@
  *
  * (c) Tim Nagel <tim@nagel.com.au>
  * (c) Sydney-o9 <https://github.com/Sydney-o9/>
+ * (c) Richard Shank <develop@zestic.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,9 +16,6 @@ namespace Oz\NotificationBundle\Model;
 /**
  * Interface that describes a specific event that
  * causes notifications to be sent.
- *
- * @author Tim Nagel <tim@nagel.com.au>
- * @author Richard Shank <develop@zestic.com>
  */
 interface NotificationEventInterface
 {
@@ -31,7 +29,7 @@ interface NotificationEventInterface
     /**
      * Returns the subject of the event.
      *
-     * @return mixed
+     * @return \Oz\NotificationBundle\Model\NotifiableInterface
      */
     public function getSubject();
 

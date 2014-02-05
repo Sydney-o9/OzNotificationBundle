@@ -13,6 +13,7 @@
 namespace Oz\NotificationBundle\Notifier;
 
 use Symfony\Component\Security\Core\User\UserInterface;
+use Oz\NotificationBundle\Model\NotifiableInterface;
 
 /**
  * Interface that the Notifier service implements.
@@ -29,6 +30,6 @@ interface NotifierInterface
      * @param UserInterface $actor
      * @return
      */
-    public function trigger($notificationKey, UserInterface $receiver, $subject, UserInterface $actor = null);
+    public function trigger($notificationKey, UserInterface $receiver, NotifiableInterface $subject, UserInterface $actor = null);
 
 }

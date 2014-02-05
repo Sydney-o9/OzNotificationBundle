@@ -15,6 +15,7 @@ namespace Oz\NotificationBundle\Entity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Oz\NotificationBundle\Model\NotificationEventInterface;
 use Oz\NotificationBundle\Model\NotificationKeyInterface;
+use Oz\NotificationBundle\Model\NotifiableInterface;
 
 /**
  * A notification event, identified by a notification key (e.g 'newsletter.of.the.week')
@@ -44,11 +45,11 @@ abstract class NotificationEvent implements NotificationEventInterface
     protected $subject;
 
     /**
-     * An array of identifiers used to identify the subject object.
+     * Identifier used to identify the subject object.
      *
-     * @var array $subjectIdentifiers
+     * @var $subjectIdentifier
      */
-    protected $subjectIdentifiers;
+    protected $subjectIdentifier;
 
     /**
     * @var UserInterface $actor
@@ -141,9 +142,9 @@ abstract class NotificationEvent implements NotificationEventInterface
     /**
      * Returns the subject of the event.
      *
-     * @param mixed $subject
+     * @param NotifiableInterface $subject
      */
-    public function setSubject($subject)
+    public function setSubject(NotifiableInterface $subject)
     {
         $this->subject = $subject;
     }
@@ -153,22 +154,23 @@ abstract class NotificationEvent implements NotificationEventInterface
      */
     public function getSubjectClass()
     {
-        return $this->notificationKey->getSubjectClass();
+        return $this->notificationKey
+            ->getSubjectClass();
     }
 
     /**
-     * @param array $subjectIdentifiers
+     * @param int $subjectIdentifier
      */
-    public function setSubjectIdentifiers(array $subjectIdentifiers = null)
+    public function setSubjectIdentifier($subjectIdentifier)
     {
-        $this->subjectIdentifiers = $subjectIdentifiers;
+        $this->subjectIdentifier = $subjectIdentifier;
     }
 
     /**
-     * @return array
+     * @return int
      */
-    public function getSubjectIdentifiers()
+    public function getSubjectIdentifier()
     {
-        return $this->subjectIdentifiers;
+        return $this->subjectIdentifier;
     }
 }

@@ -104,14 +104,19 @@ class NotificationEventManager implements NotificationEventManagerInterface
         $subject = $event->getSubject();
 
         if (null === $subject) {
-            $event->setSubjectIdentifiers(null);
+            $event->setSubjectIdentifier(null);
 
             return;
         }
 
-        $metadata = $this->em->getClassMetadata(get_class($subject));
+        $identifierValues = $this->em
+            ->getClassMetadata(get_class($subject))
+            ->getIdentifierValues($subject);
 
-        $event->setSubjectIdentifiers($metadata->getIdentifierValues($subject));
+        /** At the moment, the bundle supports only one identifier */
+        $subjectIdentifier = array_values($identifierValues)[0];
+
+        $event->setSubjectIdentifier($subjectIdentifier);
     }
 
     /**
@@ -127,7 +132,7 @@ class NotificationEventManager implements NotificationEventManagerInterface
         try {
             $subject = $this->em->find(
                 $event->getSubjectClass(),
-                $event->getSubjectIdentifiers()
+                $event->getSubjectIdentifier()
             );
             $event->setSubject($subject);
 
@@ -139,23 +144,27 @@ class NotificationEventManager implements NotificationEventManagerInterface
     /**
      * Check whether the subject exists in database or not
      *
-     * TODO: Use the identifier properly (using id field only at the moment)
+     * TODO: At the moment, the bundle supports only one identifier field
      *
      * @param NotificationEvent $event
      * @return Bool Whether the subject was found or not
      */
     public function subjectExists(NotificationEvent $event)
     {
-
+        /** The class of the subject */
         $subjectClass = $event->getNotificationKey()
             ->getSubjectClass();
 
-        $subjectIdentifiers = $event
-            ->getSubjectIdentifiers();
+        /** The Value of the subject to get */
+        $subjectIdentifierValue = $event
+            ->getSubjectIdentifier();
 
-        reset($subjectIdentifiers);
-        $identifier = key($subjectIdentifiers);
-        $identifierValue = $subjectIdentifiers[$identifier];
+        $identifierFieldNames = $this->em
+            ->getClassMetadata(get_class($subject))
+            ->getIdentifierFieldNames();
+
+        /** The field name of the subject */
+        $subjectIdentifierFieldName = array_keys($identifierFieldName)[0];
 
         $queryBuilder = $this->em
             ->createQueryBuilder();
@@ -163,8 +172,8 @@ class NotificationEventManager implements NotificationEventManagerInterface
         $queryBuilder
             ->select('COUNT(s.id) as cnt')
             ->from($subjectClass, 's')
-            ->andWhere('s.id = :identifier_value')
-            ->setParameter('identifier_value',$identifierValue);
+            ->andWhere('s.'.$subjectIdentifierFieldName.'= :identifier_value')
+            ->setParameter('identifier_value',$subjectIdentifierValue);
 
         $count = $queryBuilder
             ->getQuery()

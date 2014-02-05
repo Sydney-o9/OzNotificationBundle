@@ -17,6 +17,7 @@ use Doctrine\ORM\EntityManager;
 use Oz\NotificationBundle\Model\FilterInterface;
 use Oz\NotificationBundle\Model\NotificationEventInterface;
 use Oz\NotificationBundle\Model\NotificationInterface;
+use Oz\NotificationBundle\Model\NotifiableInterface;
 use Oz\NotificationBundle\ModelManager\NotificationManagerInterface;
 use Oz\NotificationBundle\Discriminator\NotificationDiscriminatorInterface;
 
@@ -239,7 +240,7 @@ class NotificationManager implements NotificationManagerInterface
     /**
      * @param $id
      * @throws \InvalidArgumentException
-     * @return \Oz\NotificationBundle\Model\Notification
+     * @return NotificationInterface
      */
     public function find($id)
     {
@@ -250,6 +251,17 @@ class NotificationManager implements NotificationManagerInterface
         }
 
         return $notification;
+    }
+
+    /**
+     * Remove notification
+     *
+     * @param NotificationInterface $notification
+     */
+    public function remove(NotificationInterface $notification)
+    {
+        $this->em->remove($notification);
+        $this->em->flush();
     }
 
     /**
@@ -271,12 +283,47 @@ class NotificationManager implements NotificationManagerInterface
     }
 
     /**
+     * Get all notifications about the subject $subject
+     *
+     * @param NotifiableInterface $subject
+     * @return NotificationInterface[]
+     */
+    public function findNotificationsWithSubject(NotifiableInterface $subject)
+    {
+
+        $identifierFieldNames = $this->em
+            ->getClassMetadata(get_class($subject))
+            ->getIdentifierFieldNames();
+
+        /** The field name of the subject */
+        $subjectIdentifierFieldName = array_keys($identifierFieldName)[0];
+
+        $queryBuilder = $this->repository
+            ->createQueryBuilder('n')
+            ->select('n')
+            ->leftJoin('n.event', 'e')
+            ->leftJoin('e.notifiationKey', 'nk')
+
+        // the subject has the same class as the notificationKey subjectClass field
+            ->andWhere('nk.subjectClass = :subject_class')
+            ->setParameter('subject_class', get_class($subject))
+
+        // the subject has the same identifier value as the notificationEvent subjectIdentifier field
+            ->andWhere('e.'.$subjectIdentifierFieldName.'= :subject_identifier_value')
+            ->setParameter('subject_identifier_value', $subject->getId());
+
+        return $queryBuilder
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
      * Get the number of unread internal notifications
      *
      * @return int
      */
-    public function getNbUnreadInternalNotifications($user){
-
+    public function getNbUnreadInternalNotifications($user)
+    {
         $queryBuilder = $this->getLocalizedQueryBuilder('internal');
 
         return (int)$queryBuilder

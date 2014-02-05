@@ -17,6 +17,7 @@ use Oz\NotificationBundle\ModelManager\NotificationKeyManagerInterface;
 use Oz\NotificationBundle\ModelManager\NotificationManagerInterface;
 use Oz\NotificationBundle\ModelManager\NotificationEventManagerInterface;
 use Oz\NotificationBundle\ModelManager\FilterManagerInterface;
+use Oz\NotificationBundle\Model\NotifiableInterface;
 use Oz\NotificationBundle\Sender\SenderInterface;
 use Oz\NotificationBundle\Model\NotificationEventInterface;
 
@@ -66,11 +67,10 @@ class Notifier implements NotifierInterface
         $this->sender = $sender;
     }
 
-
     /**
      * {@inheritDoc}
      */
-    public function trigger($notificationKey, UserInterface $receiver, $subject, UserInterface $actor = null)
+    public function trigger($notificationKey, UserInterface $receiver, NotifiableInterface $subject, UserInterface $actor = null)
     {
         if (!is_string($notificationKey) ){
             throw new \InvalidArgumentException( sprintf('The notification key should be of string type, "%s" given.', gettype($notificationKey) ) );

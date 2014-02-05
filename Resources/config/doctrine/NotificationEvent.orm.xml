@@ -12,7 +12,7 @@
 
         <field name="createdAt" column="created_at" type="datetime" />
 
-        <field name="subjectIdentifiers" column="subject_identifiers" type="array" nullable="true" />
+        <field name="subjectIdentifier" column="subject_identifier" type="integer" nullable="true" />
 
     </mapped-superclass>
 </doctrine-mapping>

@@ -19,6 +19,7 @@ use Oz\NotificationBundle\ModelManager\FilterManagerInterface;
 use Oz\NotificationBundle\Sender\SenderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Oz\NotificationBundle\Model\NotificationEventInterface;
+use Oz\NotificationBundle\Model\NotifiableInterface;
 
 /**
  * Notifier service.
@@ -69,10 +70,10 @@ class BulkNotifier implements BulkNotifierInterface
     /**
      * {@inheritDoc}
      */
-    public function trigger($notificationKey, $verb, $subject, UserInterface $actor = null, \DateTime $createdAt = null)
+    public function trigger($notificationKey, NotifiableInterface $subject, UserInterface $actor = null)
     {
-        if (!is_string($notificationKey) || !is_string($verb)){
-            throw new \InvalidArgumentException(sprintf('"NotificationKey" and "Verb" should be of string type, "%s" and "%s" given respectively.', gettype($notificationKey), gettype($verb)));
+        if (!is_string($notificationKey)){
+            throw new \InvalidArgumentException(sprintf('"NotificationKey" should be of string type, "%s" given.', gettype($notificationKey)));
         }
 
         $notificationKey = $this->notificationKeyManager->findByNotificationKey($notificationKey);
@@ -84,7 +85,7 @@ class BulkNotifier implements BulkNotifierInterface
                 throw new \InvalidArgumentException(sprintf('NotificationKey "%s" is not bulkable. This notification can not be sent in mass.', $notificationKey->getNotificationKey()));
         }
 
-        $event = $this->notificationEventManager->create($notificationKey, $subject, $verb, $actor, $createdAt);
+        $event = $this->notificationEventManager->create($notificationKey, $subject, $actor);
 
         $notifications = $this->generateNotificationForAllUsers($event);
 
