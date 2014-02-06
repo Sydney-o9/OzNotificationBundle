@@ -16,7 +16,6 @@ class UniqueFilter extends Constraint
         return 'oz_notification.filter.validator';
     }
 
-
     public function getTargets()
     {
         return self::CLASS_CONSTRAINT;

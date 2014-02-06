@@ -145,8 +145,6 @@ class NotificationEventListener implements EventSubscriber
     {
         $entity = $args->getEntity();
 
-        ladybug_dump($entity);
-
         /**
          * Every time we delete a subject, we delete the notifications that are linked to it
          *

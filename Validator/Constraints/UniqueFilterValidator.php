@@ -17,12 +17,12 @@ class UniqueFilterValidator extends ConstraintValidator{
 
 
     /**
-     * @var SecurityContextInterface $securityContext
+     * @var SecurityContextInterface
      */
     private $securityContext;
 
     /**
-     * @var FilterManagerInterface $filterManager
+     * @var FilterManagerInterface
      */
     private $filterManager;
 
@@ -34,15 +34,21 @@ class UniqueFilterValidator extends ConstraintValidator{
      */
     private static $filterNames = array();
 
-
-    public function __construct(SecurityContextInterface $securityContext, FilterManagerInterface $filterManager){
-
+    /**
+     * Constructor
+     *
+     * @var SecurityContextInterface $securityContext
+     * @var FilterManagerInterface $filterManager
+     */
+    public function __construct(SecurityContextInterface $securityContext, FilterManagerInterface $filterManager)
+    {
         $this->securityContext = $securityContext;
-
         $this->filterManager = $filterManager;
-
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function validate($value, Constraint $constraint)
     {
         $user = $this->securityContext->getToken()->getUser();
