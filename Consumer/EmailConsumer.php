@@ -24,7 +24,7 @@ class EmailConsumer implements ConsumerInterface
     /**
      * @var EntityManager $entityManager
      */
-    private $em;
+    private $entityManager;
 
     /**
      * Constructor
@@ -37,7 +37,7 @@ class EmailConsumer implements ConsumerInterface
     {
         $this->mailer = $mailer;
         $this->logger = $logger;
-        $this->em     = $entityManager;
+        $this->entityManager     = $entityManager;
     }
 
     /**
@@ -60,7 +60,7 @@ class EmailConsumer implements ConsumerInterface
 
         /** 2. Find notification */
         try{
-            $notification = $this->em
+            $notification = $this->entityManager
                 ->find($class, $id);
 
             if (!$notification) {
@@ -102,7 +102,7 @@ class EmailConsumer implements ConsumerInterface
         /** 4. Update notification */
         try{
             $notification->markSent();
-            $this->em->flush();
+            $this->entityManager->flush();
             return true;
         }catch(\Exception $e){
             $this->logger->err('Message: '.$e->getMessage());
@@ -123,6 +123,8 @@ class EmailConsumer implements ConsumerInterface
             $this->mailer->getTransport()->start();
         }
 
+        /** 1- Prepare email */
+
         /* @var $message \Swift_Message */
         $message = $this->mailer->createMessage();
         $message->setSubject($notification->getSubject());
@@ -133,8 +135,15 @@ class EmailConsumer implements ConsumerInterface
         $message->addTo($notification->getRecipientEmail(), $notification->getRecipientName());
         $message->setFrom( array('info@jobinhood.com' => 'Jobinhood') );
 
+        /** 2- Close database connection to send email */
+        $this->entityManager->getConnection()->close();
+
+        /** 3- Send email */
         $this->mailer->send($message);
         $this->mailer->getTransport()->stop();
+
+        /** 4- Reopen database connection to send email */
+        $this->entityManager->getConnection()->connect();
     }
 
 }
