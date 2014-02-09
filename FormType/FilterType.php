@@ -55,8 +55,6 @@ class FilterType extends AbstractType
         $subscriber = new AddMethodFieldSubscriber($builder->getFormFactory(),  $this->methodClass);
         $builder->addEventSubscriber($subscriber);
 
-
-
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)

@@ -70,7 +70,7 @@ class AddMethodFieldSubscriber implements EventSubscriberInterface
 
                         /**
                          * Get all the methods that are attached to the notification key
-                         * and that are compulsory.
+                         * and that are not compulsory.
                          */
                         $query = $er->createQueryBuilder('met')
                             ->select(array('met'))

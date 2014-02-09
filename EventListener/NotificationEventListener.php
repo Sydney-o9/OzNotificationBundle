@@ -63,7 +63,7 @@ class NotificationEventListener implements EventSubscriber
             Events::prePersist,
             Events::preUpdate,
             Events::postLoad,
-            Events::postRemove,
+            Events::preRemove,
         );
     }
 
@@ -141,7 +141,7 @@ class NotificationEventListener implements EventSubscriber
     /**
      * {@inheritDoc}
      */
-    public function postRemove(LifecycleEventArgs $args)
+    public function preRemove(LifecycleEventArgs $args)
     {
         $entity = $args->getEntity();
 

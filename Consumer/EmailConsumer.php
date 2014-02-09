@@ -60,6 +60,9 @@ class EmailConsumer implements ConsumerInterface
 
         /** 2. Find notification */
         try{
+            //Open database connection to send email
+            $this->entityManager->getConnection()->connect();
+
             $notification = $this->entityManager
                 ->find($class, $id);
 
@@ -103,6 +106,7 @@ class EmailConsumer implements ConsumerInterface
         try{
             $notification->markSent();
             $this->entityManager->flush();
+            $this->entityManager->getConnection()->close();
             return true;
         }catch(\Exception $e){
             $this->logger->err('Message: '.$e->getMessage());
