@@ -48,15 +48,20 @@ class NotificationProvider implements NotificationProviderInterface
     /**
      * Gets internal notifications of the current user
      *
+     * @param int The number of notifications to show
+     * @param bool Whether the notifications need to be marked as read or not
+     *
      * @return array of InternalNotificationInterface
      */
-    public function getInternalNotifications($limit)
+    public function getInternalNotifications($limit, $andMarkAsRead = true)
     {
         $user = $this->getAuthenticatedUser();
 
         $internalNotifications = $this->notificationManager->findNotificationsForUserByType($user, 'internal', array("createdAt" => "DESC"), $limit);
 
-        $this->notificationManager->markInternalNotificationAsReadByUser($user);
+        if ($andMarkAsRead){
+            $this->notificationManager->markInternalNotificationAsReadByUser($user);
+        }
 
         return $internalNotifications;
     }
