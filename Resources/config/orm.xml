@@ -5,7 +5,7 @@
 
     <services>
 
-        <service id="oz_notification.entity_manager" factory-service="doctrine" factory-method="getEntityManager" class="Doctrine\ORM\EntityManager" public="false">
+        <service id="oz_notification.entity_manager" factory-service="doctrine" factory-method="getManager" class="Doctrine\ORM\EntityManager" public="false">
             <argument>%oz_notification.model_manager_name%</argument>
         </service>
 
