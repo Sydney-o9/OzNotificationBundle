@@ -1,6 +1,6 @@
 user_preferences:
    edit:
-       submit: Edit Preferences
+       submit: Save Preferences
    new:
        submit: Submit Preferences
    flash:
