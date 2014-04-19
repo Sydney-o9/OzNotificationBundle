@@ -374,6 +374,13 @@ class NotificationManager implements NotificationManagerInterface
 
     }
 
+    /**
+     * Mark internal notifications as read
+     *
+     * @param UserInterface $user
+     *
+     * @return Bool True if update is successful
+     */
     public function markInternalNotificationAsReadByUser(UserInterface $user ){
 
         $queryBuilder = $this->getLocalizedQueryBuilder('internal');
@@ -384,7 +391,7 @@ class NotificationManager implements NotificationManagerInterface
             ->Where("internal.user = {$user->getId()}")
             ->setParameter(1, true);
 
-        $queryBuilder->getQuery()->getResult();
+        return (bool)$queryBuilder->getQuery()->execute();
     }
 
 }
