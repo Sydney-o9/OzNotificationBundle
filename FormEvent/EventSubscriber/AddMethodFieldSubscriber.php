@@ -66,6 +66,7 @@ class AddMethodFieldSubscriber implements EventSubscriberInterface
                     'class' => $this->methodClass,
                     'multiple' => true,
                     'expanded' => true,
+                    'auto_initialize' => false,
                     'query_builder' => function(EntityRepository $er) use ($data) {
 
                         /**
