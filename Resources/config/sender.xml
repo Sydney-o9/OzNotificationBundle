@@ -18,6 +18,11 @@
             <argument type="service" id="old_sound_rabbit_mq.notification_email_producer" />
         </service>
 
+        <service id="oz_notification.sender.agent.ios_push" class="Oz\NotificationBundle\Sender\Agent\iOSPushAgent">
+            <argument type="service" id="rms_push_notifications" />
+            <argument type="service" id="old_sound_rabbit_mq.notification_ios_push_producer" />
+        </service>
+
         <service id="oz_notification.sender.agent.internal" class="Oz\NotificationBundle\Sender\Agent\InternalAgent">
         </service>
 

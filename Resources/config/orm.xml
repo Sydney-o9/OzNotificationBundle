@@ -43,6 +43,9 @@
             <argument>%oz_notification.method.class%</argument>
         </service>
 
+        <service id="oz_notification.device.manager.default" class="Oz\NotificationBundle\EntityManager\DeviceManager">
+        </service>
+
     </services>
 
 </container>

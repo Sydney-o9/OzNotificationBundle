@@ -90,10 +90,14 @@ class NotificationManager implements NotificationManagerInterface
             /** @var NotificationInterface $notification  */
             $notificationFactory = $this->notificationDiscriminator->getNotificationFactory($method);
 
-            $notification = $notificationFactory
-                ->createNotificationFromFilter($event, $filter);
+            $notifs = $notificationFactory
+                ->createFromFilter($event, $filter);
 
-            $notifications[] = $notification;
+            if ($notifs === null) {
+                continue;
+            }
+
+            $notifications = array_merge($notifications, $notifs);
 
         }
 
@@ -149,13 +153,21 @@ class NotificationManager implements NotificationManagerInterface
 
         foreach($methods as $method){
 
-            /** @var NotificationInterface $notification  */
+            /** @var NotificationFactoryInterface $notificationFactory  */
             $notificationFactory = $this->notificationDiscriminator->getNotificationFactory($method);
 
-            $notification = $notificationFactory
-                ->createNotificationFromUser($event, $user);
+            $notifs = $notificationFactory
+                ->createFromUser($event, $user);
 
-            $notifications[] = $notification;
+            if ($notifs === null) {
+                continue;
+            }
+
+            foreach ($notifs as $n) {
+                if ($n instanceof NotificationInterface ) {
+                    array_push($notifications, $n);
+                }
+            }
 
         }
 

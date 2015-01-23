@@ -17,6 +17,9 @@
         <service id="oz_notification.notification.factory.internal" class="Oz\NotificationBundle\NotificationFactory\InternalNotificationFactory">
         </service>
 
+        <service id="oz_notification.notification.factory.ios_push" class="Oz\NotificationBundle\NotificationFactory\iOSPushNotificationFactory">
+        </service>
+
     </services>
 
 </container>

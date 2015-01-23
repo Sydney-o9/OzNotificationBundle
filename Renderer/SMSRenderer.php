@@ -11,21 +11,6 @@ use Oz\NotificationBundle\Model\NotificationInterface;
  */
 class SMSRenderer extends Renderer
 {
-    /**
-     * @var string
-     */
-    protected $nameTemplate;
-
-    /**
-     * @param \Twig_Environment $twig
-     * @param string $nameTemplate
-     */
-    public function __construct(\Twig_Environment $twig, $nameTemplate)
-    {
-        $this->twig    = $twig;
-
-        $this->nameTemplate = $nameTemplate;
-    }
 
     /**
      * Renders SMS notification template

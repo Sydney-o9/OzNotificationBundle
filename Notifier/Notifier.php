@@ -77,6 +77,7 @@ class Notifier implements NotifierInterface
         }
 
         $notificationKey = $this->notificationKeyManager->findByNotificationKey($notificationKey);
+
         if (!$notificationKey){
             throw new \InvalidArgumentException( sprintf('The notificationKey "%s" does not exist.', $notificationKey) );
         }

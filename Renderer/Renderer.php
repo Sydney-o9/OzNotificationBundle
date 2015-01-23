@@ -22,6 +22,11 @@ use Oz\NotificationBundle\Model\NotificationInterface;
 class Renderer implements RendererInterface
 {
     /**
+     * @var \Twig_Environment
+     */
+    protected $twig;
+
+    /**
      * @var string
      */
     protected $nameTemplate;

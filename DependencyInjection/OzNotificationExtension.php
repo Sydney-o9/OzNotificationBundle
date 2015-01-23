@@ -9,10 +9,8 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Oz\NotificationBundle\DependencyInjection;
 
-use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -23,6 +21,7 @@ use Symfony\Component\Config\FileLocator;
  */
 class OzNotificationExtension extends Extension
 {
+
     /**
      * Loads the extension into the DIC.
      *
@@ -33,9 +32,8 @@ class OzNotificationExtension extends Extension
      */
     public function load(array $configs, ContainerBuilder $container)
     {
-        $processor = new Processor();
         $configuration = new Configuration();
-        $config = $processor->processConfiguration($configuration, $configs);
+        $config = $this->processConfiguration($configuration, $configs);
 
         /** Load XML files */
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
@@ -76,6 +74,7 @@ class OzNotificationExtension extends Extension
         $container->setAlias('oz_notification.filter.manager', $config['filter_manager']);
         $container->setAlias('oz_notification.method.manager', $config['method_manager']);
         $container->setAlias('oz_notification.user_preferences.manager', $config['user_preferences_manager']);
+        $container->setAlias('oz_notification.device.manager', $config['device_manager']);
 
         /** Alias default providers */
         $container->setAlias('oz_notification.user.provider', $config['user_provider']);

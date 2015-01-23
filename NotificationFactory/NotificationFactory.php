@@ -74,11 +74,11 @@ class NotificationFactory implements NotificationFactoryInterface
     /**
      * {@inheritDoc}
      */
-    public function createNotificationFromFilter($event, $filter){
+    public function createFromFilter($event, $filter){
 
         $user = $filter->getUserPreferences()->getUser();
 
-        return $this->createNotificationFromUser($event, $user);
+        return $this->createFromUser($event, $user);
 
     }
 
@@ -86,7 +86,7 @@ class NotificationFactory implements NotificationFactoryInterface
     /**
      * {@inheritDoc}
      */
-    public function createNotificationFromUser($event, $user){
+    public function createFromUser($event, $user){
 
         $notification = $this->build($this->class);
 
@@ -97,7 +97,7 @@ class NotificationFactory implements NotificationFactoryInterface
         $template = $this->renderer->render($notification);
         $notification->setSubject($template['subject']);
 
-        return $notification;
+        return array($notification);
 
     }
 

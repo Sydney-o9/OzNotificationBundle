@@ -32,17 +32,17 @@ interface NotificationFactoryInterface
      *
      * @param $event
      * @param $filter
-     * @return \Oz\NotificationBundle\Model\Notification
+     * @return array \Oz\NotificationBundle\Model\Notification
      */
-    public function createNotificationFromFilter($event, $filter);
+    public function createFromFilter($event, $filter);
 
     /**
      * Create notification using the user
      *
      * @param $event
      * @param $user
-     * @return \Oz\NotificationBundle\Model\Notification
+     * @return array \Oz\NotificationBundle\Model\Notification
      */
-    public function createNotificationFromUser($event, $user);
+    public function createFromUser($event, $user);
 
 }

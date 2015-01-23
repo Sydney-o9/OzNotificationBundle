@@ -95,8 +95,8 @@ abstract class UserPreferences implements UserPreferencesInterface
      */
     public function removeFilter(FilterInterface $filter)
     {
-        $this->filters->remove($filter);
         $filter->setUserPreferences(null);
+        $this->filters->removeElement($filter);
 
         return $this;
     }

@@ -17,62 +17,48 @@ class NotificationDiscriminatorPass implements CompilerPassInterface
     public function process(ContainerBuilder $container)
     {
         if (!$container->hasDefinition('oz_notification.notification.discriminator')) {
-
             return;
         }
 
+        /** Get all types of notifications available */
         $notificationTypes = $container->getParameter('oz_notification_types');
-
         $output = $notificationTypes;
 
         foreach($notificationTypes as $method => $conf){
 
-            /**  For Renderers   */
+            /** Update container with the definition for Renderers */
+
             $rendererDefinition = $container->getDefinition($conf['renderer']);
-
-            //Bad bad bad..will not instantiate the service
-            //$rendererClass = $container->getDefinition($conf['renderer'])->getClass();
-            //$rendererDefinition = new Definition($rendererClass);
-
-            //No need for setter injection (through ->addMethodCall()) or
-            //constructor injection (through ->addArgument() or ->setArgument()
-            //at the moment.
-
-            /**   Update container with the definition   */
             $container->setDefinition(sprintf('oz_notification.notification.renderer.%s', $method), $rendererDefinition);
-
-            //We can have a reference for it
             $renderer = new Reference(sprintf('oz_notification.notification.renderer.%s', $method));
 
-            //Or use the original one
-            //$renderer = new Reference($conf['renderer']);
+            /** Update container with the definition for Notification Factories + setter injections */
 
-
-            /**  For Notification Factories   */
             $factoryClass = $container->getDefinition($conf['notification_factory'])->getClass();
             $factoryDefinition = new Definition($factoryClass);
 
-            //Setter injection
+            /** Special Case: iOSPushNotificationFactory */
+            if ($method === 'ios_push'){
+                $factoryDefinition = new Definition($container->getDefinition('oz_notification.notification.factory.ios_push')->getClass());
+                $deviceManager = $container->findDefinition('oz_notification.device.manager');
+                $factoryDefinition->addMethodCall('setDeviceManager', array($deviceManager));
+            }
+
             $factoryDefinition
                 ->addMethodCall('setClass', array($conf['entity']))
                 ->addMethodCall('setRenderer', array($renderer));;
 
-            /**   Update container with the definition   */
             $container->setDefinition(sprintf('oz_notification.notification.factory.%s', $method), $factoryDefinition);
-
-            //We can have a reference for it
             $notificationFactory = new Reference(sprintf('oz_notification.notification.factory.%s', $method));
-            //Or use the original one
-            //$notificationFactory = new Reference($conf['notification_factory']);
 
-            //Output the services
+            /** Output the services */
             $output[$method]['renderer'] = $renderer;
             $output[$method]['notification_factory'] = $notificationFactory;
 
         }
 
+        /** Replace first argument for Notification Discriminator */
         $container->getDefinition('oz_notification.notification.discriminator')->replaceArgument(0, $output);
-
 
     }
 

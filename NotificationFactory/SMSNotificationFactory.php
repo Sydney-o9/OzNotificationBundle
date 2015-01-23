@@ -21,7 +21,7 @@ class SMSNotificationFactory extends NotificationFactory
     /**
      * {@inheritDoc}
      */
-    public function createNotificationFromUser($event, $user){
+    public function createFromUser($event, $user){
 
         $notification = $this->build($this->class);
 
@@ -35,7 +35,7 @@ class SMSNotificationFactory extends NotificationFactory
         $notification->setSubject($template['subject']);
         $notification->setMessage($template['subject']);
 
-        return $notification;
+        return array($notification);
 
     }
 

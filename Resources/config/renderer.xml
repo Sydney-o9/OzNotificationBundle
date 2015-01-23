@@ -25,6 +25,11 @@
             <argument>OzNotificationBundle:Notifications:%%s.%%s.%%s.twig</argument>
         </service>
 
+        <service id="oz_notification.renderer.ios_push" class="Oz\NotificationBundle\Renderer\iOSPushRenderer">
+            <argument type="service" id="twig" />
+            <argument>OzNotificationBundle:Notifications:%%s.%%s.%%s.twig</argument>
+        </service>
+
     </services>
 
 </container>

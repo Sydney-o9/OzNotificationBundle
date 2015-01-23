@@ -10,7 +10,7 @@ class EmailNotificationFactory extends NotificationFactory
     /**
      * {@inheritDoc}
      */
-    public function createNotificationFromUser($event, $user){
+    public function createFromUser($event, $user){
 
         $notification = $this->build($this->class);
 
@@ -25,7 +25,7 @@ class EmailNotificationFactory extends NotificationFactory
         $notification->setBodyText($template['body_text']);
         $notification->setBodyHtml($template['body_html']);
 
-        return $notification;
+        return array($notification);
 
     }
 

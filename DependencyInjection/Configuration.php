@@ -62,6 +62,7 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('filter_manager')->defaultValue('oz_notification.filter.manager.default')->end()
                 ->scalarNode('method_manager')->defaultValue('oz_notification.method.manager.default')->end()
                 ->scalarNode('user_preferences_manager')->defaultValue('oz_notification.user_preferences.manager.default')->end()
+                ->scalarNode('device_manager')->end()
             ->end();
 
         /** Providers */

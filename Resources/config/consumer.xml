@@ -15,10 +15,16 @@
             <argument type="service" id="notification_sms_logger" />
         </service>
 
+        <service id="oz_notification.consumer.ios_push" class="Oz\NotificationBundle\Consumer\iOSPushConsumer">
+            <argument type="service" id="rms_push_notifications" />
+            <argument type="service" id="event_dispatcher" />
+            <argument type="service" id="notification_ios_push_logger" />
+        </service>
 
+        <!-- Aliases -->
         <service id="email_notification_consumer" alias="oz_notification.consumer.email" />
-
         <service id="sms_notification_consumer" alias="oz_notification.consumer.sms" />
+        <service id="ios_push_notification_consumer" alias="oz_notification.consumer.ios_push" />
 
     </services>
 

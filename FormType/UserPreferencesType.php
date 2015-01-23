@@ -35,7 +35,7 @@ class UserPreferencesType extends AbstractType
         $builder->add('filters', 'collection', array(
             'type' => 'oz_notification_user_preferences_filter',
             'allow_add' => true,
-            'allow_delete' => true,
+            'allow_delete' => false,
             'prototype' => true,
             'by_reference' => false,
         ));
