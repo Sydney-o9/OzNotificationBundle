@@ -38,7 +38,7 @@ class iOSPushNotificationFactory extends NotificationFactory
         $notifications = array();
 
         $mobileDevices = $this->deviceManager
-            ->findMobileDevicesForUser($user);
+            ->findRegisteredIOSMobileDevicesForUser($user);
 
         if ( empty($mobileDevices)) {
             return;
