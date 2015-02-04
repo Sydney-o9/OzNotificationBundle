@@ -69,6 +69,7 @@ class iOSPushAgent extends Agent implements AgentInterface
      */
     public function sendBulk(array $notifications, $useMessageBroker = true)
     {
+
         foreach ($notifications as $notification) {
 
             if (!$useMessageBroker) {
@@ -76,7 +77,7 @@ class iOSPushAgent extends Agent implements AgentInterface
             }
 
             /** Implementation of Message Broker */
-            return $this->iOSPushNotificationProducer->publish(serialize($notification));
+            $this->iOSPushNotificationProducer->publish(serialize($notification));
         }
     }
 }

@@ -55,6 +55,10 @@ class iOSPushConsumer
             /** Unserialize message */
             $notification = unserialize($message->body);
 
+            $text = sprintf("Sender: %s; Receiver: %s; Message: %s;", $notification->getEvent()->getSubject()->getSender(), $notification->getUser()->getFullName(), $notification->getMessage());
+            $this->logger->info($text);
+
+
             /** Build ios push notification */
             $iOSMessage = $this->compose($notification);
 
