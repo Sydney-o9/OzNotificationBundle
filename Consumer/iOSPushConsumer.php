@@ -58,10 +58,8 @@ class iOSPushConsumer
             $text = sprintf("Sender: %s; Receiver: %s; Message: %s;", $notification->getEvent()->getSubject()->getSender(), $notification->getUser()->getFullName(), $notification->getMessage());
             $this->logger->info($text);
 
-
             /** Build ios push notification */
             $iOSMessage = $this->compose($notification);
-
 
             /** Send Push Notification */
             $this->send($iOSMessage);
