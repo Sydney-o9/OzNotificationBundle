@@ -14,7 +14,7 @@ use Oz\NotificationBundle\Entity\Notification as BaseNotification;
  * @ORM\Table(name="notification")
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="type", type="string")
- * @ORM\DiscriminatorMap({"email" = "EmailNotification", "sms" = "SMSNotification", "internal" = "InternalNotification"})
+ * @ORM\DiscriminatorMap({"internal" = "InternalNotification","email" = "EmailNotification"})
  */
 abstract class Notification extends BaseNotification
 {

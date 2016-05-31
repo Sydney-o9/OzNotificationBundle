@@ -38,13 +38,12 @@ public function registerBundles()
 OzNotificationBundle provides multiple abstract classes that need to be
 implemented. Create the following classes in your own notification bundle.
 
-- Create [Notification Entity](Entity/Notification.md).
 
 The basic configuration expects the following 3 entities:
 
+- Create [Notification Entity](Entity/Notification.md).
 - Create [EmailNotification Entity](Entity/EmailNotification.md).
 - Create [InternalNotification Entity](Entity/InternalNotification.md).
-- Create [SMSNotification Entity](Entity/SMSNotification.md).
 
 Then, add the following entities to your own notification bundle:
 - Create [NotificationEvent Entity](Entity/NotificationEvent.md).
@@ -185,3 +184,7 @@ The template is rendered separately for each user to be notified for each notifi
 
 If you're interested to see how entities work behind the scenes: [View more about entities](Entity-More.md)
 
+
+### Send SMS
+
+- Create [SMSNotification Entity](Entity/SMSNotification.md).
