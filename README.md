@@ -38,15 +38,38 @@ The bundle is now stable enough to be used:
 
 OzNotificationBundle will send notifications when they are fired by your code.
 
-Here is an example to send an email as well as an internal notification (inside your app) to `Roger`:
 
 ``` php
+
 <?php
 
-    $actor = // get Patrick
-    $subject = // get 
+    // Send a notification of type 'event.key' to a $recipient triggered by an $action for a particular $subject
+    $this->container->get('oz_notification.notifier')->trigger('event.key', $recipient, $subject, $actor);
+```
 
-    $this->container->get('oz_notification.notifier')->trigger('event.key', $subject, 'viewed', $actor);
+Here is an example to notify our friend Roger that his friend request has been accepted:
+
+``` php
+
+    /**
+     * Notify the user that his friend request has been accepted
+     *
+     * @param UserInterface $user Recipient of the notification
+     * @param FriendRequestInterface $friendRequest This is basically the subject of the notification
+     */
+    public function notifyUser(UserInterface $user, FriendRequestInterface $friendRequest)
+    {
+
+        /** @var string */
+        $notificationKey = 'friend.request.accepted';
+
+        /** @var UserInterface */
+        $actor = // The user who accepted the connection request
+
+        return $this->container->get('oz_notification.notifier')
+            ->trigger($notificationKey, $user, $connectionRequest, $actor);
+    }
+
 ```
 
 # Contribution
