@@ -28,14 +28,11 @@ Implementation of this bundle allows you to:
 
 ## Install and use OzNotificationBundle
 
-The bundle is not stable enough to be used yet.
+The bundle is now stable enough to be used:
 
 - [Installation](Resources/doc/Installation.md)
 
 - [Full Configuration](Resources/doc/FullConfiguration.md)
-
-- [Contribute to the bundle](Resources/doc/Contribute.md)
-
 
 ## Basic Usage
 
@@ -52,8 +49,11 @@ Here is an example to send an email as well as an internal notification (inside 
     $this->container->get('oz_notification.notifier')->trigger('event.key', $subject, 'viewed', $actor);
 ```
 
-# Origin
+# Contribution
 
 OzNotificationBundle is originally a fork from the amazing [merkNotificationBundle](https://github.com/merk/merkNotificationBundle/), initiated by [merk](https://github.com/merk).
 This bundle intend to try to follow up on the great work done by Merk. See [here](https://github.com/merk/merkNotificationBundle/issues/13) for more infos.
 
+Contribution to this bundle is greatly appreciated people!
+
+- [Contribute to the bundle](Resources/doc/Contribute.md)
