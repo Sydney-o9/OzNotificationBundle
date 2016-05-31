@@ -7,7 +7,7 @@ namespace Acme\NotificationBundle\Entity;
 
 use Doctrine\ORM\Mapping AS ORM;
 use Acme\UserBundle\Entity\User;
-use Acme\NotificationBundle\Entity\Notification as BaseNotification;
+use Oz\NotificationBundle\Entity\Notification as BaseNotification;
 
 /**
  * @ORM\Entity

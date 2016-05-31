@@ -1,68 +1,24 @@
 OzNotificationBundle - Installation
 ===================================
 
-## Steps
-
-1. Download OzNotificationBundle
-2. Configure the Autoloader
-3. Enable the Bundle
-4. Create the needed classes in your Application
-5. Configure the OzNotificationBundle
-6. Import OzNotificationBundle routing
-7. Update your database schema
-
-### Step 1: Download OzNotificationBundle
-
-Ultimately, the OzNotificationBundle files should be downloaded to the
-`vendor/bundles/Oz/NotificationBundle` directory.
-
-This can be done in several ways, depending on your preference. The first
-method is the standard Symfony2 method.
-
-**Using composer**
-
-**Using the vendors script**
-
-Add the following lines in your `deps` file:
+### Step 1: Download OzNotificationBundle using composer
 
 ```
-[OzNotificationBundle]
-    git=git://github.com/Oz/OzNotificationBundle.git
-    target=bundles/Oz/NotificationBundle
+$ composer require oz/notification-bundle "dev-master"
 ```
 
-Now, run the vendors script to download the bundle:
+### Step 2: Create your own bundle in your src/ directory
 
-``` bash
-$ php bin/vendors install
-```
+````
+php app/console generate:bundle --namespace=Acme/NotificationBundle
+````
 
-**Using submodules**
+This bundle will contain all classes to use for your notifications.
 
-If you prefer instead to use git submodules, the run the following:
-
-``` bash
-$ git submodule add git://github.com/Sydney-o9/OzNotificationBundle.git vendor/bundles/Oz/NotificationBundle
-$ git submodule update --init
-```
-
-### Step 2: Configure the Autoloader
-
-Add the `Oz` namespace to your autoloader:
-
-``` php
-<?php
-// app/autoload.php
-
-$loader->registerNamespaces(array(
-    // ...
-    'Oz' => __DIR__.'/../vendor/bundles',
-));
-```
 
 ### Step 3: Enable the bundle
 
-Finally, enable the bundle in the kernel:
+Enable the bundle in the kernel:
 
 ``` php
 <?php
@@ -79,118 +35,26 @@ public function registerBundles()
 
 ### Step 4: Create the needed classes in your Application
 
-NotificationBundle provides multiple abstract classes that need to be
-implemented. At this time, only a Doctrine ORM implementation is
-provided.
+OzNotificationBundle provides multiple abstract classes that need to be
+implemented. Create the following classes in your own notification bundle.
 
-#### Notification Entity
+- Create [Notification Entity](Entity/Notification.md).
 
-Represent a notification that is sent to a user. You can then extend this class
-to create different notification types. We will show an example with 3 types of notifications inherited from that class:
-<pre>
-                                      Notification
-                                           |
-                   ========================|========================
-                  |                        |                        |
-                  |                        |                        |
-           EmailNotification       InternalNotification       SMSNotification   (Add custom notifications if needed)
-</pre>
-
-
-Create [Notification Entity](Entity/Notification.md).
-
-You can arrange the discriminator map as you wish, but as you can see, the basic configuration expects 3 entities: EmailNotification, InternalNotification and SMSNotification.
+The basic configuration expects the following 3 entities:
 
 - Create [EmailNotification Entity](Entity/EmailNotification.md).
 - Create [InternalNotification Entity](Entity/InternalNotification.md).
 - Create [SMSNotification Entity](Entity/SMSNotification.md).
 
-#### NotificationEvent Entity
+Then, add the following entities to your own notification bundle:
+- Create [NotificationEvent Entity](Entity/NotificationEvent.md).
+- Create [NotificationKey Entity](Entity/NotificationKey.md).
+- Create [Method Entity](Entity/Method.md).
+- Create [MethodMetadata Entity](Entity/MethodMetadata.md).
+- Create [UserPreferences Entity](Entity/UserPreferences.md).
+- Create [Filter Entity](Entity/Filter.md).
 
-A NotificationEvent represents an event that occurs in your application. Once triggered, that event will trigger the notifications.
-<pre>
-                                     NotificationEvent
-                                           |
-                                           |
-                                           |
-                                      Notification
-                                           |
-                  =========================|=========================
-                  |                        |                        |
-                  |                        |                        |
-           EmailNotification       InternalNotification       SMSNotification
-</pre>
-
-Create [NotificationEvent Entity](Entity/NotificationEvent.md).
-
-#### NotificationKey Entity
-
-A NotificationEvent contains a particular NotificationKey. The NotificationKey identifies the event. It contains a NotificationKey identifier (e.g newsletter.of.the.week, order.processed, order.created...)
-as well as relevent information about the NotificationKey (whether the user can subscribe to that NotificationKey or not, etc...).
-
-<pre>
-                                     NotificationEvent ======================== NotificationKey
-                                           |                     (e.g order.processed, newsletter.of.the.week)
-                                           |
-                                           |
-                                    Notification.php
-                                           |
-                  =========================|=========================
-                  |                        |                        |
-                  |                        |                        |
-           EmailNotification       InternalNotification       SMSNotification
-</pre>
-
-Create [NotificationKey Entity](Entity/NotificationKey.md).
-
-#### Method Entity
-
-A NotificationKey also contains the methods that can be used. For example, the NotificationKey identified by `newsletter.of.the week` will very likely be tied to the email method.
-
-<pre>
-                         NotificationEvent ================ NotificationKey ====================== Method
-                               |          (e.g order.processed, newsletter.of.the.week)  (e.g email, sms, internal)
-                               |
-                               |
-                        Notification.php
-                               |
-      =========================|=========================
-      |                        |                        |
-      |                        |                        |
-EmailNotification       InternalNotification       SMSNotification
-</pre>
-
-Create [Method Entity](Entity/Method.md).
-
-#### MethodMetadata Entity
-
-Most of the time, you want to have default methods and compulsory methods for a notificationKey. For example, for a particular NotificationKey, you might want your users to always receive an internal notification (compulsoryMethod) but
-choose email, and internal notifications by default (defaultMethod)  To do that, the relation between NotificationKey and Method is OneToMany <---> ManyToOne.
-
-<pre>
-                                                                             OneToMany                          ManyToOne
-                         NotificationEvent ================ NotificationKey =========== MethodMetadata ============ Method
-                               |           e.g order.processed, newsletter.of.the.week)                         (e.g email, sms, internal)
-                               |
-                               |
-                        Notification.php
-                               |
-       ________________________|________________________
-      |                        |                        |
-      |                        |                        |
-EmailNotification       InternalNotification       SMSNotification
-</pre>
-Create [MethodMetadata Entity](Entity/MethodMetadata.md).
-
-#### UserPreferences entity
-
-An object to hold default preferences for each user.
-
-<pre>
-            User ================ UserPreferences
-                   (e.g notification preferences via filters)
-</pre>
-Create [UserPreferences Entity](Entity/UserPreferences.md).
+### Step 5: Mapping to your user entity
 
 Add the relation to your User entity:
 
@@ -218,41 +82,7 @@ Add the relation to your User entity:
     }
 ```
 
-#### Filter Entity
-
-The filters allow the users to set their preferences for each NotificationKey.
-
-<pre>
-                                                      OneToMany
-            User ================ UserPreferences ================== Filter
-</pre>
-
-Therefore, each user can have one filter/notificationKey that will save his settings.
-For example, if you wish to create an order.processed NotificationKey:
-
-<pre>
-            NotificationKey | defaultMethods |   compulsoryMethods   |
-            ==========================================================
-            order.processed |     email      |         internal      |
-                            |    intenal     |                       |
-                            |      sms       |                       |
-
-</pre>
-
-The user "Georgio" can now modify his preferences via the filter containing order.processed:
-
-<pre>
-                                                                         "Georgio"
-            NotificationKey | defaultMethods |   compulsoryMethods   |     filter   |
-            =========================================================================
-            order.processed |     email      |         internal      |    email     |
-                            |    intenal     |                       |   internal
-                            |      sms       |                       |              |
-</pre>
-Create [Filter Entity](Entity/Filter.md).
-
-
-### Step 5: Configure the OzNotificationBundle
+### Step 6: Configure the OzNotificationBundle
 
 ``` yaml
 oz_notification:
@@ -289,13 +119,14 @@ oz_notification:
             sender_agent: oz_notification.sender.agent.internal
 
 ```
+
 For each notification type that you create, you will have to:
 - make sure getType() in the entity returns the alias. (e.g EmailNotification getType() should return 'email').
 - make sure you have created the according method in your Method table (e.g create a row 'email' in the Method table via your backend)
 
 If you need to override other parts of the bundle, see [full configuration of the bundle](FullConfiguration.md).
 
-### Step 6: Import OzNotificationBundle routing files
+### Step 7: Import OzNotificationBundle routing files
 
 OzNotificationBundle provides routing for a default UserPreferences controller and a default User Notifications controller.
 
@@ -314,7 +145,7 @@ oz_notification_notifications:
     prefix: /notifications
 ```
 
-### Step 7: Update your database schema
+### Step 8: Update your database schema
 
 Now that the bundle is configured, the last thing you need to do is update your
 database schema.
@@ -325,7 +156,7 @@ For ORM run the following command.
 $ php app/console doctrine:schema:update --force
 ```
 
-### Step 8: Overwrite templates for specific events
+### Step 9: Overwrite templates for specific events
 
 The first line of the rendered output is used as the subject (when used by the
 sending agent), with the rest of the output being used in the notification body.
@@ -348,3 +179,9 @@ into the template, `notification` which contains the individual notification sen
 single user.
 
 The template is rendered separately for each user to be notified for each notification type.
+
+
+### Behind the scenes
+
+If you're interested to see how entities work behind the scenes: [View more about entities](Entity-More.md)
+
