@@ -1,9 +1,12 @@
 OzNotificationBundle
 ====================
 
-## Description:
+## Description
 
 OzNotificationBundle provides notification services for your application. You are able to trigger specific events that will occur in your program that users are able to subscribe to, and are then notified when they occur.
+
+
+## Features
 
 Implementation of this bundle allows you to:
 
