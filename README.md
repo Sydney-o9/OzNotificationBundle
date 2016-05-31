@@ -14,7 +14,7 @@ The main point of this bundle is that users can choose what notifications to sub
 
 
 
-- You can easily use plug it onto [Rabbit MQ Bundle](https://github.com/php-amqplib/RabbitMqBundle) to send your notifications asynchronously.
+- You can easily use plug it onto [RabbitMQ](http://www.rabbitmq.com/) / [Rabbit MQ Bundle](https://github.com/php-amqplib/RabbitMqBundle) to send your notifications asynchronously.
 
 - You can easily use plug it onto [RMSPushNotificationsBundle](https://github.com/richsage/RMSPushNotificationsBundle) to send push notifications/messages for mobile devices.
 
