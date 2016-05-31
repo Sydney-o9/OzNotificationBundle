@@ -26,7 +26,7 @@ abstract class Agent implements AgentInterface
      * @param bool $useMessageBroker
      * @return bool
      */
-    public function sendBulk(array $notifications, $useMessageBroker = true)
+    public function sendBulk(array $notifications, $useMessageBroker = false)
     {
         return true;
     }

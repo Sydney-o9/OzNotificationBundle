@@ -25,22 +25,14 @@ class EmailAgent extends Agent implements AgentInterface
     private $mailer;
 
     /**
-     * The producer for email notifications
-     *
-     * @var old_sound_rabbit_mq.notification_email_producer
-     */
-    private $notificationEmailProducer;
-
-    /**
      * Constructor
      *
      * @param \Swift_Mailer $mailer
      * @param $notificationEmailProducer
      */
-    public function __construct(\Swift_Mailer $mailer, $notificationEmailProducer)
+    public function __construct(\Swift_Mailer $mailer)
     {
         $this->mailer = $mailer;
-        $this->notificationEmailProducer = $notificationEmailProducer;
     }
 
     /**
@@ -70,23 +62,12 @@ class EmailAgent extends Agent implements AgentInterface
     /**
      * {@inheritDoc}
      */
-    public function sendBulk(array $notifications, $useMessageBroker = true)
+    public function sendBulk(array $notifications)
     {
         foreach ($notifications as $notification) {
-
-            if (!$useMessageBroker) {
-                return $this->send($notification);
-            }
-
-            /** We send class and id to retrieve the notification in the consumer
-                as serialising the hole notification entity is a bad idea */
-            $message = array(
-                'class' => get_class($notification),
-                'id' => $notification->getId()
-            );
-
-            /** Implementation of Message Broker */
-            return $this->notificationEmailProducer->publish(serialize($message));
+            $this->send($notification);
         }
+
+        return;
     }
 }

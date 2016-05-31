@@ -6,7 +6,7 @@ namespace Acme\NotificationBundle\Entity;
 use Doctrine\ORM\Mapping AS ORM;
 use Acme\NotificationBundle\Entity\Notification as BaseNotification;
 use Symfony\Component\Validator\Constraints as Assert;
-use Oz\NotificationBundle\Entity\EmailNotificationInterface;
+use Oz\NotificationBundle\Model\EmailNotificationInterface;
 
 /**
  * @ORM\Entity

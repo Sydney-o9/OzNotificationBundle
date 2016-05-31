@@ -48,8 +48,6 @@ class OzNotificationExtension extends Extension
             'notifier',
             'renderer',
             'sender',
-            'consumer',
-            'logger',
             'listener',
             'validator',
             'discriminator',
