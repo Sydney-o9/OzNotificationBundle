@@ -3,21 +3,28 @@ OzNotificationBundle
 
 ## Description
 
-OzNotificationBundle provides notification services for your application. You are able to trigger specific events that will occur in your program that users are able to subscribe to, and are then notified when they occur.
+`OzNotificationBundle` provides notification services for your application. You are able to trigger specific `events` that will occur in your program that users are able to `subscribe` to, and are then notified when they occur.
 
 
 ## Features
 
 Implementation of this bundle allows you to:
 
-- send internal notifications (inside your app) and customise them as you wish
-- send email notifications and customise them as you wish
+- send internal notifications (inside your app) and email notifications
+
+- render your notifications the way you want
+
 - let users choose what notifications they want to subscribe
+
 - let users what their preferred method of communication is.
-- You can plug it onto [RabbitMQ](http://www.rabbitmq.com/) / [Rabbit MQ Bundle](https://github.com/php-amqplib/RabbitMqBundle) to send your notifications asynchronously.
-- You can plug it onto [RMSPushNotificationsBundle](https://github.com/richsage/RMSPushNotificationsBundle) to send push notifications/messages for mobile devices.
-- You can plug it onto anything that sends stuff really
-- [View Full list of features](Resources/doc/Features.md).
+
+- plug it onto [RabbitMQ](http://www.rabbitmq.com/) / [Rabbit MQ Bundle](https://github.com/php-amqplib/RabbitMqBundle) to send your notifications asynchronously.
+
+- plug it onto [RMSPushNotificationsBundle](https://github.com/richsage/RMSPushNotificationsBundle) to send push notifications/messages for mobile devices.
+
+- plug it onto anything that sends stuff really
+
+[View Full list of features](Resources/doc/Features.md).
 
 ## Install and use OzNotificationBundle
 
