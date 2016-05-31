@@ -62,11 +62,6 @@ class OzNotificationExtension extends Extension
             $loader->load(sprintf('%s.xml', $xmlFile));
         }
 
-        /** Load validation files */
-        $xmlMappingFiles = $container->getParameter('validator.mapping.loader.xml_files_loader.mapping_files');
-        $xmlMappingFiles[] = __DIR__.'/../Resources/config/validation/orm.xml';
-        $container->setParameter('validator.mapping.loader.xml_files_loader.mapping_files', $xmlMappingFiles);
-
         /** Alias default managers */
         $container->setAlias('oz_notification.notification.manager', $config['notification_manager']);
         $container->setAlias('oz_notification.notification_event.manager', $config['notification_event_manager']);

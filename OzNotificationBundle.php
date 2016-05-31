@@ -11,6 +11,7 @@
 
 namespace Oz\NotificationBundle;
 
+use Oz\NotificationBundle\DependencyInjection\Compiler\ValidatorPass;
 use Oz\NotificationBundle\DependencyInjection\Compiler\AgentPass;
 use Oz\NotificationBundle\DependencyInjection\Compiler\NotificationDiscriminatorPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -31,6 +32,8 @@ class OzNotificationBundle extends Bundle
     public function build(ContainerBuilder $container)
     {
         parent::build($container);
+
+        $container->addCompilerPass(new ValidatorPass());
 
         $container->addCompilerPass(new AgentPass());
 
