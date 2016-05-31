@@ -1,21 +1,11 @@
 OzNotificationBundle - Installation
 ===================================
 
-## Steps
-
-1. Download OzNotificationBundle using Composer
-2. Enable the Bundle
-3. Create the needed classes in your Application
-4. Configure the OzNotificationBundle
-5. Import OzNotificationBundle routing
-6. Update your database schema
-
 ### Step 1: Download OzNotificationBundle using composer
 
 ```
 $ composer require oz/notification-bundle "dev-master"
 ```
-
 
 ### Step 2: Create your own bundle in your src/ directory
 
