@@ -38,35 +38,23 @@ public function registerBundles()
 OzNotificationBundle provides multiple abstract classes that need to be
 implemented. Create the following classes in your own notification bundle.
 
-#### Notification Entity
+- Create [Notification Entity](Entity/Notification.md).
 
-Create [Notification Entity](Entity/Notification.md).
-
-You can arrange the discriminator map as you wish, but as you can see, the basic configuration expects 3 entities: EmailNotification, InternalNotification and SMSNotification.
+The basic configuration expects the following 3 entities:
 
 - Create [EmailNotification Entity](Entity/EmailNotification.md).
 - Create [InternalNotification Entity](Entity/InternalNotification.md).
 - Create [SMSNotification Entity](Entity/SMSNotification.md).
 
-#### NotificationEvent Entity
+Then, add the following entities to your own notification bundle:
+- Create [NotificationEvent Entity](Entity/NotificationEvent.md).
+- Create [NotificationKey Entity](Entity/NotificationKey.md).
+- Create [Method Entity](Entity/Method.md).
+- Create [MethodMetadata Entity](Entity/MethodMetadata.md).
+- Create [UserPreferences Entity](Entity/UserPreferences.md).
+- Create [Filter Entity](Entity/Filter.md).
 
-Create [NotificationEvent Entity](Entity/NotificationEvent.md).
-
-#### NotificationKey Entity
-
-Create [NotificationKey Entity](Entity/NotificationKey.md).
-
-#### Method Entity
-
-Create [Method Entity](Entity/Method.md).
-
-#### MethodMetadata Entity
-
-Create [MethodMetadata Entity](Entity/MethodMetadata.md).
-
-#### UserPreferences entity
-
-Create [UserPreferences Entity](Entity/UserPreferences.md).
+### Step 5: Mapping to your user entity
 
 Add the relation to your User entity:
 
@@ -94,11 +82,7 @@ Add the relation to your User entity:
     }
 ```
 
-#### Filter Entity
-
-Create [Filter Entity](Entity/Filter.md).
-
-### Step 5: Configure the OzNotificationBundle
+### Step 6: Configure the OzNotificationBundle
 
 ``` yaml
 oz_notification:
@@ -142,7 +126,7 @@ For each notification type that you create, you will have to:
 
 If you need to override other parts of the bundle, see [full configuration of the bundle](FullConfiguration.md).
 
-### Step 6: Import OzNotificationBundle routing files
+### Step 7: Import OzNotificationBundle routing files
 
 OzNotificationBundle provides routing for a default UserPreferences controller and a default User Notifications controller.
 
@@ -161,7 +145,7 @@ oz_notification_notifications:
     prefix: /notifications
 ```
 
-### Step 7: Update your database schema
+### Step 8: Update your database schema
 
 Now that the bundle is configured, the last thing you need to do is update your
 database schema.
@@ -172,7 +156,7 @@ For ORM run the following command.
 $ php app/console doctrine:schema:update --force
 ```
 
-### Step 8: Overwrite templates for specific events
+### Step 9: Overwrite templates for specific events
 
 The first line of the rendered output is used as the subject (when used by the
 sending agent), with the rest of the output being used in the notification body.
