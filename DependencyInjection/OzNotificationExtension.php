@@ -54,7 +54,9 @@ class OzNotificationExtension extends Extension
             'notification_factory',
             'provider',
             'deleter',
-            'twig');
+            'twig',
+            'command'
+        );
 
         foreach ($xmlFiles as $xmlFile) {
             $loader->load(sprintf('%s.xml', $xmlFile));

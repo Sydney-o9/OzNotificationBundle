@@ -38,7 +38,6 @@ public function registerBundles()
 OzNotificationBundle provides multiple abstract classes that need to be
 implemented. Create the following classes in your own notification bundle.
 
-
 The basic configuration expects the following 3 entities:
 
 - Create [Notification Entity](Entity/Notification.md).
