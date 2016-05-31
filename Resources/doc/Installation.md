@@ -145,13 +145,16 @@ oz_notification_notifications:
 
 ### Step 8: Update your database schema
 
-Now that the bundle is configured, the last thing you need to do is update your
-database schema.
-
-For ORM run the following command.
+Update your database schema
 
 ``` bash
 $ php app/console doctrine:schema:update --force
+```
+
+And create following methods:
+```
+php app/console oz:method:create internal
+php app/console oz:method:create email
 ```
 
 ### Step 9: Overwrite templates for specific events

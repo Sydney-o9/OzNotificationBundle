@@ -13,7 +13,7 @@
 namespace Oz\NotificationBundle\EntityManager;
 
 use Doctrine\ORM\EntityManager;
-use Oz\NotificationBundle\Model\FilterInterface;
+use Oz\NotificationBundle\Model\MethodInterface;
 use Oz\NotificationBundle\ModelManager\MethodManagerInterface;
 
 /**
@@ -48,14 +48,26 @@ class MethodManager implements MethodManagerInterface
     }
 
     /**
-     * Filters loaded from config file
+     * Create a new method
      *
-     * @return FilterInterface $filter
+     * @return MethodInterface $method
      */
     public function create()
     {
         $class = $this->class;
 
         return new $class;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function update(MethodInterface $method, $flush = true)
+    {
+        $this->em->persist($method);
+
+        if ($flush) {
+            $this->em->flush();
+        }
     }
 }

@@ -8,6 +8,7 @@
         <service id="oz.command.method"
             class="Oz\NotificationBundle\Command\MethodCommand">
             <tag name="console.command" />
+            <argument type="service" id="oz_notification.method.manager" />
         </service>
     </services>
 </container>

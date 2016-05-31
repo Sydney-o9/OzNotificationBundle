@@ -11,6 +11,16 @@ use Symfony\Component\Console\Output\OutputInterface;
 class MethodCommand extends Command
 {
 
+
+    protected $methodManager;
+
+    public function __construct($methodManager)
+    {
+        $this->methodManager = $methodManager;
+
+        parent::__construct();
+    }
+
     protected function configure()
     {
         $this
@@ -28,11 +38,18 @@ class MethodCommand extends Command
     {
         $method = $input->getArgument('method');
         if ($method) {
-            $text = 'Creating the following method: '.$method;
+            $beginText = '--> Creating the following method: '.$method;
         } else {
-            $text = 'There is no method to create.';
+            $beginText = '--> There is no method to create.';
         }
+        $output->writeln($beginText);
 
-        $output->writeln($text);
+        $methodObj = $this->methodManager->create();
+        $methodObj->setName($method);
+
+        $this->methodManager->update($methodObj);
+
+        $endText = '--> Created method: '.$method;
+        $output->writeln($endText);
     }
 }
