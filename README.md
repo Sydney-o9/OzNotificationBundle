@@ -26,7 +26,7 @@ Implementation of this bundle allows you to:
 
 [View Full list of features](Resources/doc/Features.md).
 
-## Install and use OzNotificationBundle
+## Installation
 
 The bundle is now stable enough to be used:
 
