@@ -18,7 +18,9 @@ What you can do is described in more details in [OzNotificationBundle Features](
 The bundle is not stable enough to be used yet.
 
 - [Installation](Resources/doc/Installation.md)
+
 - [Full Configuration](Resources/doc/FullConfiguration.md)
+
 - [Contribute to the bundle](Resources/doc/Contribute.md)
 
 ## Prerequisites

@@ -23,3 +23,4 @@ and false otherwise.
 This would avoid to have notification that fail because the subject was not loaded.
 At the moment the logic is implemented in the notifier, see trigger method.
 
+* At this time, only a Doctrine ORM implementation is provided. 
