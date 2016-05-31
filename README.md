@@ -14,8 +14,7 @@ Implementation of this bundle allows you to:
 - You can plug it onto [RabbitMQ](http://www.rabbitmq.com/) / [Rabbit MQ Bundle](https://github.com/php-amqplib/RabbitMqBundle) to send your notifications asynchronously.
 - You can plug it onto [RMSPushNotificationsBundle](https://github.com/richsage/RMSPushNotificationsBundle) to send push notifications/messages for mobile devices.
 - You can plug it onto anything that sends stuff really
-
-- Full list of features: [OzNotificationBundle Features](Resources/doc/Features.md).
+- [View Full list of features](Resources/doc/Features.md).
 
 ## Install and use OzNotificationBundle
 
