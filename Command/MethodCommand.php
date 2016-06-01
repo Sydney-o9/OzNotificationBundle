@@ -24,7 +24,7 @@ class MethodCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('oz:method:create')
+            ->setName('oz_notification:method:create')
             ->setDescription('Create a new method')
             ->addArgument(
                 'method',

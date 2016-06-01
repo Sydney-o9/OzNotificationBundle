@@ -60,6 +60,16 @@ class MethodManager implements MethodManagerInterface
     }
 
     /**
+     * Find all methods
+     *
+     * @return MethodInterface[]
+     */
+    public function findAll()
+    {
+        return  $this->repository->findAll();
+    }
+
+    /**
      * {@inheritDoc}
      */
     public function update(MethodInterface $method, $flush = true)

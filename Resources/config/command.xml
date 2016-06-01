@@ -5,9 +5,16 @@
     http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-        <service id="oz.command.method"
+        <service id="oz_notification.command.method"
             class="Oz\NotificationBundle\Command\MethodCommand">
             <tag name="console.command" />
+            <argument type="service" id="oz_notification.method.manager" />
+        </service>
+
+        <service id="oz_notification.command.notificationKey"
+            class="Oz\NotificationBundle\Command\NotificationKeyCommand">
+            <tag name="console.command" />
+            <argument type="service" id="oz_notification.notification_key.manager" />
             <argument type="service" id="oz_notification.method.manager" />
         </service>
     </services>

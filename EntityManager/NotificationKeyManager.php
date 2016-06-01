@@ -33,6 +33,19 @@ class NotificationKeyManager implements NotificationKeyManagerInterface
         $this->class = $metadata->name;
     }
 
+
+    /**
+     * Create a new notification key
+     *
+     * @return NotificationKeyInterface $notificationKey
+     */
+    public function create()
+    {
+        $class = $this->class;
+
+        return new $class;
+    }
+
     /**
      * Find notification key
      *
