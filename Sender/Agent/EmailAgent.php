@@ -53,7 +53,7 @@ class EmailAgent extends Agent implements AgentInterface
         $message->addPart($notification->getBodyText(), 'text/plain', 'UTF8');
 
         $message->addTo($notification->getRecipientEmail(), $notification->getRecipientName());
-        $message->setFrom( array('info@jobinhood.com' => 'Jobinhood') );
+        $message->setFrom( array('whatever@whatever.com' => 'Whatever') );
 
         $this->mailer->send($message);
         $this->mailer->getTransport()->stop();

@@ -210,6 +210,13 @@ class NotificationManager implements NotificationManagerInterface
         /** If user does not have required roles, user can not access to that event */
         $requiredRoles = $event->getNotificationKey()->getSubscriberRoles();
         $roles = $user->getRoles();
+        $requiredRoles = $event->getNotificationKey()->getSubscriberRoles();
+
+        /** If no roles are required, everyone has access */
+        if ( empty($requiredRoles) ){
+            return true;
+        }
+
 
         $canAccess = false;
         foreach ($requiredRoles as $requiredRole){
@@ -373,7 +380,6 @@ class NotificationManager implements NotificationManagerInterface
      * Get query builder for child classes
      *
      *  'email'    => EmailQueryBuilder
-     *  'sms'      => SMSQueryBuilder
      *  'internal' => InternalQueryBuilder
      *
      * @param string $type

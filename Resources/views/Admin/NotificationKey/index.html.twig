@@ -5,6 +5,7 @@
     <table style="width:35%; text-align:left; border: 1px solid black;">
       <tr>
         <th>Name</th>
+        <th>Subject Class</th>
         <th>Default Methods</th>
         <th>Compulsory Methods</th>
         <th>Actions</th>
@@ -13,6 +14,7 @@
         {% for notificationKey in notificationKeys %}
         <tr>
             <td>{{ notificationKey.notificationKey }}</td>
+            <td>{{ notificationKey.subjectClass }}</td>
             <td>{% for method in notificationKey.getDefaultMethods() %} {{ method.name }} {% endfor %}</td>
             <td>{% for method in notificationKey.getCompulsoryMethods() %} {{ method.name }} {% endfor %}</td>
             <td>

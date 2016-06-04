@@ -23,13 +23,6 @@ interface NotificationProviderInterface
     function getInternalNotifications($limit);
 
     /**
-     * Gets SMS notifications of the authenticated user
-     *
-     * @return array of SMSNotificationInterface
-     */
-    function getSMSNotifications($limit);
-
-    /**
      * Tells how many unread internal notifications the authenticated user has
      *
      * @return int the number of unread notifications

@@ -11,13 +11,7 @@
         <service id="oz_notification.notification.factory.email" class="Oz\NotificationBundle\NotificationFactory\EmailNotificationFactory">
         </service>
 
-        <service id="oz_notification.notification.factory.sms" class="Oz\NotificationBundle\NotificationFactory\SMSNotificationFactory">
-        </service>
-
         <service id="oz_notification.notification.factory.internal" class="Oz\NotificationBundle\NotificationFactory\InternalNotificationFactory">
-        </service>
-
-        <service id="oz_notification.notification.factory.ios_push" class="Oz\NotificationBundle\NotificationFactory\iOSPushNotificationFactory">
         </service>
 
     </services>

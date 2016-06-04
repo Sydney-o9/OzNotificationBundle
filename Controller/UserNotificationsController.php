@@ -45,15 +45,12 @@ class UserNotificationsController extends ContainerAware
     {
         $emailNotifications = $this->getProvider()->getEmailNotifications(10);
 
-        $smsNotifications = $this->getProvider()->getSMSNotifications(10);
-
         $internalNotifications = $this->getProvider()->getInternalNotifications(10);
 
         $nbUnreadInternalNotifications = $this->getProvider()->getNbUnreadInternalNotifications();
 
         return $this->container->get('templating')->renderResponse('OzNotificationBundle:UserNotifications:show.html.twig', array(
             'email_notifications' => $emailNotifications,
-            'sms_notifications' => $smsNotifications,
             'internal_notifications' => $internalNotifications,
             'nb_internal_notifications'=> $nbUnreadInternalNotifications
         ));

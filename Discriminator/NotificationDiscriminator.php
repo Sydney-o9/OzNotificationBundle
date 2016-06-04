@@ -17,7 +17,7 @@ use Oz\NotificationBundle\NotificationFactory\NotificationFactoryInterface;
 
 /**
  * The discriminator helps choosing the right notification, notificationFactory, renderer
- * to use depending on the method of sending (email, sms, internal messaging, ...).
+ * to use depending on the method of sending (email, internal messaging, ...).
  *
  */
 class NotificationDiscriminator implements NotificationDiscriminatorInterface

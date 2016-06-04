@@ -81,20 +81,6 @@ class NotificationProvider implements NotificationProviderInterface
     }
 
     /**
-     * Gets sms notifications of the current user
-     *
-     * @return array of SMSNotificationInterface
-     */
-    public function getSMSNotifications($limit)
-    {
-        $user = $this->getAuthenticatedUser();
-
-        $smsNotifications = $this->notificationManager->findNotificationsForUserByType($user, 'sms', array("createdAt" => "DESC"), $limit);
-
-        return $smsNotifications;
-    }
-
-    /**
      * Gets the current authenticated user
      *
      * @return UserInterface

@@ -151,13 +151,20 @@ Update your database schema
 $ php app/console doctrine:schema:update --force
 ```
 
-And create following methods:
+### Step 9: Create basic methods and notification Keys
+
+Create following methods:
 ```
 php app/console oz:method:create internal
 php app/console oz:method:create email
 ```
 
-### Step 9: Overwrite templates for specific events
+Create your first notification key:
+````
+http://your_project/admin/notificationKey/new
+````
+
+### Step 10: Overwrite templates for specific events
 
 The first line of the rendered output is used as the subject (when used by the
 sending agent), with the rest of the output being used in the notification body.
