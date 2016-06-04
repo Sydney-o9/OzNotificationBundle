@@ -19,6 +19,20 @@
             <argument>%oz_notification.notification_key.class%</argument>
         </service>
 
+        <service id="oz_notification.admin.notification_key.form.type" class="Oz\NotificationBundle\FormType\Admin\NotificationKeyType">
+            <tag name="form.type" alias="oz_notification_admin_notification_key" />
+            <argument>%oz_notification.notification_key.class%</argument>
+        </service>
+
+
+        <service id="oz_notification.admin.method_metadata.form.type" class="Oz\NotificationBundle\FormType\Admin\MethodMetadataType">
+            <tag name="form.type" alias="oz_notification_admin_method_metadata" />
+
+            <argument>%oz_notification.method.class%</argument>
+            <argument>%oz_notification.method_metadata.class%</argument>
+            <argument>%oz_notification.notification_key.class%</argument>
+        </service>
+
         <!-- Form Factory -->
         <service id="oz_notification.user_preferences.form.factory.default" class="Oz\NotificationBundle\FormFactory\UserPreferencesFormFactory" public="false">
             <argument type="service" id="form.factory" />

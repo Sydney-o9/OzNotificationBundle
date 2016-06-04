@@ -283,6 +283,10 @@ abstract class NotificationKey implements NotificationKeyInterface
      */
     public function setMethodMetadata($methodMetadata)
     {
+        foreach ($methodMetadata as $m) {
+        if ( is_null($m->getNotificationKey()) )
+            $m->setNotificationKey($this);
+        }
         $this->methodMetadata= $methodMetadata;
     }
 
@@ -291,6 +295,8 @@ abstract class NotificationKey implements NotificationKeyInterface
      */
     public function addMethodMetadata(MethodMetadataInterface $methodMetadata)
     {
+        $methodMetadata->addNotificationKey($this);
+
         $this->methodMetadata
             ->add($methodMetadata);
     }
@@ -381,3 +387,4 @@ abstract class NotificationKey implements NotificationKeyInterface
         return $this->notificationKey;
     }
 }
+

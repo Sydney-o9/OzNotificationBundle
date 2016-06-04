@@ -1,0 +1,85 @@
+{% extends "OzNotificationBundle::layout.html.twig" %}
+
+{% block oz_notification_content %}
+
+{{ form_start(form) }}
+
+    {{ form_row(form.notificationKey) }}
+    {{ form_row(form.subjectClass) }}
+    {{ form_row(form.description) }}
+    {{ form_row(form.isBulkable) }}
+    {{ form_row(form.isSubscribable) }}
+
+    {# store the prototype on the data-prototype attribute #}
+    <ul id="method-metadata-fields-list" class="list-unstyled" data-prototype="{{ form_widget(form.methodMetadata.vars.prototype)|e }}">
+    {% for metaField in form.methodMetadata %}
+        <li>
+            {{ form_errors(metaField) }}
+            {{ form_widget(metaField) }}
+        </li>
+    {% endfor %}
+    </ul>
+
+
+    <button type="submit">Submit</button>
+{{ form_end(form) }}
+
+{% endblock oz_notification_content %}
+
+
+{% block javascripts %}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+
+<script type="text/javascript">
+    var $collectionHolder;
+    // setup an "add a tag" link
+    var $addMethodMetadataLink = $('<a href="#" class="add_method_metadata_link">Add a method metadata</a>');
+    var $newLinkLi = $('<li></li>').append($addMethodMetadataLink);
+    jQuery(document).ready(function() {
+        // Get the ul that holds the collection of tags
+        $collectionHolder = $('ul#method-metadata-fields-list');
+        // add a delete link to all of the existing tag form li elements
+        $collectionHolder.find('li').each(function() {
+            addMethodMetadataFormDeleteLink($(this));
+        });
+        // add the "add a tag" anchor and li to the tags ul
+        $collectionHolder.append($newLinkLi);
+        // count the current form inputs we have (e.g. 2), use that as the new
+        // index when inserting a new item (e.g. 2)
+        $collectionHolder.data('index', $collectionHolder.find(':input').length);
+        $addMethodMetadataLink.on('click', function(e) {
+            // prevent the link from creating a "#" on the URL
+            e.preventDefault();
+            // add a new tag form (see next code block)
+            addMethodMetadataForm($collectionHolder, $newLinkLi);
+        });
+    });
+    function addMethodMetadataForm($collectionHolder, $newLinkLi) {
+        // Get the data-prototype explained earlier
+        var prototype = $collectionHolder.data('prototype');
+        // get the new index
+        var index = $collectionHolder.data('index');
+        // Replace '__name__' in the prototype's HTML to
+        // instead be a number based on how many items we have
+        var newForm = prototype.replace(/__name__/g, index);
+        // increase the index with one for the next item
+        $collectionHolder.data('index', index + 1);
+        // Display the form in the page in an li, before the "Add a method_metadata" link li
+        var $newFormLi = $('<li></li>').append(newForm);
+        $newLinkLi.before($newFormLi);
+        // add a delete link to the new form
+        addMethodMetadataFormDeleteLink($newFormLi);
+    }
+    function addMethodMetadataFormDeleteLink($methodMetadataFormLi) {
+        var $removeFormA = $('<a href="#" class="pull-right">delete</a>');
+        $methodMetadataFormLi.append($removeFormA);
+        $removeFormA.on('click', function(e) {
+            // prevent the link from creating a "#" on the URL
+            e.preventDefault();
+            // remove the li for the methodMetadata form
+            $methodMetadataFormLi.remove();
+        });
+    }
+</script>
+{% endblock %}

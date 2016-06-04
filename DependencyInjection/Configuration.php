@@ -50,6 +50,7 @@ class Configuration implements ConfigurationInterface
                     ->scalarnode('user_preferences')->isrequired()->cannotbeempty()->end()
                     ->scalarnode('filter')->isrequired()->cannotbeempty()->end()
                     ->scalarnode('method')->isrequired()->cannotbeempty()->end()
+                    ->scalarnode('method_metadata')->isrequired()->cannotbeempty()->end()
                 ->end()
             ->end();
 

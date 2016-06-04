@@ -93,6 +93,7 @@ class OzNotificationExtension extends Extension
         $container->setParameter('oz_notification.user_preferences.class', $config['class']['user_preferences']);
         $container->setParameter('oz_notification.filter.class', $config['class']['filter']);
         $container->setParameter('oz_notification.method.class', $config['class']['method']);
+        $container->setParameter('oz_notification.method_metadata.class', $config['class']['method_metadata']);
 
 
         /** UserPreferences form */

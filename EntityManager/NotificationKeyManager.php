@@ -47,6 +47,18 @@ class NotificationKeyManager implements NotificationKeyManagerInterface
     }
 
     /**
+     * {@inheritDoc}
+     */
+    public function update(NotificationKeyInterface $notificationKey, $flush = true)
+    {
+        $this->em->persist($notificationKey);
+
+        if ($flush) {
+            $this->em->flush();
+        }
+    }
+
+    /**
      * Find notification key
      *
      * @param int $id
@@ -63,6 +75,28 @@ class NotificationKeyManager implements NotificationKeyManagerInterface
         }
 
         return $notificationKey;
+    }
+
+    /**
+     * Remove notification key
+     *
+     * @param int $id
+     * @throws \Exception
+     * @return NotificationKeyInterface
+     */
+    public function remove($id)
+    {
+        $notificationKey =  $this->repository
+            ->find($id);
+
+        if(!$notificationKey) {
+            throw new \Exception( sprintf('Unable to find NotificationKey with id %s.', strval($id)) );
+        }
+
+        $this->em->remove($notificationKey);
+        $this->em->flush();
+
+        return;
     }
 
     /**

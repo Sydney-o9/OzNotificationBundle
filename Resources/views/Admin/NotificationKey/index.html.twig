@@ -1,0 +1,29 @@
+{% if notificationKeys is empty %}
+    There are no notification keys
+{% else %}
+    There is(are) {{ notificationKeys|length }} notification(s)
+    <table style="width:35%; text-align:left; border: 1px solid black;">
+      <tr>
+        <th>Name</th>
+        <th>Default Methods</th>
+        <th>Compulsory Methods</th>
+        <th>Actions</th>
+      </tr>
+
+        {% for notificationKey in notificationKeys %}
+        <tr>
+            <td>{{ notificationKey.notificationKey }}</td>
+            <td>{% for method in notificationKey.getDefaultMethods() %} {{ method.name }} {% endfor %}</td>
+            <td>{% for method in notificationKey.getCompulsoryMethods() %} {{ method.name }} {% endfor %}</td>
+            <td>
+                <a href="{{ path('oz_notification_admin_notification_key_edit', {'id': notificationKey.id}) }}">Edit</a> |
+                <a href="{{ path('oz_notification_admin_notification_key_delete', {'id': notificationKey.id}) }}">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+
+    </table>
+{% endif %}
+
+<br />
+<a href="{{ path('oz_notification_admin_notification_key_new') }}">Create a new Notification Key</a>
